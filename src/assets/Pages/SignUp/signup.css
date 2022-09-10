@@ -1,0 +1,67 @@
+.signup-container {
+    min-height: 100vh;
+    font-family: var(--Sfpro);
+    display: grid;
+    place-content: center;
+}
+
+.signup-content {
+    width: 700px;
+    padding: 20px 20px 46px 20px;
+}
+
+#form-signup {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-page {
+    margin-bottom: 85px;
+    font-size: var(--FontVeryLarge);
+    font-weight: 700;
+}
+
+.signup-content input {
+    padding: 18px 19px;
+    outline: none;
+    border: 1px solid var(--DarkGrey);
+    border-radius: 10px;
+    font-size: var(--FontMedium);
+    font-weight: 510;
+}
+
+.signup-content input:placeholder {
+    color: var(--DarkGrey);
+}
+
+.signup-content #email,
+.signup-content #password,
+.signup-content #repassword {
+    margin-bottom: 40px;
+}
+
+#input-submit {
+    margin-bottom: 15px;
+    background-color: var(--BasketOrange);
+    font-size: var(--FontVeryLarge);
+    font-weight: 510;
+    cursor: pointer;
+}
+
+#label-password {
+    margin-bottom: 27px;
+    font-size: var(--FontSmall);
+    font-weight: 500;
+}
+
+#forgot-password {
+    color: var(--BlackBasket);
+    font-weight: 700;
+    align-self: center;
+    letter-spacing: 2px;
+}
+
+#label-password,
+#forgot-password {
+    font-family: var(--Inter);
+}
