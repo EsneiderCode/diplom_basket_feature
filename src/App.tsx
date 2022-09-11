@@ -1,5 +1,6 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
+import '../src/assets/Constants/BasketStyle.css';
 
 //Pages
 import Login from './assets/Pages/Login';

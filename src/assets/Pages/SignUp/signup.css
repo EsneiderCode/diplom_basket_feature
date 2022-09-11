@@ -34,9 +34,9 @@
     color: var(--DarkGrey);
 }
 
-.signup-content #email,
-.signup-content #password,
-.signup-content #repassword {
+.signup-content #email-signup,
+.signup-content #password-signup,
+.signup-content #repassword-signup {
     margin-bottom: 40px;
 }
 
