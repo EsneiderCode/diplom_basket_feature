@@ -1,0 +1,73 @@
+.login-container {
+    min-height: 100vh;
+    font-family: var(--Sfpro);
+    display: grid;
+    place-content: center;
+}
+
+.login-content {
+    width: 700px;
+    padding: 20px 20px 46px 20px;
+    position: relative;
+}
+
+.login-content #logo-basket-feature {
+    width: 100%;
+    height: 250px;
+}
+
+.login-content #login-form {
+    display: flex;
+    flex-direction: column;
+    padding: 11px 28px 40px 28px;
+}
+
+.login-content input {
+    padding: 18px 19px;
+    outline: none;
+    border: 1px solid var(--DarkGrey);
+    border-radius: 10px;
+    font-size: var(--FontMedium);
+    font-weight: 510;
+}
+
+.login-content input:placeholder {
+    color: var(--DarkGrey);
+}
+
+.login-content #email-login,
+.login-content #password-login {
+    margin-bottom: 40px;
+}
+
+.login-content #reset-password-link {
+    align-self: center;
+    text-decoration: none;
+    color: var(--BlackBasket);
+    font-size: var(--FontMedium);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.login-content #input-submit-login {
+    background: var(--BasketOrange);
+    border-radius: 10px;
+    color: var(--BlackBasket);
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 14px;
+    border: none;
+    font-size: var(--FontVeryLarge)
+}
+
+.login-content #signup-link {
+    align-self: center;
+    color: var(--BlackBasket);
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.login-content #reset-password-link,
+.login-content #signup-link {
+    font-family: var(--Inter);
+}
