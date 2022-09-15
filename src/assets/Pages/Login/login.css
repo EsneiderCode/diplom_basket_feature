@@ -38,6 +38,7 @@
     font-size: var(--FontMedium);
     font-weight: 500;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .login-content #signup-link {

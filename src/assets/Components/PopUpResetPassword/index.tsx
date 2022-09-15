@@ -10,8 +10,8 @@ export default function PopUpResetPassword(props: PopUpProps){
             <h2 className="popup-title">Восстановить пароль</h2>
             <form action="" id="popup-form">
                 <p className="popup-description">Введите электронную почту</p>
-                <input type="email" name="email" id="email-popup-reset-password" placeholder="Электронная почта" required/>
-                <input type="submit" value="Подтвердить" id="input-submit" />
+                <input type="email" name="email" id="email-popup-reset-password" className="input-basic" placeholder="Электронная почта" required/>
+                <input type="submit" value="Подтвердить" id="input-submit" className="input-basic" />
             </form>
     </div>)
 }
