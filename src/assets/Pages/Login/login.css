@@ -22,15 +22,6 @@
     padding: 11px 28px 40px 28px;
 }
 
-.login-content input {
-    padding: 18px 19px;
-    outline: none;
-    border: 1px solid var(--DarkGrey);
-    border-radius: 10px;
-    font-size: var(--FontMedium);
-    font-weight: 510;
-}
-
 .login-content input:placeholder {
     color: var(--DarkGrey);
 }
@@ -47,17 +38,6 @@
     font-size: var(--FontMedium);
     font-weight: 500;
     margin-bottom: 20px;
-}
-
-.login-content #input-submit-login {
-    background: var(--BasketOrange);
-    border-radius: 10px;
-    color: var(--BlackBasket);
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 14px;
-    border: none;
-    font-size: var(--FontVeryLarge)
 }
 
 .login-content #signup-link {

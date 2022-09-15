@@ -21,31 +21,10 @@
     font-weight: 700;
 }
 
-.signup-content input {
-    padding: 18px 19px;
-    outline: none;
-    border: 1px solid var(--DarkGrey);
-    border-radius: 10px;
-    font-size: var(--FontMedium);
-    font-weight: 510;
-}
-
-.signup-content input:placeholder {
-    color: var(--DarkGrey);
-}
-
 .signup-content #email-signup,
 .signup-content #password-signup,
 .signup-content #repassword-signup {
     margin-bottom: 40px;
-}
-
-#input-submit {
-    margin-bottom: 15px;
-    background-color: var(--BasketOrange);
-    font-size: var(--FontVeryLarge);
-    font-weight: 510;
-    cursor: pointer;
 }
 
 #label-password {
