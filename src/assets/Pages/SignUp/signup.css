@@ -21,12 +21,6 @@
     font-weight: 700;
 }
 
-.signup-content #email-signup,
-.signup-content #password-signup,
-.signup-content #repassword-signup {
-    margin-bottom: 40px;
-}
-
 #label-password {
     margin-bottom: 27px;
     font-size: var(--FontSmall);

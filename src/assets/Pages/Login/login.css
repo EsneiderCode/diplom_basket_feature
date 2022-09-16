@@ -22,13 +22,14 @@
     padding: 11px 28px 40px 28px;
 }
 
-.login-content input:placeholder {
-    color: var(--DarkGrey);
+.input-container {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
 }
 
-.login-content #email-login,
-.login-content #password-login {
-    margin-bottom: 40px;
+.login-content input:placeholder {
+    color: var(--DarkGrey);
 }
 
 .login-content #reset-password-link {

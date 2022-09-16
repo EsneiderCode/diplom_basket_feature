@@ -15,6 +15,7 @@
     --BasketOrange: #F0A500;
     --RedBasket: #FF3B30;
     --BlackBasket: #000000;
+    --InvalidFormat: #CF7500;
 
     /*Font-Family*/
     --Sfpro: Sfpro-Regular;
@@ -28,14 +29,11 @@
   }
 
   /* Universal styles */
-
-  /* Only input submit */
-  #input-submit {
-    margin-bottom: 15px;
-    background-color: var(--BasketOrange);
-    font-size: var(--FontVeryLarge);
-    font-weight: 510;
-    cursor: pointer;
+  /* Container for input */
+  .input-container {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
   }
 
   /* General input  */
@@ -46,10 +44,44 @@
     border-radius: 10px;
     font-size: var(--FontMedium);
     font-weight: 510;
-    padding: 18px 19px;
+  }
+
+  /* Only input submit */
+  .input-submit {
+    margin-bottom: 15px;
+    background-color: var(--BasketOrange);
+    font-size: var(--FontVeryLarge);
+    font-weight: 510;
+    cursor: pointer;
+    border: none;
   }
 
   /* General input placeholder  */
   .input-basic::placeholder {
     color: var(--DarkGrey);
+  }
+
+  /* Span Неверный формат */
+  .format-invalid-open {
+    color: var(--InvalidFormat);
+    font-family: var(--Inter);
+    font-style: italic;
+    margin-top: 5px;
+    display: block;
+  }
+
+  .format-invalid-closed {
+    display: none;
+  }
+
+  /* Input active - inactive */
+
+  .input-inactive {
+    border: 1px solid var(--DarkGrey);
+    color: var(--BlackBasket);
+  }
+
+  .input-active {
+    border: 1px solid var(--BasketOrange);
+    color: var(--BasketOrange);
   }
