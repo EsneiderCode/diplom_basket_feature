@@ -1,0 +1,59 @@
+@import '../../Variables/variables.scss';
+
+.login-container {
+    min-height: 100vh;
+    font-family: $Sfpro;
+    @include centerElements();
+
+        .login-content {
+        width: 700px;
+        padding: 20px 20px 46px 20px;
+        position: relative;
+
+        .logo-basket-feature {
+            width: 100%;
+            height: 250px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            padding: 11px 28px 40px 28px;
+
+                .input-container {
+                    margin-bottom: 40px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+        }
+
+        .reset-password-link {
+        align-self: center;
+        text-decoration: none;
+        color: $BlackBasket;
+        font-size: $FontMedium;
+        font-family: $Inter;
+        font-weight: 500;
+        margin-bottom: 20px;
+        cursor: pointer;
+        }
+
+        .signup-link {
+        align-self: center;
+        color:$BlackBasket;
+        font-weight: 600;
+        letter-spacing: 2px;
+        font-family:$Inter;
+        }
+
+        & input:placeholder {
+            color:$DarkGrey;
+        } 
+    }
+}
+
+.blur-container{
+    filter: blur(4px);
+}
+

@@ -1,81 +1,112 @@
 
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import './login.css';
 import PopUpResetPassword from '../../Components/PopUpResetPassword';
+import PopUpConfirmation from '../../Components/PopUpConfirmation';
+import { NavLink } from 'react-router-dom';
+import './login.scss';
 import logoBasketFeature from '../../Images/Login/logo-basket-feature.png';
+import { togglePopUp, emailHandler, passwordHandler } from '../../Functions';
 
-export default function Login(){
-const [displayPopUp, setDisplayPopUp] = useState<boolean>(false);
-const [email, setEmail] = useState<string>("");
-const [emailError, setEmailError] = useState<boolean>(false);
-const [password, setPassword] = useState<string>("");
-const [passwordError, setPasswordError] = useState<boolean>(false);
-
-function openPopUp(){
-    setDisplayPopUp(true);
-}
-
-function closePopUp(){
-    setDisplayPopUp(false);
-}
-
-function emailHandler(e: React.ChangeEvent<HTMLInputElement>){
-    const newEmail = e.target.value;
-
-    setEmail(newEmail);
-    validateEmail(e);
-}
-
-function validateEmail (e:React.ChangeEvent<HTMLInputElement>) {
-    const  regex = /\S+@\S+\.\S+/;
-    const isValid = regex.test(e.target.value);
-
-    if ( ((e.target.value.length > 8) && (isValid === true))  || (e.target.value === "")) {
-        setEmailError(false);
-    }else{
-        setEmailError(true);
-    }
-}
-
-function passwordHandler(e: React.ChangeEvent<HTMLInputElement>){
-    const passwordUser = e.target.value;
-
-    setPassword(passwordUser);
-    validatePassword(e);
-}
-
-function validatePassword(e:React.ChangeEvent<HTMLInputElement>){
-    const  regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Minimum eight characters, at least one letter and one number.
-    const isValid = regex.test(e.target.value);
-
-    if ( ((e.target.value.length > 8)  &&  (isValid === true)) || (e.target.value === "")) {
-        setPasswordError(false);
-    }else{
-        setPasswordError(true);
-    }
-}
+export default function Login() {
+    const [displayPopUpEmail, setDisplayPopUpEmail] = useState<boolean>(false);
+    const [displayPopUpCodeConfirmation, setDisplayPopUpCodeConfirmation] = useState<boolean>(false);
+    const [displayPopUpNewPassword, setDisplayPopUpNewPassword] = useState<boolean>(false);
+    const [displayPopUpConfirmation, setDisplayPopUpConfirmation] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [emailError, setEmailError] = useState<boolean>(false);
+    const [passwordError, setPasswordError] = useState<boolean>(false);
 
     return (
         <div className="login-container">
-            <div className="login-content">
-                <img src={logoBasketFeature} alt="basket-feature" id="logo-basket-feature"/>
-                <form action="" id="login-form">
+            <div className={
+                (displayPopUpEmail === true ||
+                displayPopUpCodeConfirmation === true ||
+                displayPopUpNewPassword === true ||
+                displayPopUpConfirmation === true)
+                ? "login-content blur-container" : "login-content"}>
+                <img 
+                    src={logoBasketFeature} 
+                    alt="basket-feature" 
+                    className="logo-basket-feature" 
+                />
+                <form action="" className="login-form">
                     <div className="input-container">
-                         <input type="email" name="email" id="email-login" className={emailError === true? "input-basic input-active" : "input-basic input-inactive"} placeholder="Электронная почта" onChange={emailHandler} required/>
-                         <span className={emailError === true? "format-invalid-open" : "format-invalid-closed"}>*Неверный формат</span>
+                        <input
+                            type="email"
+                            name="email"
+                            className={emailError === true ?
+                                "input-basic input-active" :
+                                "input-basic input-inactive"}
+                            placeholder="Электронная почта"
+                            onChange={(e) => { emailHandler(e, setEmail, setEmailError) }}
+                            required
+                        />
+                        <span
+                            className={emailError === true ?
+                                "format-invalid-open" :
+                                "format-invalid-closed"}>
+                            *Неверный формат
+                        </span>
                     </div>
                     <div className="input-container">
-                         <input type="password" name="password" id="password-login" className={passwordError === true? "input-basic input-active" : "input-basic input-inactive"} placeholder="Пароль" onChange={passwordHandler} required/>
-                         <span className={passwordError === true? "format-invalid-open" : "format-invalid-closed"}>*Неверный формат</span>
+                        <input
+                            type="password"
+                            name="password"
+                            className={passwordError === true ?
+                                "input-basic input-active" :
+                                "input-basic input-inactive"}
+                            placeholder="Пароль"
+                            onChange={(e) => { passwordHandler(e, setPassword, setPasswordError) }}
+                            required
+                        />
+                        <span
+                            className={passwordError === true ?
+                                "format-invalid-open" :
+                                "format-invalid-closed"}>
+                            *Неверный формат
+                        </span>
                     </div>
-                    <p id="reset-password-link" onClick={openPopUp}>забыл пароль</p>
-                    <input className="input-submit input-basic" type="submit" value="Войти" />
-                    <NavLink id="signup-link" to="/sign-up">Зарегистрироваться</NavLink>
+                    <p className="reset-password-link">забыл пароль</p>
+                    <input className="input-submit" type="submit" value="Войти" />
+                    <NavLink className="signup-link" to="/sign-up">Зарегистрироваться</NavLink>
                 </form>
-                <PopUpResetPassword display={displayPopUp} onClose={closePopUp}/>
             </div>
+            <PopUpResetPassword
+                header="Восстановить пароль"
+                description="К какой почте привязан ваш аккаунт?"
+                inputEmail={true}
+                buttonSendEmail={true}
+                display={displayPopUpEmail}
+                toggle={() => togglePopUp(displayPopUpEmail, setDisplayPopUpEmail)}
+            />
+            <PopUpResetPassword
+                header="Восстановить пароль"
+                description="Вам на почту был отправлен код для восстановления"
+                inputCode={true}
+                aditionalSpan="повторный код через 0:15"
+                buttonSendCode={true}
+                display={displayPopUpCodeConfirmation}
+                toggle={() => togglePopUp(displayPopUpCodeConfirmation, setDisplayPopUpCodeConfirmation)}
+            />
+            <PopUpResetPassword
+                header="Восстановить пароль"
+                description="Введите новый пароль"
+                inputPassword={true}
+                inputRePassword={true}
+                buttonSetNewPassword={true}
+                display={displayPopUpNewPassword}
+                toggle={() => togglePopUp(displayPopUpNewPassword, setDisplayPopUpNewPassword)}
+            />
+            <PopUpConfirmation
+                header="Пароль изменен"
+                description="Войдите заново"
+                lineHr={true}
+                buttonDescription="Ок"
+                display={displayPopUpConfirmation}
+                toggle={() => togglePopUp(displayPopUpConfirmation, setDisplayPopUpConfirmation)}
+            />
         </div>
-       
+
     );
 }

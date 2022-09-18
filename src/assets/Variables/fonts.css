@@ -1,0 +1,9 @@
+ @font-face {
+     font-family: Sfpro-Regular;
+     src: local('SfproRegular'), url("../Fonts/Sfpro-Regular.otf") format('truetype');
+ }
+
+ @font-face {
+     font-family: Inter-Regular;
+     src: local('InterRegular'), url("../Fonts/Inter-Regular.ttf") format('truetype');
+ }

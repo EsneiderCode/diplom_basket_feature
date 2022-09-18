@@ -1,0 +1,102 @@
+@import '../../Variables/variables.scss';
+
+.games-container{
+
+    min-height: 100vh;
+    font-family: $Sfpro;
+    display:flex;
+    flex-direction:row;
+    @include centerElements();
+
+     .games-content, .list-games{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .games-content{
+        width:700px;
+        min-height:900px;
+        padding:20px;
+
+        .header-games{
+            width:100%;
+            justify-content: space-between;
+            margin-bottom:40px;
+            display:flex;
+            flex-direction:row;
+
+            .page-title{
+            font-size: $FontVeryLarge;
+            font-weight: 700;
+            }
+
+            .icon-new-games{
+            font-size:40px;
+            margin-top:-10px;
+            cursor:pointer;
+            }
+        }
+
+        .link-create-new-games{
+        align-self:center;
+        color: $DarkGrey;
+        cursor:pointer;
+        margin-bottom:40px;
+        }
+
+        .list-games {
+            .game-container{
+                display:flex;
+                flex-direction:row;
+                border: 1px solid $BlackBasket;
+                justify-content: space-between;
+                padding: 15px 25px;
+                border-radius: 10px;
+                position:relative;
+                .game-info-container{
+                    display:flex;
+                    flex-direction: column;
+
+                    .teams{
+                        margin-bottom:10px;
+                    }
+
+                    .date-game{
+                        color: $DarkGrey;
+                    }
+                }
+
+                .options-container{
+                    display:flex;
+                    flex-direction:row;
+                    align-items: center;
+                    position:absolute;
+                    right:0;
+                    top:0;
+                    height:100%;
+
+                    .option-game{
+                        @include centerElements();
+                        width:80px;
+                        height:100%;
+                        cursor:pointer;
+                    }
+
+                    .share-game{
+                        background: $ShareColor;
+                    }
+
+                    .edit-game{
+                        background: $EditColor;
+                    }
+
+                    .delete-game{
+                        background: $RedBasket;
+                        border-top-right-radius: 10px;
+                        border-bottom-right-radius: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
