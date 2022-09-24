@@ -1,47 +1,47 @@
-@import '../../Variables/variables.scss';
-.popup-confirmation-container{
-    @include centerElements();
-    width:340px;
-    height:208px;
-    padding:20px;
-    border-radius:  25px;
-    border: 1px solid $BlackBasket;
-    background: $White;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    font-family: $Sfpro;
+@import "../../Variables/variables.scss";
+.popup-confirmation-container {
+  @include centerElements();
+  width: 340px;
+  height: 208px;
+  padding: 20px;
+  border-radius: 25px;
+  border: 1px solid $BlackBasket;
+  background: $White;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  font-family: $Sfpro;
 
-    .popup-title {
+  .popup-title {
     font-size: $FontVeryLarge;
     margin-bottom: 30px;
-    }   
+  }
 
-    .popup-description {
-        margin-bottom: 40px;
-        font-size: $FontMedium;
-    }
+  .popup-description {
+    margin-bottom: 40px;
+    font-size: $FontMedium;
+  }
 
-    .linehr-basket{
-        width:100%;
-        border:1px solid $BasketOrange;
-    }
+  .linehr-basket {
+    width: 100%;
+    border: 1px solid $BasketOrange;
+  }
 
-    .link-to-home{
-        justify-self: center;
-        font-size: $FontVeryLarge;
-        text-decoration:none;
-        color: $BlackBasket;
-    }
+  .link-to-home {
+    justify-self: center;
+    font-size: $FontVeryLarge;
+    text-decoration: none;
+    color: $BlackBasket;
+  }
 }
 
-.popup-confirmation-open{
-    display:grid;
+.popup-confirmation-open {
+  display: grid;
 }
 
-.popup-confirmation-closed{
-    display:none;
+.popup-confirmation-closed {
+  display: none;
 }

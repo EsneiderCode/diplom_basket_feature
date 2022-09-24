@@ -1,102 +1,123 @@
-@import '../../Variables/variables.scss';
+@import "../../Variables/variables.scss";
 
-.games-container{
+.games-container {
+  min-height: 100vh;
+  font-family: $Sfpro;
+  display: flex;
+  flex-direction: row;
+  @include centerElements();
 
-    min-height: 100vh;
-    font-family: $Sfpro;
-    display:flex;
-    flex-direction:row;
-    @include centerElements();
+  .games-content,
+  .list-games {
+    display: flex;
+    flex-direction: column;
+  }
 
-     .games-content, .list-games{
-        display:flex;
-        flex-direction:column;
+  .games-content {
+    width: 700px;
+    min-height: 900px;
+    padding: 20px;
+
+    .header-games {
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: row;
+
+      .page-title {
+        font-size: $FontVeryLarge;
+        font-weight: 700;
+      }
+
+      .icon-new-games {
+        font-size: 40px;
+        margin-top: -10px;
+        cursor: pointer;
+      }
     }
 
-    .games-content{
-        width:700px;
-        min-height:900px;
-        padding:20px;
-
-        .header-games{
-            width:100%;
-            justify-content: space-between;
-            margin-bottom:40px;
-            display:flex;
-            flex-direction:row;
-
-            .page-title{
-            font-size: $FontVeryLarge;
-            font-weight: 700;
-            }
-
-            .icon-new-games{
-            font-size:40px;
-            margin-top:-10px;
-            cursor:pointer;
-            }
-        }
-
-        .link-create-new-games{
-        align-self:center;
-        color: $DarkGrey;
-        cursor:pointer;
-        margin-bottom:40px;
-        }
-
-        .list-games {
-            .game-container{
-                display:flex;
-                flex-direction:row;
-                border: 1px solid $BlackBasket;
-                justify-content: space-between;
-                padding: 15px 25px;
-                border-radius: 10px;
-                position:relative;
-                .game-info-container{
-                    display:flex;
-                    flex-direction: column;
-
-                    .teams{
-                        margin-bottom:10px;
-                    }
-
-                    .date-game{
-                        color: $DarkGrey;
-                    }
-                }
-
-                .options-container{
-                    display:flex;
-                    flex-direction:row;
-                    align-items: center;
-                    position:absolute;
-                    right:0;
-                    top:0;
-                    height:100%;
-
-                    .option-game{
-                        @include centerElements();
-                        width:80px;
-                        height:100%;
-                        cursor:pointer;
-                    }
-
-                    .share-game{
-                        background: $ShareColor;
-                    }
-
-                    .edit-game{
-                        background: $EditColor;
-                    }
-
-                    .delete-game{
-                        background: $RedBasket;
-                        border-top-right-radius: 10px;
-                        border-bottom-right-radius: 10px;
-                    }
-                }
-            }
-        }
+    .link-create-new-games {
+      align-self: center;
+      color: $DarkGrey;
+      cursor: pointer;
+      margin-bottom: 40px;
     }
+
+    .list-games {
+      .game-container {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid $BlackBasket;
+        justify-content: space-between;
+        padding: 15px 25px;
+        border-radius: 10px;
+        position: relative;
+        .game-info-container {
+          display: flex;
+          flex-direction: column;
+
+          .teams {
+            margin-bottom: 10px;
+          }
+
+          .date-game {
+            color: $DarkGrey;
+          }
+        }
+
+        .options-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 100%;
+
+          .option-game {
+            @include centerElements();
+            width: 80px;
+            height: 100%;
+            cursor: pointer;
+
+            & svg{
+              padding: 19px 27px;
+            }
+
+            & svg:hover{
+              transform : scale(1.2);
+              -moz-transform : scale(1.2); /* Firefox */
+              -webkit-transform : scale(1.2); /* Chrome - Safari */
+              -o-transform : scale(1.2); /* Opera */
+              -ms-transform : scale(1.2); /* IE9 */
+            }
+          }
+
+          .share-game {
+            background: $ShareColor;
+            &:hover{
+              background: #4fa7d9;
+            }
+          }
+
+          .edit-game {
+            background: $EditColor;
+            &:hover{
+             background: #a4a4a4;
+            }
+          }
+
+          .delete-game {
+            background: $RedBasket;
+            &:hover{
+              background: #e20e0e;
+            }
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+          }
+        }
+      }
+    }
+  }
 }
