@@ -1,0 +1,40 @@
+@import "../../Variables/variables.scss";
+
+.signup {
+  &-container {
+    min-height: 100vh;
+    font-family: $Sfpro;
+    @include centerElements();
+  }
+
+  &-content {
+    width: 700px;
+    padding: 20px 20px 46px 20px;
+  }
+}
+
+.form-signup {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-page {
+  margin-bottom: 85px;
+  font-size: $FontVeryLarge;
+  font-weight: 700;
+}
+
+.label-password {
+  margin-bottom: 27px;
+  font-size: $FontSmall;
+  font-weight: 500;
+  font-family: $Inter;
+}
+
+.forgot-password {
+  color: $BlackBasket;
+  font-weight: 700;
+  align-self: center;
+  letter-spacing: 2px;
+  font-family: $Inter;
+}

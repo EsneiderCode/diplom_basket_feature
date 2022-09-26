@@ -1,0 +1,101 @@
+@mixin centerElements() {
+  display: grid;
+  place-content: center;
+}
+
+/*Colours*/
+$White: #ffffff;
+$LightGrey: #f5f5f5;
+$DarkGrey: #aeaeae;
+$BasketOrange: #f0a500;
+$RedBasket: #ff3b30;
+$BlackBasket: #000000;
+$InvalidFormat: #cf7500;
+$ShareColor: #7acfff;
+$EditColor: #e7e7e7;
+
+$White: #ffffff;
+$LightGrey: #f5f5f5;
+$DarkGrey: #aeaeae;
+$BasketOrange: #f0a500;
+$RedBasket: #ff3b30;
+$BlackBasket: #000000;
+$InvalidFormat: #cf7500;
+
+/*Font-Family*/
+$Sfpro: Sfpro-Regular;
+$Inter: Inter-Regular;
+
+/*Font-Size*/
+$FontSmall: 14px;
+$FontMedium: 20px;
+$FontLarge: 24px;
+$FontVeryLarge: 30px;
+
+/* Universal styles */
+/* Container for input */
+.input-container {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* General input  */
+.input-basic {
+  padding: 18px 19px;
+  outline: none;
+  border: 1px solid $DarkGrey;
+  border-radius: 10px;
+  font-size: $FontMedium;
+  font-weight: 510;
+}
+
+/* Only input submit */
+.input-submit {
+  margin-bottom: 15px;
+  background-color: $BasketOrange;
+  font-size: $FontVeryLarge;
+  font-weight: 510;
+  cursor: pointer;
+  border: none;
+  padding: 18px 19px;
+  border-radius: 10px;
+  color: $BlackBasket;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* General input placeholder  */
+.input-basic::placeholder {
+  color: $DarkGrey;
+}
+
+/* Span Неверный формат */
+.format-invalid-open {
+  color: $InvalidFormat;
+  font-family: $Inter;
+  font-style: italic;
+  margin-top: 5px;
+  display: block;
+}
+
+.format-invalid-closed {
+  display: none;
+}
+
+/* Input active - inactive */
+
+.input-inactive {
+  border: 1px solid $DarkGrey;
+  color: $BlackBasket;
+}
+
+.input-active {
+  border: 1px solid $BasketOrange;
+  color: $BasketOrange;
+}
+
+.input-error {
+  border: 1px solid $RedBasket;
+  color: $RedBasket;
+}

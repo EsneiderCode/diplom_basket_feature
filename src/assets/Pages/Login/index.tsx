@@ -1,36 +1,159 @@
+import React, { useState } from "react";
+import PopUpResetPassword from "../../Components/PopUpResetPassword";
+import PopUpConfirmation from "../../Components/PopUpConfirmation";
+import { NavLink } from "react-router-dom";
+import "./login.scss";
+import logoBasketFeature from "../../Images/Login/logo-basket-feature.png";
+import {
+  togglePopUp,
+  emailHandler,
+  passwordHandler,
+  validatePassword,
+  validateEmail,
+} from "../../Functions";
 
-import { useState } from 'react';
-import logoBasketFeature from '../../Images/Login/logo-basket-feature.png';
-import { NavLink } from 'react-router-dom';
+export default function Login() {
+  const [displayPopUpEmail, setDisplayPopUpEmail] = useState<boolean>(false);
+  const [displayPopUpCodeConfirmation, setDisplayPopUpCodeConfirmation] =
+    useState<boolean>(false);
+  const [displayPopUpNewPassword, setDisplayPopUpNewPassword] =
+    useState<boolean>(false);
+  const [displayPopUpConfirmation, setDisplayPopUpConfirmation] =
+    useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
 
-import './login.css';
-import PopUpResetPassword from '../../Components/PopUpResetPassword';
-
-export default function Login(){
-const [displayPopUp, setDisplayPopUp] = useState<boolean>(false);
-
-function openPopUp(){
-    setDisplayPopUp(true);
-}
-
-function closePopUp(){
-    setDisplayPopUp(false);
-}
-
-    return (
-        <div className="login-container">
-            <div className="login-content">
-                <img src={logoBasketFeature} alt="basket-feature" id="logo-basket-feature"/>
-                <form action="" id="login-form">
-                    <input type="email" name="email" id="email-login" placeholder="Электронная почта" required/>
-                    <input type="password" name="password" id="password-login" placeholder="Пароль" required/>
-                    <p id="reset-password-link" onClick={openPopUp}>забыл пароль</p>
-                    <input id="input-submit-login" type="submit" value="Войти" />
-                    <NavLink id="signup-link" to="/sign-up">зарегистрироваться</NavLink>
-                </form>
-                <PopUpResetPassword display={displayPopUp} onClose={closePopUp}/>
-            </div>
-        </div>
-       
-    );
+  return (
+    <div className="login-container">
+      <div
+        className={
+          displayPopUpEmail === true ||
+          displayPopUpCodeConfirmation === true ||
+          displayPopUpNewPassword === true ||
+          displayPopUpConfirmation === true
+            ? "login-content blur-container"
+            : "login-content"
+        }
+      >
+        <img
+          src={logoBasketFeature}
+          alt="basket-feature"
+          className="logo-basket-feature"
+        />
+        <form action="" className="login-form">
+          <div className="input-container">
+            <input
+              type="email"
+              name="email"
+              className={
+                emailError === false && email.length >= 1
+                  ? "input-basic input-active"
+                  : emailError === true
+                  ? "input-basic input-error"
+                  : "input-basic input-inactive"
+              }
+              placeholder="Электронная почта"
+              onChange={(e) => {
+                emailHandler(e, setEmail, setEmailError);
+              }}
+              onBlur={(e) => validateEmail(e, setEmailError)}
+              required
+            />
+            <span
+              className={
+                emailError === true
+                  ? "format-invalid-open"
+                  : "format-invalid-closed"
+              }
+            >
+              *Неверный формат
+            </span>
+          </div>
+          <div className="input-container">
+            <input
+              type="password"
+              name="password"
+              className={
+                passwordError === false && password.length >= 1
+                  ? "input-basic input-active"
+                  : passwordError === true
+                  ? "input-basic input-error"
+                  : "input-basic input-inactive"
+              }
+              placeholder="Пароль"
+              onChange={(e) => {
+                passwordHandler(e, setPassword, setPasswordError);
+              }}
+              onBlur={(e) => validatePassword(e, setPasswordError)}
+              required
+            />
+            <span
+              className={
+                passwordError === true
+                  ? "format-invalid-open"
+                  : "format-invalid-closed"
+              }
+            >
+              *Неверный формат
+            </span>
+          </div>
+          <p
+            className="reset-password-link"
+            onClick={() => setDisplayPopUpEmail(true)}
+          >
+            забыл пароль
+          </p>
+          <input className="input-submit" type="submit" value="Войти" />
+          <NavLink className="signup-link" to="/sign-up">
+            Зарегистрироваться
+          </NavLink>
+        </form>
+      </div>
+      <PopUpResetPassword
+        header="Восстановить пароль"
+        description="К какой почте привязан ваш аккаунт?"
+        inputEmail={true}
+        buttonSendEmail={true}
+        display={displayPopUpEmail}
+        toggle={() => togglePopUp(displayPopUpEmail, setDisplayPopUpEmail)}
+      />
+      <PopUpResetPassword
+        header="Восстановить пароль"
+        description="Вам на почту был отправлен код для восстановления"
+        inputCode={true}
+        aditionalSpan="повторный код через 0:15"
+        buttonSendCode={true}
+        display={displayPopUpCodeConfirmation}
+        toggle={() =>
+          togglePopUp(
+            displayPopUpCodeConfirmation,
+            setDisplayPopUpCodeConfirmation
+          )
+        }
+      />
+      <PopUpResetPassword
+        header="Восстановить пароль"
+        description="Введите новый пароль"
+        inputPassword={true}
+        inputRePassword={true}
+        buttonSetNewPassword={true}
+        display={displayPopUpNewPassword}
+        toggle={() =>
+          togglePopUp(displayPopUpNewPassword, setDisplayPopUpNewPassword)
+        }
+      />
+      <PopUpConfirmation
+        header="Пароль изменен"
+        description="Войдите заново"
+        lineHr={true}
+        buttonDescription="Ок"
+        display={displayPopUpConfirmation}
+        toggle={() =>
+          togglePopUp(displayPopUpConfirmation, setDisplayPopUpConfirmation)
+        }
+      />
+    </div>
+  );
 }
