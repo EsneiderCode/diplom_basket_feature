@@ -26,7 +26,7 @@
       flex-direction: row;
 
       .page-title {
-        font-size: $FontVeryLarge;
+        font-size: $FontXXL;
         font-weight: 700;
       }
 
@@ -81,36 +81,36 @@
             height: 100%;
             cursor: pointer;
 
-            & svg{
+            & svg {
               padding: 19px 27px;
             }
 
-            & svg:hover{
-              transform : scale(1.2);
-              -moz-transform : scale(1.2); /* Firefox */
-              -webkit-transform : scale(1.2); /* Chrome - Safari */
-              -o-transform : scale(1.2); /* Opera */
-              -ms-transform : scale(1.2); /* IE9 */
+            & svg:hover {
+              transform: scale(1.2);
+              -moz-transform: scale(1.2); /* Firefox */
+              -webkit-transform: scale(1.2); /* Chrome - Safari */
+              -o-transform: scale(1.2); /* Opera */
+              -ms-transform: scale(1.2); /* IE9 */
             }
           }
 
           .share-game {
             background: $ShareColor;
-            &:hover{
+            &:hover {
               background: #4fa7d9;
             }
           }
 
           .edit-game {
             background: $EditColor;
-            &:hover{
-             background: #a4a4a4;
+            &:hover {
+              background: #a4a4a4;
             }
           }
 
           .delete-game {
             background: $RedBasket;
-            &:hover{
+            &:hover {
               background: #e20e0e;
             }
             border-top-right-radius: 10px;

@@ -1,17 +1,26 @@
 import { useState } from "react";
 import "./games.scss";
-import PopUpCreate from "../../Components/PopUpCreate";
+import PopUpCreateGame from "../../Components/PopUpCreateGame";
+import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
 import { togglePopUp } from "../../Functions";
 
 export default function Games() {
-const [displayPopUpCreate, setDisplayPopUpCreate] = useState<boolean>(false);
-
+  const [displayPopUpCreate, setDisplayPopUpCreate] = useState<boolean>(false);
+  const [displayPopUpSetFiveStarting, setDisplaySetFiveStarting] =
+    useState<boolean>(false);
   return (
     <div className="games-container">
       <div className="games-content">
         <div className="header-games">
           <h2 className="page-title">Игры</h2>
-          <span className="icon-new-games">+</span>
+          <span
+            className="icon-new-games"
+            onClick={() => {
+              setDisplayPopUpCreate(true);
+            }}
+          >
+            +
+          </span>
         </div>
         <span className="link-create-new-games">Создайте игру</span>
         <ul className="list-games">
@@ -78,14 +87,24 @@ const [displayPopUpCreate, setDisplayPopUpCreate] = useState<boolean>(false);
           </li>
         </ul>
       </div>
-      <PopUpCreate
+      <PopUpCreateGame
         header="Новая игра"
         chooseTeamA={true}
         chooseTeamB={true}
         chooseDate={true}
         display={displayPopUpCreate}
-        toggle={()=>{togglePopUp(displayPopUpCreate, setDisplayPopUpCreate)}}
-        buttonText="Далее"
+        toggleDisplay={() => {
+          togglePopUp(displayPopUpCreate, setDisplayPopUpCreate);
+        }}
+        next={setDisplaySetFiveStarting}
+      />
+      <PopUpSetFiveStarting
+        description="Москва"
+        display={displayPopUpSetFiveStarting}
+        toggleDisplay={() => {
+          togglePopUp(displayPopUpSetFiveStarting, setDisplaySetFiveStarting);
+        }}
+        back={setDisplayPopUpCreate}
       />
     </div>
   );

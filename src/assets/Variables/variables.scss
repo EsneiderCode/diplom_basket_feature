@@ -29,8 +29,10 @@ $Inter: Inter-Regular;
 /*Font-Size*/
 $FontSmall: 14px;
 $FontMedium: 20px;
-$FontLarge: 24px;
-$FontVeryLarge: 30px;
+$FontL: 24px;
+$FontXL: 26px;
+$FontXXL: 30px;
+$FontXXLL: 32px;
 
 /* Universal styles */
 /* Container for input */
@@ -54,7 +56,7 @@ $FontVeryLarge: 30px;
 .input-submit {
   margin-bottom: 15px;
   background-color: $BasketOrange;
-  font-size: $FontVeryLarge;
+  font-size: $FontXXL;
   font-weight: 510;
   cursor: pointer;
   border: none;
