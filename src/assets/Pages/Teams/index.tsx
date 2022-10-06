@@ -1,7 +1,6 @@
 import { useState } from "react";
-import "./games.scss";
-import PopUpCreateGame from "../../Components/PopUpCreateGame";
-import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
+import "./teams.scss";
+import PopUpCreateTeam from "../../Components/PopUpCreateTeam";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
@@ -14,16 +13,14 @@ const optionsWithLabelChange = {
   },
 };
 
-export default function Games() {
+export default function Teams() {
   const [displayPopUpCreate, setDisplayPopUpCreate] = useState<boolean>(false);
   const [displayPopUpDeleteGame, setDisplayPopUpDeleteGame] =
-    useState<boolean>(false);
-  const [displayPopUpSetFiveStarting, setDisplaySetFiveStarting] =
     useState<boolean>(false);
 
   const confirmDelete = async (options: {}) => {
     const result = await confirm(
-      "Вы уверены, что хотите удалить эту игру?",
+      "Вы уверены, что хотите удалить эту команду?",
       options
     );
     if (result) {
@@ -35,12 +32,12 @@ export default function Games() {
   };
 
   return (
-    <div className="games-container">
-      <div className="games-content">
-        <div className="header-games">
-          <h2 className="page-title">Игры</h2>
+    <div className="teams-container">
+      <div className="teams-content">
+        <div className="header-teams">
+          <h2 className="page-title">Команды</h2>
           <span
-            className="icon-new-games"
+            className="icon-new-teams"
             onClick={() => {
               setDisplayPopUpCreate(true);
             }}
@@ -49,43 +46,17 @@ export default function Games() {
           </span>
         </div>
         <span
-          className="link-create-new-games"
-          onClick={() => {
-            setDisplayPopUpCreate(true);
-          }}
+          className="link-create-new-teams"
+          onClick={() => setDisplayPopUpCreate(true)}
         >
-          Создайте игру
+          Создайте команду
         </span>
-        <ul className="list-games">
-          <li className="game-container">
-            <div className="game-info-container">
-              <div className="teams">
-                <span>Таганрог</span>
-                <span>-</span>
-                <span>Rostov</span>
-              </div>
-              <span className="date-game">21.09.2022</span>
+        <ul className="list-teams">
+          <li className="team-container">
+            <div className="team">
+              <span>Таганрог</span>
             </div>
             <div className="options-container">
-              <div className="option-game share-game">
-                <svg
-                  width="26"
-                  height="35"
-                  viewBox="0 0 26 35"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M18.3 8.1L13 2.8L7.70005 8.1L6.30005 6.7L13 0L19.7001 6.7L18.3 8.1Z"
-                    fill="white"
-                  />
-                  <path d="M12 1.3999H14V22.3999H12V1.3999Z" fill="white" />
-                  <path
-                    d="M23 34.3999H3C1.3 34.3999 0 33.0999 0 31.3999V13.3999C0 11.6999 1.3 10.3999 3 10.3999H10V12.3999H3C2.4 12.3999 2 12.7999 2 13.3999V31.3999C2 31.9999 2.4 32.3999 3 32.3999H23C23.6 32.3999 24 31.9999 24 31.3999V13.3999C24 12.7999 23.6 12.3999 23 12.3999H16V10.3999H23C24.7 10.3999 26 11.6999 26 13.3999V31.3999C26 33.0999 24.7 34.3999 23 34.3999Z"
-                    fill="white"
-                  />
-                </svg>
-              </div>
               <div className="option-game edit-game">
                 <svg
                   width="28"
@@ -125,28 +96,20 @@ export default function Games() {
           </li>
         </ul>
       </div>
-      <PopUpCreateGame
+      <PopUpCreateTeam
         display={displayPopUpCreate}
         toggleDisplay={() => {
           togglePopUp(displayPopUpCreate, setDisplayPopUpCreate);
         }}
-        next={setDisplaySetFiveStarting}
       />
-      <PopUpSetFiveStarting
-        description="Москва"
-        display={displayPopUpSetFiveStarting}
-        toggleDisplay={() => {
-          togglePopUp(displayPopUpSetFiveStarting, setDisplaySetFiveStarting);
-        }}
-        back={setDisplayPopUpCreate}
-      />
+
       <PopUpConfirmation
-        header="Игра удалена"
+        header="Команда удалена"
         description="сохранения изменены"
         buttonDescription="Ok"
         display={displayPopUpDeleteGame}
         lineHr={true}
-        linkTo="/games"
+        linkTo="/teams"
         toggle={() => {
           togglePopUp(displayPopUpDeleteGame, setDisplayPopUpDeleteGame);
         }}

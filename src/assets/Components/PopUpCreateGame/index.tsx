@@ -1,27 +1,15 @@
 import Select from "react-select";
-
+import { useState } from "react";
 import "./popupcreate.scss";
 
 interface PopUpProps {
-  header: string;
-  chooseTeamA?: boolean;
-  chooseTeamB?: boolean;
-  chooseDate?: boolean;
   display: boolean;
   toggleDisplay: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
-  const {
-    header,
-    chooseTeamA,
-    chooseTeamB,
-    chooseDate,
-    display,
-    toggleDisplay,
-    next,
-  } = props;
+  const { display, toggleDisplay, next } = props;
 
   const localTeams = [
     { label: "Moscu", value: "Moscu" },
@@ -35,6 +23,16 @@ export default function PopUpCreateGame(props: PopUpProps) {
     { label: "Kazan", value: "Kazan" },
   ];
 
+  const [teamA, setTeamA] = useState<string | undefined>(undefined);
+  const [teamB, setTeamB] = useState<string | undefined>(undefined);
+  const [gameDate, setGameDate] = useState<string | undefined>(undefined);
+  function checkNextTeams() {
+    if (teamA != null && teamB != null && gameDate != null) {
+      next(true);
+      toggleDisplay();
+    }
+  }
+
   return (
     <div
       className={
@@ -47,41 +45,43 @@ export default function PopUpCreateGame(props: PopUpProps) {
         <span className="popup-close-icon" onClick={() => toggleDisplay()}>
           &#x2715;
         </span>
-        <h2 className="popup-title">{header}</h2>
+        <h2 className="popup-title">Новая игра</h2>
         <form action="" className="popup-form">
-          {chooseTeamA === true && (
-            <Select
-              className="select-basic"
-              defaultValue={{ label: "Выберите команду А", value: "none" }}
-              options={localTeams}
-            />
-          )}
-          {chooseTeamB === true && (
-            <Select
-              className="select-basic"
-              defaultValue={{ label: "Выберите команду Б", value: "none" }}
-              options={oponentTeams}
-            />
-          )}
+          <Select
+            className="select-basic"
+            defaultValue={{ label: "Выберите команду А", value: "none" }}
+            options={localTeams}
+            onChange={(e) => {
+              setTeamA(e?.value);
+            }}
+          />
+          <Select
+            className="select-basic"
+            defaultValue={{ label: "Выберите команду Б", value: "none" }}
+            options={oponentTeams}
+            onChange={(e) => {
+              setTeamB(e?.value);
+            }}
+          />
+          <input
+            className="input-date"
+            type="date"
+            name="date"
+            id="date-game"
+            onChange={(e) => {
+              setGameDate(e.target.value);
+            }}
+          />
 
-          {chooseDate === true && (
-            <input
-              className="input-date"
-              type="date"
-              name="date"
-              id="date-game"
-            />
-          )}
-
-          <p
+          <button
+            type="button"
             className="button-continue"
             onClick={() => {
-              next(true);
-              toggleDisplay();
+              checkNextTeams();
             }}
           >
             Далее
-          </p>
+          </button>
         </form>
       </div>
     </div>

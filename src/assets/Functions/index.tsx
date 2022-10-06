@@ -128,3 +128,24 @@ export function validateCodeConfirmation(
     setCodeConfirmationError(true);
   }
 }
+
+export function validateTeamName(
+  e: React.FocusEvent<HTMLInputElement, Element>,
+  setTeamNameError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  const isValid = e.target.value.length >= 4;
+  if (isValid === true || e.target.value === "") {
+    setTeamNameError(false);
+  } else {
+    setTeamNameError(true);
+  }
+}
+
+export function validateTeamNameHandler(
+  e: React.ChangeEvent<HTMLInputElement>,
+  setTeamName: React.Dispatch<React.SetStateAction<string>>,
+  setTeamNameError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  setTeamName(e.target.value);
+  statusInput(e, setTeamNameError);
+}

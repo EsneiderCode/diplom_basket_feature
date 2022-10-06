@@ -27,6 +27,7 @@ interface PopUpProps {
   buttonToHome?: string;
   display: boolean;
   toggle: () => void;
+  next?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PopUpResetPassword(props: PopUpProps) {
@@ -45,6 +46,7 @@ export default function PopUpResetPassword(props: PopUpProps) {
     redMessage,
     display,
     toggle,
+    next,
   } = props;
 
   const [email, setEmail] = useState<string>("");
@@ -56,6 +58,29 @@ export default function PopUpResetPassword(props: PopUpProps) {
   const [rePasswordError, setRePasswordError] = useState<boolean>(false);
   const [codeConfirmationError, setCodeConfirmationError] =
     useState<boolean>(false);
+
+  function checkNextEmail(next: React.Dispatch<React.SetStateAction<boolean>>) {
+    if (emailError === false && email !== "") {
+      toggle();
+      next(true);
+    }
+  }
+
+  function checkNextCode(next: React.Dispatch<React.SetStateAction<boolean>>) {
+    if (codeConfirmationError === false && codeConfirmation !== "") {
+      toggle();
+      next(true);
+    }
+  }
+
+  function checkNextPassword(
+    next: React.Dispatch<React.SetStateAction<boolean>>
+  ) {
+    if (passwordError === false && password !== "") {
+      toggle();
+      next(true);
+    }
+  }
 
   return (
     <div
@@ -210,26 +235,40 @@ export default function PopUpResetPassword(props: PopUpProps) {
           {redMessage != null && (
             <span className="red-message">{redMessage}</span>
           )}
-          {buttonSendEmail === true && (
-            <input
-              type="submit"
-              value="Восстановить пароль"
+          {buttonSendEmail === true && next != null && (
+            <button
+              type="button"
               className="input-submit input-basic"
-            />
+              onClick={() => {
+                checkNextEmail(next);
+              }}
+            >
+              Восстановить пароль
+            </button>
           )}
-          {buttonSendCode === true && (
-            <input
-              type="submit"
-              value="Подтвердить"
-              className="input-submit input-basic"
-            />
+          {buttonSendCode === true && next != null && (
+            <button
+              type="button"
+              className="input-submit 
+                       input-basic"
+              onClick={() => {
+                checkNextCode(next);
+              }}
+            >
+              Подтвердить
+            </button>
           )}
-          {buttonSetNewPassword === true && (
-            <input
-              type="submit"
-              value="Подтвердить"
-              className="input-submit input-basic"
-            />
+          {buttonSetNewPassword === true && next != null && (
+            <button
+              type="button"
+              className="input-submit
+                       input-basic"
+              onClick={() => {
+                checkNextPassword(next);
+              }}
+            >
+              Подтвердить
+            </button>
           )}
           {buttonToHome != null && (
             <NavLink className="input-submit input-basic" to="/">

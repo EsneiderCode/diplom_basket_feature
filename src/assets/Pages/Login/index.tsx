@@ -118,6 +118,7 @@ export default function Login() {
         buttonSendEmail={true}
         display={displayPopUpEmail}
         toggle={() => togglePopUp(displayPopUpEmail, setDisplayPopUpEmail)}
+        next={setDisplayPopUpCodeConfirmation}
       />
       <PopUpResetPassword
         header="Восстановить пароль"
@@ -125,6 +126,7 @@ export default function Login() {
         inputCode={true}
         aditionalSpan="повторный код через 0:15"
         buttonSendCode={true}
+        next={setDisplayPopUpNewPassword}
         display={displayPopUpCodeConfirmation}
         toggle={() =>
           togglePopUp(
@@ -140,6 +142,7 @@ export default function Login() {
         inputRePassword={true}
         buttonSetNewPassword={true}
         display={displayPopUpNewPassword}
+        next={setDisplayPopUpConfirmation}
         toggle={() =>
           togglePopUp(displayPopUpNewPassword, setDisplayPopUpNewPassword)
         }
@@ -150,6 +153,7 @@ export default function Login() {
         lineHr={true}
         buttonDescription="Ок"
         display={displayPopUpConfirmation}
+        linkTo="/"
         toggle={() =>
           togglePopUp(displayPopUpConfirmation, setDisplayPopUpConfirmation)
         }

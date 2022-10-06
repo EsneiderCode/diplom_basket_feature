@@ -1,24 +1,24 @@
 @import "../../Variables/variables.scss";
 
-.games-container {
+.teams-container {
   min-height: 100vh;
   font-family: $Sfpro;
   display: flex;
   flex-direction: row;
   @include centerElements();
 
-  .games-content,
+  .teams-content,
   .list-games {
     display: flex;
     flex-direction: column;
   }
 
-  .games-content {
+  .teams-content {
     width: 700px;
     min-height: 900px;
     padding: 20px;
 
-    .header-games {
+    .header-teams {
       width: 100%;
       justify-content: space-between;
       margin-bottom: 40px;
@@ -30,22 +30,22 @@
         font-weight: 700;
       }
 
-      .icon-new-games {
+      .icon-new-teams {
         font-size: 40px;
         margin-top: -10px;
         cursor: pointer;
       }
     }
 
-    .link-create-new-games {
+    .link-create-new-teams {
       align-self: center;
       color: $DarkGrey;
       cursor: pointer;
       margin-bottom: 40px;
     }
 
-    .list-games {
-      .game-container {
+    .list-teams {
+      .team-container {
         display: flex;
         flex-direction: row;
         border: 1px solid $BlackBasket;
@@ -54,19 +54,16 @@
         height: 50px;
         border-radius: 10px;
         position: relative;
-        .game-info-container {
+        .team-info-container {
+          align-items: center;
+        }
+
+        .team {
           display: flex;
           flex-direction: column;
-
-          .teams {
-            margin-bottom: 10px;
-            span {
-              font-size: $FontMedium;
-            }
-          }
-
-          .date-game {
-            color: $DarkGrey;
+          justify-content: center;
+          span {
+            font-size: $FontMedium;
           }
         }
 
@@ -95,13 +92,6 @@
               -webkit-transform: scale(1.2); /* Chrome - Safari */
               -o-transform: scale(1.2); /* Opera */
               -ms-transform: scale(1.2); /* IE9 */
-            }
-          }
-
-          .share-game {
-            background: $ShareColor;
-            &:hover {
-              background: #4fa7d9;
             }
           }
 
