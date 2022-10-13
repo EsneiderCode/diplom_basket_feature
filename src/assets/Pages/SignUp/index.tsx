@@ -22,6 +22,19 @@ export default function SignUp() {
   const [displayPopUpEmailConfirmation, setDisplayPopUpEmailConfirmation] =
     useState<boolean>(false);
 
+  function checkNextResetPassword() {
+    if (
+      emailError === false &&
+      passwordError === false &&
+      rePasswordError === false &&
+      email !== "" &&
+      password !== "" &&
+      rePassword !== ""
+    ) {
+      setDisplayPopUpEmailConfirmation(true);
+    }
+  }
+
   return (
     <div className="signup-container">
       <div
@@ -123,11 +136,15 @@ export default function SignUp() {
               *Пароли не совпадают
             </span>
           </div>
-          <input
-            type="submit"
+          <button
+            type="button"
             className="input-submit input-basic"
-            value="Зарегистрироваться"
-          />
+            onClick={() => {
+              checkNextResetPassword();
+            }}
+          >
+            Зарегистрироваться
+          </button>
           <NavLink className="forgot-password" to="/">
             уже есть аккаунт
           </NavLink>

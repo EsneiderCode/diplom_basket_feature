@@ -1,0 +1,23 @@
+@import "../../Variables/variables.scss";
+
+.popup-content-container {
+  height: 80%;
+}
+.five-starting-popup-back {
+  font-size: 34px;
+  position: absolute;
+  color: $DarkGrey;
+  cursor: pointer;
+}
+
+.five-starting-title {
+  text-align: center;
+}
+
+.five-starting-description {
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  font-size: $FontXL;
+  margin-bottom: 50px;
+}

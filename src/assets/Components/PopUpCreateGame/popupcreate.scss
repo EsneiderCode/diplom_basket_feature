@@ -1,0 +1,39 @@
+@import "../../Variables/variables.scss";
+
+.select-basic {
+  margin-bottom: 33px;
+}
+
+.input-date {
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid hsl(0, 0%, 80%);
+  &:focus {
+    border: 2px solid #2684ff;
+  }
+  margin-bottom: 33px;
+  font-size: 17px;
+}
+
+.button-continue {
+  margin-bottom: 15px;
+  background-color: $White;
+  font-size: $FontXXL;
+  font-weight: 510;
+  cursor: pointer;
+  border: 3px solid $BasketOrange;
+  padding: 10px 5px;
+  border-radius: 8px;
+  color: $BasketOrange;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+}
+
+.button-continue:disabled,
+.button-continue[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}

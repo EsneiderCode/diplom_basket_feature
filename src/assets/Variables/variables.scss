@@ -29,8 +29,10 @@ $Inter: Inter-Regular;
 /*Font-Size*/
 $FontSmall: 14px;
 $FontMedium: 20px;
-$FontLarge: 24px;
-$FontVeryLarge: 30px;
+$FontL: 24px;
+$FontXL: 26px;
+$FontXXL: 30px;
+$FontXXLL: 32px;
 
 /* Universal styles */
 /* Container for input */
@@ -54,7 +56,7 @@ $FontVeryLarge: 30px;
 .input-submit {
   margin-bottom: 15px;
   background-color: $BasketOrange;
-  font-size: $FontVeryLarge;
+  font-size: $FontXXL;
   font-weight: 510;
   cursor: pointer;
   border: none;
@@ -98,4 +100,35 @@ $FontVeryLarge: 30px;
 .input-error {
   border: 1px solid $RedBasket;
   color: $RedBasket;
+}
+
+.confirm-box {
+  left: 40% !important;
+  top: 40% !important;
+  font-family: $Sfpro;
+}
+
+.confirm-box__actions {
+  justify-content: space-evenly !important;
+}
+
+.confirm-box__content span {
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.confirm-box__actions button {
+  border: 1px solid $BasketOrange;
+  color: $White;
+  font-size: 18px;
+  background-color: $BasketOrange;
+  padding: 5px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.confirm-box__actions button:hover {
+  background: $White;
+  color: $BasketOrange;
 }
