@@ -1,17 +1,43 @@
 import { useState } from "react";
+import { User } from "../../Interfaces";
 import { validateTeamName, validateTeamNameHandler } from "../../Functions";
+import axios from "axios";
 import "./popupcreateteam.scss";
+
 interface PopUpProps {
   display: boolean;
   toggleDisplay: () => void;
   next?: React.Dispatch<React.SetStateAction<boolean>>;
+  user: User;
+  getTeams: () => void;
 }
 
 export default function PopUpCreateTeam(props: PopUpProps) {
-  const { display, toggleDisplay } = props;
-
+  const { display, toggleDisplay, user, getTeams } = props;
   const [teamName, setTeamName] = useState<string>("");
   const [teamNameError, setTeamNameError] = useState<boolean>(false);
+
+  const createTeam = async (user: User) => {
+    if (teamNameError === false && teamName !== "") {
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVER_ENDPOINT}/teams/create/${user.id}`,
+          {
+            name: teamName,
+          }
+        );
+        if (res.status === 200) {
+          getTeams();
+          setTeamName("");
+          toggleDisplay();
+        } else {
+          console.log(res);
+        }
+      } catch (e: any) {
+        console.log(e);
+      }
+    }
+  };
 
   return (
     <div
@@ -44,6 +70,7 @@ export default function PopUpCreateTeam(props: PopUpProps) {
               onChange={(e) => {
                 validateTeamNameHandler(e, setTeamName, setTeamNameError);
               }}
+              value={teamName}
             />
             <span
               className={
@@ -56,8 +83,12 @@ export default function PopUpCreateTeam(props: PopUpProps) {
             </span>
           </div>
 
-          <button type="button" className="button-continue">
-            Далее
+          <button
+            type="button"
+            className="button-continue"
+            onClick={() => createTeam(user)}
+          >
+            Создать
           </button>
         </form>
       </div>

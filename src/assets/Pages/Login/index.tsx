@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import axios from "axios";
 import PopUpResetPassword from "../../Components/PopUpResetPassword";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./login.scss";
 import logoBasketFeature from "../../Images/Login/logo-basket-feature.png";
 import {
@@ -24,6 +25,44 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [incorrectCredentials, setIncorrectCredentials] =
+    useState<boolean>(false);
+  const navigate = useNavigate();
+
+  function checkNextLogin() {
+    if (
+      emailError === false &&
+      passwordError === false &&
+      email !== "" &&
+      password !== ""
+    ) {
+      handleSubmit();
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/users/auth/${email}/${password}`
+      );
+      if (res.status === 200) {
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setTimeout(() => {
+          navigate("/teams");
+        }, 500);
+      } else {
+        console.log(res);
+      }
+    } catch (e: any) {
+      if (e?.response.data.detail === "Wrong password") {
+        setIncorrectCredentials(true);
+        setTimeout(() => {
+          setIncorrectCredentials(false);
+        }, 3000);
+      }
+      console.log(e);
+    }
+  };
 
   return (
     <div className="login-container">
@@ -98,6 +137,15 @@ export default function Login() {
             >
               *Неверный формат
             </span>
+            <span
+              className={
+                incorrectCredentials === true
+                  ? "format-invalid-open"
+                  : "format-invalid-closed"
+              }
+            >
+              *Неверные данные
+            </span>
           </div>
           <p
             className="reset-password-link"
@@ -105,7 +153,15 @@ export default function Login() {
           >
             забыл пароль
           </p>
-          <input className="input-submit" type="submit" value="Войти" />
+          <button
+            type="button"
+            className="input-submit"
+            onClick={() => {
+              checkNextLogin();
+            }}
+          >
+            Войти
+          </button>
           <NavLink className="signup-link" to="/sign-up">
             Зарегистрироваться
           </NavLink>

@@ -1,37 +1,64 @@
 import Select from "react-select";
+import axios from "axios";
 import { useState } from "react";
+import { User, Team } from "../../Interfaces";
 import "./popupcreate.scss";
 
 interface PopUpProps {
   display: boolean;
   toggleDisplay: () => void;
+  user: User;
+  getGames: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
-  const { display, toggleDisplay, next } = props;
+  const { display, toggleDisplay, user, getGames } = props;
 
-  const localTeams = [
-    { label: "Moscu", value: "Moscu" },
-    { label: "Taganrog", value: "Taganrog" },
-    { label: "Tver", value: "Tver" },
-  ];
+  let localTeams = [] as any;
+  if (user.teams != null) {
+    localTeams = user.teams.map((team: Team) => {
+      return {
+        label: team.name,
+        value: team.id,
+      };
+    });
+  }
 
-  const oponentTeams = [
-    { label: "Rostov", value: "Rostov" },
-    { label: "Krasnodar", value: "Krasnodar" },
-    { label: "Kazan", value: "Kazan" },
-  ];
+  const oponentTeams = localTeams;
 
   const [teamA, setTeamA] = useState<string | undefined>(undefined);
   const [teamB, setTeamB] = useState<string | undefined>(undefined);
   const [gameDate, setGameDate] = useState<string | undefined>(undefined);
-  function checkNextTeams() {
+
+  function checkSubmit() {
     if (teamA != null && teamB != null && gameDate != null) {
-      next(true);
-      toggleDisplay();
+      createGame(user);
     }
   }
+
+  const createGame = async (user: User) => {
+    if (teamA != null && teamB != null) {
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVER_ENDPOINT}/games/create/${user.id}`,
+          {
+            team_a_id: teamA,
+            team_b_id: teamB,
+            date: gameDate,
+          }
+        );
+        if (res.status === 200) {
+          getGames();
+          toggleDisplay();
+        } else {
+          console.log(res);
+        }
+      } catch (e: any) {
+        console.log(e);
+      }
+    }
+  };
 
   return (
     <div
@@ -69,7 +96,8 @@ export default function PopUpCreateGame(props: PopUpProps) {
             name="date"
             id="date-game"
             onChange={(e) => {
-              setGameDate(e.target.value);
+              var timestamp = new Date(e.target.value).toISOString();
+              setGameDate(timestamp);
             }}
           />
 
@@ -77,10 +105,10 @@ export default function PopUpCreateGame(props: PopUpProps) {
             type="button"
             className="button-continue"
             onClick={() => {
-              checkNextTeams();
+              checkSubmit();
             }}
           >
-            Далее
+            Создать
           </button>
         </form>
       </div>

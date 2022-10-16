@@ -149,3 +149,84 @@ export function validateTeamNameHandler(
   setTeamName(e.target.value);
   statusInput(e, setTeamNameError);
 }
+
+export function validateNamePlayer(
+  name: any,
+  setNameError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  const isValid = name.target.value.length >= 5;
+  if (isValid === true || name.value === "") {
+    setNameError(false);
+  } else {
+    setNameError(true);
+  }
+}
+export function validateLastnamePlayer(
+  lastname: any,
+  setLastNameError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  const isValid = lastname.target.value.length >= 5;
+  if (isValid === true || lastname.value === "") {
+    setLastNameError(false);
+  } else {
+    setLastNameError(true);
+  }
+}
+export function validatePsudonimPlayer(
+  psudonim: any,
+  setPseudonimError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  const isValid = psudonim.target.value.length >= 5;
+  if (isValid === true || psudonim.value === "") {
+    setPseudonimError(false);
+  } else {
+    setPseudonimError(true);
+  }
+}
+export function validateNumberPlayer(
+  number: any,
+  setNumberError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  const isValid = parseInt(number.target.value) >= 0;
+  if (isValid === true || number.value === "") {
+    setNumberError(false);
+  } else {
+    setNumberError(true);
+  }
+}
+
+export function namePlayerHandler(
+  e: React.ChangeEvent<HTMLInputElement>,
+  setName: React.Dispatch<React.SetStateAction<string>>,
+  setNameError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  setName(e.target.value);
+  statusInput(e, setNameError);
+}
+
+export function lastnamePlayerHandler(
+  e: React.ChangeEvent<HTMLInputElement>,
+  setLastName: React.Dispatch<React.SetStateAction<string>>,
+  setLastNameError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  setLastName(e.target.value);
+  statusInput(e, setLastNameError);
+}
+
+export function psudonimPlayerHandler(
+  e: React.ChangeEvent<HTMLInputElement>,
+  setPseudonim: React.Dispatch<React.SetStateAction<string>>,
+  setPseudonimError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  setPseudonim(e.target.value);
+  statusInput(e, setPseudonimError);
+}
+
+export function numberPlayerHandler(
+  e: React.ChangeEvent<HTMLInputElement>,
+  setNumber: React.Dispatch<React.SetStateAction<number>>,
+  setNumberError: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  setNumber(parseInt(e.target.value));
+  statusInput(e, setNumberError);
+}

@@ -6,6 +6,7 @@ import Login from "./assets/Pages/Login";
 import SignUp from "./assets/Pages/SignUp";
 import Games from "./assets/Pages/Games";
 import Teams from "./assets/Pages/Teams";
+import Players from "./assets/Pages/Players";
 import PageNotFound from "./assets/Pages/404";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/games" element={<Games />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/players" element={<Players />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

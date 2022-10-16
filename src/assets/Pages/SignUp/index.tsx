@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import {
   emailHandler,
@@ -21,20 +22,49 @@ export default function SignUp() {
   const [rePasswordError, setRePasswordError] = useState<boolean>(false);
   const [displayPopUpEmailConfirmation, setDisplayPopUpEmailConfirmation] =
     useState<boolean>(false);
+  const [emailExists, setEmailExists] = useState<boolean>(false);
 
-  function checkNextResetPassword() {
+  function checkNextSignUp() {
     if (
       emailError === false &&
+      emailExists === false &&
       passwordError === false &&
       rePasswordError === false &&
       email !== "" &&
       password !== "" &&
-      rePassword !== ""
+      rePassword !== "" &&
+      password === rePassword
     ) {
-      setDisplayPopUpEmailConfirmation(true);
+      handleSubmit();
     }
   }
 
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/users/create`,
+        {
+          email,
+          password,
+        }
+      );
+      if (res.status === 200) {
+        console.log(res);
+        setEmailExists(false);
+        setDisplayPopUpEmailConfirmation(true);
+      } else {
+        console.log(res);
+      }
+    } catch (e: any) {
+      console.log(3);
+      if (e?.response.data.detail === "Email already registered") {
+        setEmailExists(true);
+        setTimeout(() => {
+          setEmailExists(false);
+        }, 3000);
+      }
+    }
+  };
   return (
     <div className="signup-container">
       <div
@@ -72,6 +102,15 @@ export default function SignUp() {
               }
             >
               *Неверный формат
+            </span>
+            <span
+              className={
+                emailExists === true
+                  ? "format-invalid-open"
+                  : "format-invalid-closed"
+              }
+            >
+              *Данная почта уже зарегистрирована
             </span>
           </div>
           <label className="label-password" htmlFor="password">
@@ -140,7 +179,7 @@ export default function SignUp() {
             type="button"
             className="input-submit input-basic"
             onClick={() => {
-              checkNextResetPassword();
+              checkNextSignUp();
             }}
           >
             Зарегистрироваться
