@@ -32,7 +32,7 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
   const [numberError, setNumberError] = useState<boolean>(false);
 
   function checkSubmit() {
-    if (name !== "" && lastName !== "" && numberError === false) {
+    if ((name !== "" || lastName !== "") && numberError === false) {
       createPlayer(team);
     }
   }

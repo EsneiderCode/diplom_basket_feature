@@ -1,0 +1,28 @@
+@import "../../Variables/variables.scss";
+
+.type-attacks-ul{
+    display:flex;
+    flex-direction:column;
+    grid-gap:20px;
+    width:100%;
+    margin-bottom:20px;
+    li{
+        width:100%;
+        border:2px solid $BlackBasket;
+        border-radius: 10px;
+        height:60px;
+        display:grid;
+        place-content: center;
+        font-size: $FontXL;
+        cursor:pointer;
+    }
+}
+
+.back-button{
+    width:100%;
+    background: $White;
+    border:2px solid $BasketOrange;
+    color: $BasketOrange;
+    font-size: $ArrowButtonBack;
+    cursor:pointer;
+}

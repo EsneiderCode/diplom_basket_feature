@@ -1,6 +1,6 @@
 import Select from "react-select";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User, Team } from "../../Interfaces";
 import "./popupcreate.scss";
 
@@ -8,49 +8,35 @@ interface PopUpProps {
   display: boolean;
   toggleDisplay: () => void;
   user: User;
-  getGames: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
+  setGameTeams:React.Dispatch<React.SetStateAction<{
+    firstTeam: {};
+    secondTeam: {};
+}>>;
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
-  const { display, toggleDisplay, user, getGames } = props;
-
-  let localTeams = [] as any;
-  if (user.teams != null) {
-    localTeams = user.teams.map((team: Team) => {
-      return {
-        label: team.name,
-        value: team.id,
-      };
-    });
-  }
-
-  const oponentTeams = localTeams;
-
-  const [teamA, setTeamA] = useState<string | undefined>(undefined);
-  const [teamB, setTeamB] = useState<string | undefined>(undefined);
+  const { display, toggleDisplay, user, setGameTeams, next } = props;
+  const [teamA, setTeamA] = useState<{}>({});
+  const [teamB, setTeamB] = useState<{} >({});
   const [gameDate, setGameDate] = useState<string | undefined>(undefined);
+  const [allTeams, setAllTeams] = useState<[]>([]);
 
-  function checkSubmit() {
-    if (teamA != null && teamB != null && gameDate != null) {
-      createGame(user);
-    }
-  }
-
-  const createGame = async (user: User) => {
-    if (teamA != null && teamB != null) {
+ const getTeams = async (user: User) => {
+    if (user.id != null) {
       try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_SERVER_ENDPOINT}/games/create/${user.id}`,
-          {
-            team_a_id: teamA,
-            team_b_id: teamB,
-            date: gameDate,
-          }
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_ENDPOINT}/users/${user.id}`
         );
         if (res.status === 200) {
-          getGames();
-          toggleDisplay();
+          if(res.data.teams != null){
+                setAllTeams(res.data.teams.map((team: Team) => {
+                  return {
+                    label: team.name,
+                    value: team.id,
+                  };
+                }));
+          }
         } else {
           console.log(res);
         }
@@ -59,6 +45,49 @@ export default function PopUpCreateGame(props: PopUpProps) {
       }
     }
   };
+
+  //  const createGame = async (user: User) => {
+  //   if (teamA != null && teamB != null) {
+  //     try {
+  //       const res = await axios.post(
+  //         `${process.env.REACT_APP_SERVER_ENDPOINT}/games/create/${user.id}`,
+  //         {
+  //           team_a_id: teamA,
+  //           team_b_id: teamB,
+  //           date: gameDate,
+  //         }
+  //       );
+  //       if (res.status === 200) {
+  //         getGames();
+  //         toggleDisplay();
+  //       } else {
+  //         console.log(res);
+  //       }
+  //     } catch (e: any) {
+  //       console.log(e);
+  //     }
+  //   }
+  // };
+
+    function checkSubmit() {
+    if (teamA != null && teamA !== "" && teamB != null && teamB !== "" && gameDate != null) {
+      setGameTeams({
+        firstTeam: teamA,
+        secondTeam: teamB
+      })
+      next(true);
+      toggleDisplay();
+    }
+  }
+
+ 
+
+  useEffect(() => {
+    getTeams(user);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+
 
   return (
     <div
@@ -77,17 +106,21 @@ export default function PopUpCreateGame(props: PopUpProps) {
           <Select
             className="select-basic"
             defaultValue={{ label: "Выберите команду А", value: "none" }}
-            options={localTeams}
+            options={allTeams}
             onChange={(e) => {
-              setTeamA(e?.value);
+              if (e?.value != null){
+              setTeamA({id: parseInt(e?.value), name: e?.label});
+              }
             }}
           />
           <Select
             className="select-basic"
             defaultValue={{ label: "Выберите команду Б", value: "none" }}
-            options={oponentTeams}
+            options={allTeams}
             onChange={(e) => {
-              setTeamB(e?.value);
+              if (e?.value != null){
+              setTeamB({id: parseInt(e?.value), name: e?.label});
+              }
             }}
           />
           <input
@@ -100,7 +133,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
               setGameDate(timestamp);
             }}
           />
-
+{/* 
           <button
             type="button"
             className="button-continue"
@@ -109,7 +142,13 @@ export default function PopUpCreateGame(props: PopUpProps) {
             }}
           >
             Создать
-          </button>
+          </button> */}
+
+          <button className="button-continue" type="button" onClick={() => {
+              checkSubmit();
+            }}>
+          Далее
+        </button>
         </form>
       </div>
     </div>

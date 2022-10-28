@@ -5,6 +5,8 @@ import "./games.scss";
 import PopUpCreateGame from "../../Components/PopUpCreateGame";
 import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
+import ChooseTime from "../../Components/ChooseTime";
+import AttackStart from "../../Components/AttackStart";
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
 import { useNavigate } from "react-router";
@@ -21,11 +23,20 @@ export default function Games() {
   const [displayPopUpCreate, setDisplayPopUpCreate] = useState<boolean>(false);
   const [displayPopUpDeleteGame, setDisplayPopUpDeleteGame] =
     useState<boolean>(false);
-  const [displayPopUpSetFiveStarting, setDisplaySetFiveStarting] =
+  const [displayActivePlayersFirstTeam, setDisplayActivePlayersFirstTeam] =
     useState<boolean>(false);
+  const [displayActivePlayersSecondTeam, setDisplayActivePlayersSecondTeam] =
+    useState<boolean>(false);
+    //Start game popups
+  const [displayChooseTeam, setDisplayChooseTeam] = useState<boolean>(false);
+  const [displayAttackStart, setDisplayAttackStart] = useState<boolean>(false);
+  // End game popups
   const [games, setGames] = useState<[]>([]);
   const [user, setUser] = useState<User>({} as User);
   const navigate = useNavigate();
+ // const [firstTeamActivePlayers, setFirstTeamActivePlayers] = useState<{}>({});
+  //const [secondTeamActivePlayers, setSecondTeamActivePlayers] = useState<{}>({});
+  const [gameTeams, setGameTeams] = useState<{firstTeam: {}, secondTeam: {}}>({firstTeam: {}, secondTeam: {}});
 
   const confirmDelete = async (options: {}) => {
     const result = await confirm(
@@ -39,18 +50,6 @@ export default function Games() {
     }
     console.log("Нет");
   };
-
-  useEffect(() => {
-    let user: User;
-    const userString = localStorage.getItem("user");
-    if (userString != null) {
-      user = JSON.parse(userString);
-      setUser(user);
-      getGames(user);
-    } else {
-      navigate("/");
-    }
-  }, [navigate]);
 
   const getGames = async (user: User) => {
     try {
@@ -66,6 +65,18 @@ export default function Games() {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    let user: User;
+    const userString = localStorage.getItem("user");
+    if (userString != null) {
+      user = JSON.parse(userString);
+      setUser(user);
+      getGames(user);
+    } else {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <div className="games-container">
@@ -171,17 +182,27 @@ export default function Games() {
         toggleDisplay={() => {
           togglePopUp(displayPopUpCreate, setDisplayPopUpCreate);
         }}
-        next={setDisplaySetFiveStarting}
+        next={setDisplayActivePlayersFirstTeam}
         user={user}
-        getGames={() => getGames(user)}
+        setGameTeams={setGameTeams}
       />
       <PopUpSetFiveStarting
-        description="Москва"
-        display={displayPopUpSetFiveStarting}
+        infoFirstTeam={gameTeams.firstTeam}
+        display={displayActivePlayersFirstTeam}
         toggleDisplay={() => {
-          togglePopUp(displayPopUpSetFiveStarting, setDisplaySetFiveStarting);
+          togglePopUp(displayActivePlayersFirstTeam, setDisplayActivePlayersFirstTeam);
         }}
         back={setDisplayPopUpCreate}
+        next={setDisplayActivePlayersSecondTeam}
+      />
+      <PopUpSetFiveStarting
+        infoSecondTeam={gameTeams.secondTeam}
+        display={displayActivePlayersSecondTeam}
+        toggleDisplay={() => {
+          togglePopUp(displayActivePlayersSecondTeam, setDisplayActivePlayersSecondTeam);
+        }}
+        back={setDisplayActivePlayersFirstTeam}
+        next={setDisplayActivePlayersSecondTeam}
       />
       <PopUpConfirmation
         header="Игра удалена"
@@ -193,6 +214,13 @@ export default function Games() {
         toggle={() => {
           togglePopUp(displayPopUpDeleteGame, setDisplayPopUpDeleteGame);
         }}
+      />
+      <ChooseTime
+       display={displayChooseTeam}
+      />
+
+      <AttackStart
+       display={displayAttackStart}
       />
     </div>
   );

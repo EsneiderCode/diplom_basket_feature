@@ -18,7 +18,7 @@ export const CardItem = ({ data, handleDragging }: Props) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <p>{data.content}</p>
+      <p>{data.number.toString()}</p>
     </div>
   );
 };
