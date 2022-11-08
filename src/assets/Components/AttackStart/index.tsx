@@ -1,13 +1,14 @@
-import { useState } from "react";
 import "./attackstart.scss";
 
-interface Props{
-    display:boolean;
+interface Props {
+  display: boolean;
+  toggle: () => void;
+  next: React.Dispatch<React.SetStateAction<boolean>>;
+  back: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
-export default function AttackStart(props:Props) {
-const {display} = props;
+export default function AttackStart(props: Props) {
+  const { display, toggle, next, back } = props;
 
   return (
     <div
@@ -18,16 +19,63 @@ const {display} = props;
       }
     >
       <div className="popup-content-container popup-game">
-      
-            <p className="category-title">Начало атаки</p>
-            <ul className="type-attacks-ul">
-                <li  className="attack-type">подбор</li>
-                <li  className="attack-type">перехват</li>
-                <li  className="attack-type">лицевая</li>
-                <li  className="attack-type">мертвый мяч</li>
-                <li  className="attack-type">подбор в нап.</li>
-            </ul>
-            <button className="back-button">&#8592;</button>
+        <p className="category-title">Начало атаки</p>
+        <ul className="type-attacks-ul">
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            подбор
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            перехват
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            лицевая
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            мертвый мяч
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            подбор в нап.
+          </li>
+        </ul>
+        <button
+          className="back-button"
+          onClick={() => {
+            toggle();
+            back(true);
+          }}
+        >
+          &#8592;
+        </button>
       </div>
     </div>
   );

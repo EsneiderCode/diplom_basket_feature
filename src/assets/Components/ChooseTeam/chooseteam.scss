@@ -1,0 +1,106 @@
+@import "../../Variables/variables.scss";
+
+.category-title {
+  font-weight: 510;
+  font-size: 30px;
+  line-height: 36px;
+  color: $BlackBasket;
+  font-family: $Sfpro;
+  margin-bottom: 25px;
+  margin-left: 10px;
+}
+
+.time-section {
+  margin-bottom: 58px;
+
+  .alltimes-ul {
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    background-color: $PinkBasket;
+    border-radius: 10px;
+    cursor: pointer;
+
+    li {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $FontXL;
+    }
+
+    .active-time {
+      background: $White;
+      border-radius: 10px;
+      border: 2px solid $BlackBasket;
+    }
+  }
+}
+
+.teams-section {
+  display: flex;
+  flex-direction: row;
+  grid-gap: 10px;
+  margin-bottom: 20px;
+
+  .team-info-container {
+    width: 100%;
+    border: 2px solid $BlackBasket;
+    border-radius: 10px;
+    display: grid;
+    place-content: center;
+    height: 153px;
+    cursor: pointer;
+  }
+
+  .team-name {
+    font-size: $FontXL;
+  }
+}
+
+.actions-section {
+  display: flex;
+  flex-direction: row;
+  grid-gap: 10px;
+
+  .next-action,
+  .table-action {
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 70px;
+    cursor: pointer;
+    border-radius: 10px;
+
+    .content-action {
+      font-size: $FontXL;
+    }
+  }
+
+  .next-action {
+    border: 2px solid $BasketOrange;
+    color: $BasketOrange;
+  }
+
+  .table-action {
+    background: #e7e7e7;
+    border: 3px solid #aeaeae;
+    color: #aeaeae;
+  }
+}
+.close-action {
+  border: 2px solid $RedBasket;
+  color: $RedBasket;
+  display: grid;
+  place-content: center;
+  width: 80px;
+  float: right;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 10px;
+
+  .content-action {
+    font-size: $FontXL;
+  }
+}

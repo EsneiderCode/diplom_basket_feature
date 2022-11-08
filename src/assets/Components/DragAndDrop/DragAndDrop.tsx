@@ -6,36 +6,38 @@ import axios from "axios";
 const typesPlayer: Status[] = ["bench", "firstFive"];
 interface Props {
   setButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  firstTeamId?:number,
-  secondTeamId?:number,
+  firstTeamId?: number;
+  secondTeamId?: number;
   //secondTeamId:number,
 }
 
 export const DragAndDrop = (props: Props) => {
-  const {setButtonDisabled, firstTeamId, secondTeamId} = props;
+  const { setButtonDisabled, firstTeamId, secondTeamId } = props;
   const [isDragging, setIsDragging] = useState(false);
   const [firstPlayers, setFirstPlayers] = useState<Player[]>([]);
   const [secondPlayers, setSecondPlayers] = useState<Player[]>([]);
 
-  useEffect(() => { 
-     const getPlayers = async (teamId: number) => {
+  useEffect(() => {
+    const getPlayers = async (teamId: number) => {
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_ENDPOINT}/teams/${teamId}`
         );
         if (res.status === 200) {
-          const playersWithStatus = res.data.map((player:Player)=>{
+          const playersWithStatus = res.data.map((player: Player) => {
             player.status = "bench";
             return player;
-          })
-          firstTeamId ? setFirstPlayers(playersWithStatus) : setSecondPlayers(playersWithStatus);
+          });
+          firstTeamId
+            ? setFirstPlayers(playersWithStatus)
+            : setSecondPlayers(playersWithStatus);
         } else {
           console.log(res);
         }
       } catch (e: any) {
         console.log(e);
       }
-  }; 
+    };
     if (firstTeamId) getPlayers(firstTeamId);
     if (secondTeamId) getPlayers(secondTeamId);
   }, [firstTeamId, secondTeamId]);
@@ -43,53 +45,55 @@ export const DragAndDrop = (props: Props) => {
   const handleDragging = (dragging: boolean) => setIsDragging(dragging);
 
   const handleUpdateList = (id: number, status: Status) => {
-     let card:any = [];
-    if(firstTeamId != null){
-     card = firstPlayers.find((player) => player.id === id);
+    let card: any = [];
+    if (firstTeamId != null) {
+      card = firstPlayers.find((player) => player.id === id);
       if (card && card.status !== status) {
-      card.status = status;
-      setFirstPlayers((prev) => [card!, ...prev.filter((player) => player.id !== id)]);
-    }
-    }
-    else{
+        card.status = status;
+        setFirstPlayers((prev) => [
+          card!,
+          ...prev.filter((player) => player.id !== id),
+        ]);
+      }
+    } else {
       card = secondPlayers.find((player) => player.id === id);
-       if (card && card.status !== status) {
-      card.status = status;
-      setSecondPlayers((prev) => [card!, ...prev.filter((player) => player.id !== id)]);
+      if (card && card.status !== status) {
+        card.status = status;
+        setSecondPlayers((prev) => [
+          card!,
+          ...prev.filter((player) => player.id !== id),
+        ]);
+      }
     }
-    }
-
-   
   };
 
-  if (firstPlayers !== null || secondPlayers !== null){
- return (
-    <div className="grid">
-      <ContainerCards
-        players={firstTeamId != null ? firstPlayers : secondPlayers}
-        status={typesPlayer[0]}
-        key={typesPlayer[0]}
-        isDragging={isDragging}
-        handleDragging={handleDragging}
-        handleUpdateList={handleUpdateList}
-        type="bench"
-        setButtonDisabled={setButtonDisabled}
-      />
-      <hr className="hr-popup" />
-      <ContainerCards
-        players={firstTeamId != null ? firstPlayers : secondPlayers}
-        status={typesPlayer[1]}
-        key={typesPlayer[1]}
-        isDragging={isDragging}
-        handleDragging={handleDragging}
-        handleUpdateList={handleUpdateList}
-        type="firstFive"
-        setButtonDisabled={setButtonDisabled}
-      />
-    </div>
-  );
-  }else{
+  if (firstPlayers !== null || secondPlayers !== null) {
+    return (
+      <div className="grid">
+        <ContainerCards
+          players={firstTeamId != null ? firstPlayers : secondPlayers}
+          status={typesPlayer[0]}
+          key={typesPlayer[0]}
+          isDragging={isDragging}
+          handleDragging={handleDragging}
+          handleUpdateList={handleUpdateList}
+          type="bench"
+          setButtonDisabled={setButtonDisabled}
+        />
+        <hr className="hr-popup" />
+        <ContainerCards
+          players={firstTeamId != null ? firstPlayers : secondPlayers}
+          status={typesPlayer[1]}
+          key={typesPlayer[1]}
+          isDragging={isDragging}
+          handleDragging={handleDragging}
+          handleUpdateList={handleUpdateList}
+          type="firstFive"
+          setButtonDisabled={setButtonDisabled}
+        />
+      </div>
+    );
+  } else {
     return null;
   }
- 
 };

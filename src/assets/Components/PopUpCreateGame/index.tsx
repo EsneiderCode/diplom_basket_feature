@@ -9,33 +9,37 @@ interface PopUpProps {
   toggleDisplay: () => void;
   user: User;
   next: React.Dispatch<React.SetStateAction<boolean>>;
-  setGameTeams:React.Dispatch<React.SetStateAction<{
-    firstTeam: {};
-    secondTeam: {};
-}>>;
+  setGameTeams: React.Dispatch<
+    React.SetStateAction<{
+      firstTeam: {};
+      secondTeam: {};
+    }>
+  >;
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
   const { display, toggleDisplay, user, setGameTeams, next } = props;
   const [teamA, setTeamA] = useState<{}>({});
-  const [teamB, setTeamB] = useState<{} >({});
+  const [teamB, setTeamB] = useState<{}>({});
   const [gameDate, setGameDate] = useState<string | undefined>(undefined);
   const [allTeams, setAllTeams] = useState<[]>([]);
 
- const getTeams = async (user: User) => {
+  const getTeams = async (user: User) => {
     if (user.id != null) {
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_ENDPOINT}/users/${user.id}`
         );
         if (res.status === 200) {
-          if(res.data.teams != null){
-                setAllTeams(res.data.teams.map((team: Team) => {
-                  return {
-                    label: team.name,
-                    value: team.id,
-                  };
-                }));
+          if (res.data.teams != null) {
+            setAllTeams(
+              res.data.teams.map((team: Team) => {
+                return {
+                  label: team.name,
+                  value: team.id,
+                };
+              })
+            );
           }
         } else {
           console.log(res);
@@ -69,25 +73,27 @@ export default function PopUpCreateGame(props: PopUpProps) {
   //   }
   // };
 
-    function checkSubmit() {
-    if (teamA != null && teamA !== "" && teamB != null && teamB !== "" && gameDate != null) {
+  function checkSubmit() {
+    if (
+      teamA != null &&
+      teamA !== "" &&
+      teamB != null &&
+      teamB !== "" &&
+      gameDate != null
+    ) {
       setGameTeams({
         firstTeam: teamA,
-        secondTeam: teamB
-      })
+        secondTeam: teamB,
+      });
       next(true);
       toggleDisplay();
     }
   }
 
- 
-
   useEffect(() => {
     getTeams(user);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
-
 
   return (
     <div
@@ -108,8 +114,8 @@ export default function PopUpCreateGame(props: PopUpProps) {
             defaultValue={{ label: "Выберите команду А", value: "none" }}
             options={allTeams}
             onChange={(e) => {
-              if (e?.value != null){
-              setTeamA({id: parseInt(e?.value), name: e?.label});
+              if (e?.value != null) {
+                setTeamA({ id: parseInt(e?.value), name: e?.label });
               }
             }}
           />
@@ -118,8 +124,8 @@ export default function PopUpCreateGame(props: PopUpProps) {
             defaultValue={{ label: "Выберите команду Б", value: "none" }}
             options={allTeams}
             onChange={(e) => {
-              if (e?.value != null){
-              setTeamB({id: parseInt(e?.value), name: e?.label});
+              if (e?.value != null) {
+                setTeamB({ id: parseInt(e?.value), name: e?.label });
               }
             }}
           />
@@ -133,7 +139,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
               setGameDate(timestamp);
             }}
           />
-{/* 
+          {/* 
           <button
             type="button"
             className="button-continue"
@@ -144,11 +150,15 @@ export default function PopUpCreateGame(props: PopUpProps) {
             Создать
           </button> */}
 
-          <button className="button-continue" type="button" onClick={() => {
+          <button
+            className="button-continue"
+            type="button"
+            onClick={() => {
               checkSubmit();
-            }}>
-          Далее
-        </button>
+            }}
+          >
+            Далее
+          </button>
         </form>
       </div>
     </div>

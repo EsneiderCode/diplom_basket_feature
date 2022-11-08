@@ -19,7 +19,7 @@ export const ContainerCards = ({
   handleDragging,
   handleUpdateList,
   type,
-  setButtonDisabled
+  setButtonDisabled,
 }: Props) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -33,12 +33,14 @@ export const ContainerCards = ({
 
   const checkListFirstFive = () => {
     let firstPlayersLength = 0;
-    players.forEach((player:Player)=>{
-        if (player.status === "firstFive"){
-          firstPlayersLength++;
-        } 
+    players.forEach((player: Player) => {
+      if (player.status === "firstFive") {
+        firstPlayersLength++;
+      }
     });
-    firstPlayersLength === 5 ? setButtonDisabled(false) : setButtonDisabled(true);
+    firstPlayersLength === 5
+      ? setButtonDisabled(false)
+      : setButtonDisabled(true);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) =>
@@ -61,7 +63,7 @@ export const ContainerCards = ({
         </p>
       )}
       {players.map(
-        (player:Player) =>
+        (player: Player) =>
           status === player.status && (
             <CardItem
               data={player}

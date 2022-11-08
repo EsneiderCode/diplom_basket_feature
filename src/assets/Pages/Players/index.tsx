@@ -5,6 +5,7 @@ import { Team, PlayerTeam } from "../../Interfaces";
 import { togglePopUp } from "../../Functions";
 import { useNavigate } from "react-router";
 import PopUpCreatePlayer from "../../Components/PopUpCreatePlayer";
+import BottomNavigationComponent from "../../Components/Navigation";
 
 export default function Players() {
   const [displayPopUpCreate, setDisplayPopUpCreate] = useState<boolean>(false);
@@ -82,6 +83,7 @@ export default function Players() {
         getPlayers={() => getPlayers(team)}
         team={team}
       />
+      <BottomNavigationComponent page="profile"></BottomNavigationComponent>
     </div>
   );
 }

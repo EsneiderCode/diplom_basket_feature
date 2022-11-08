@@ -6,6 +6,7 @@ import PopUpCreateTeam from "../../Components/PopUpCreateTeam";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
+import BottomNavigationComponent from "../../Components/Navigation";
 import { useNavigate } from "react-router";
 
 const optionsWithLabelChange = {
@@ -161,6 +162,7 @@ export default function Teams() {
           togglePopUp(displayPopUpDeleteGame, setDisplayPopUpDeleteGame);
         }}
       />
+      <BottomNavigationComponent page="teams"></BottomNavigationComponent>
     </div>
   );
 }

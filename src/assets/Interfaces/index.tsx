@@ -4,11 +4,11 @@ export interface Player {
   id: number;
   content: string;
   status: Status;
-  first_name?:string;
-  last_name?:string;
-  middle_name?:string;
-  number:number;
-  team_id:number;
+  first_name?: string;
+  last_name?: string;
+  middle_name?: string;
+  number: number;
+  team_id: number;
 }
 
 export interface User {

@@ -5,11 +5,13 @@ import "./games.scss";
 import PopUpCreateGame from "../../Components/PopUpCreateGame";
 import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
-import ChooseTime from "../../Components/ChooseTime";
+import ChooseTeam from "../../Components/ChooseTeam";
 import AttackStart from "../../Components/AttackStart";
+import Possession from "../../Components/Possession";
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
 import { useNavigate } from "react-router";
+import BottomNavigationComponent from "../../Components/Navigation";
 
 const optionsWithLabelChange = {
   closeOnOverlayClick: false,
@@ -27,16 +29,19 @@ export default function Games() {
     useState<boolean>(false);
   const [displayActivePlayersSecondTeam, setDisplayActivePlayersSecondTeam] =
     useState<boolean>(false);
-    //Start game popups
+  //Start game popups
   const [displayChooseTeam, setDisplayChooseTeam] = useState<boolean>(false);
   const [displayAttackStart, setDisplayAttackStart] = useState<boolean>(false);
+  const [displayPossession, setDisplayPossession] = useState<boolean>(false);
   // End game popups
   const [games, setGames] = useState<[]>([]);
   const [user, setUser] = useState<User>({} as User);
   const navigate = useNavigate();
- // const [firstTeamActivePlayers, setFirstTeamActivePlayers] = useState<{}>({});
+  // const [firstTeamActivePlayers, setFirstTeamActivePlayers] = useState<{}>({});
   //const [secondTeamActivePlayers, setSecondTeamActivePlayers] = useState<{}>({});
-  const [gameTeams, setGameTeams] = useState<{firstTeam: {}, secondTeam: {}}>({firstTeam: {}, secondTeam: {}});
+  const [gameTeams, setGameTeams] = useState<{ firstTeam: {}; secondTeam: {} }>(
+    { firstTeam: {}, secondTeam: {} }
+  );
 
   const confirmDelete = async (options: {}) => {
     const result = await confirm(
@@ -74,7 +79,7 @@ export default function Games() {
       setUser(user);
       getGames(user);
     } else {
-      navigate("/");
+      //  navigate("/");
     }
   }, [navigate]);
 
@@ -190,7 +195,10 @@ export default function Games() {
         infoFirstTeam={gameTeams.firstTeam}
         display={displayActivePlayersFirstTeam}
         toggleDisplay={() => {
-          togglePopUp(displayActivePlayersFirstTeam, setDisplayActivePlayersFirstTeam);
+          togglePopUp(
+            displayActivePlayersFirstTeam,
+            setDisplayActivePlayersFirstTeam
+          );
         }}
         back={setDisplayPopUpCreate}
         next={setDisplayActivePlayersSecondTeam}
@@ -199,10 +207,13 @@ export default function Games() {
         infoSecondTeam={gameTeams.secondTeam}
         display={displayActivePlayersSecondTeam}
         toggleDisplay={() => {
-          togglePopUp(displayActivePlayersSecondTeam, setDisplayActivePlayersSecondTeam);
+          togglePopUp(
+            displayActivePlayersSecondTeam,
+            setDisplayActivePlayersSecondTeam
+          );
         }}
         back={setDisplayActivePlayersFirstTeam}
-        next={setDisplayActivePlayersSecondTeam}
+        next={setDisplayChooseTeam}
       />
       <PopUpConfirmation
         header="Игра удалена"
@@ -215,13 +226,31 @@ export default function Games() {
           togglePopUp(displayPopUpDeleteGame, setDisplayPopUpDeleteGame);
         }}
       />
-      <ChooseTime
-       display={displayChooseTeam}
+      <ChooseTeam
+        display={displayChooseTeam}
+        toggle={() => {
+          togglePopUp(displayChooseTeam, setDisplayChooseTeam);
+        }}
+        next={setDisplayAttackStart}
       />
 
       <AttackStart
-       display={displayAttackStart}
+        display={displayAttackStart}
+        toggle={() => {
+          togglePopUp(displayAttackStart, setDisplayAttackStart);
+        }}
+        next={setDisplayPossession}
+        back={setDisplayChooseTeam}
       />
+
+      <Possession
+        display={displayPossession}
+        toggle={() => {
+          togglePopUp(displayPossession, setDisplayPossession);
+        }}
+        back={setDisplayAttackStart}
+      />
+      <BottomNavigationComponent page="games"></BottomNavigationComponent>
     </div>
   );
 }
