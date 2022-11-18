@@ -1,4 +1,4 @@
-import "./attackstart.scss";
+import "./completionresult.scss";
 
 interface Props {
   display: boolean;
@@ -7,7 +7,7 @@ interface Props {
   back: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AttackStart(props: Props) {
+export default function CompletionResult(props: Props) {
   const { display, toggle, next, back } = props;
 
   return (
@@ -19,8 +19,8 @@ export default function AttackStart(props: Props) {
       }
     >
       <div className="popup-content-container popup-game">
-        <p className="category-title">Начало атаки</p>
-        <ul className="type-attacks-ul">
+        <p className="category-title">Способ завершения</p>
+        <ul className="type-results-completion-ul">
           <li
             onClick={() => {
               toggle();
@@ -28,7 +28,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в защите
+            Drives
           </li>
           <li
             onClick={() => {
@@ -37,7 +37,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            перехват
+            Isolation
           </li>
           <li
             onClick={() => {
@@ -46,7 +46,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            после забитого живой мяч
+            Transition
           </li>
           <li
             onClick={() => {
@@ -55,7 +55,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            ввод мертвого мяча в игру
+            Catch&shoot
           </li>
           <li
             onClick={() => {
@@ -64,7 +64,61 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в нападении
+            Pull up
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            Post up
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            PnR Handler
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            PnR Roller
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            Cuts
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            Off Screen
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            Hand Off
           </li>
         </ul>
         <button

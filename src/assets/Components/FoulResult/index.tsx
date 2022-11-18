@@ -1,14 +1,27 @@
-import "./attackstart.scss";
+import "../ResultAttack/resultattack.scss";
 
 interface Props {
   display: boolean;
   toggle: () => void;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
+  nextEnd: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
+  nextOneThrow: React.Dispatch<React.SetStateAction<boolean>>;
+  nextTwoThrow: React.Dispatch<React.SetStateAction<boolean>>;
+  nextThreeThrow: React.Dispatch<React.SetStateAction<boolean>>;
+  nextTeamFoul: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AttackStart(props: Props) {
-  const { display, toggle, next, back } = props;
+export default function FoulResult(props: Props) {
+  const {
+    display,
+    toggle,
+    nextEnd,
+    back,
+    nextOneThrow,
+    nextTwoThrow,
+    nextThreeThrow,
+    nextTeamFoul,
+  } = props;
 
   return (
     <div
@@ -19,52 +32,61 @@ export default function AttackStart(props: Props) {
       }
     >
       <div className="popup-content-container popup-game">
-        <p className="category-title">Начало атаки</p>
-        <ul className="type-attacks-ul">
+        <p className="category-title">Фол</p>
+        <ul className="type-results-ul">
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextOneThrow(true);
             }}
             className="attack-type"
           >
-            подбор в защите
+            1 бросок
           </li>
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextTwoThrow(true);
             }}
             className="attack-type"
           >
-            перехват
+            2 броска
           </li>
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextThreeThrow(true);
             }}
             className="attack-type"
           >
-            после забитого живой мяч
+            3 броска
           </li>
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextEnd(true);
             }}
             className="attack-type"
           >
-            ввод мертвого мяча в игру
+            непробивной
           </li>
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextTeamFoul(true);
             }}
             className="attack-type"
           >
-            подбор в нападении
+            технический
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              nextTeamFoul(true);
+            }}
+            className="attack-type"
+          >
+            против зоны
           </li>
         </ul>
         <button

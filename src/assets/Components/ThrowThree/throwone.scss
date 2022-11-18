@@ -1,0 +1,13 @@
+@import "../../Variables/variables.scss";
+.ball-list {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  .basket-ball-icon:hover {
+    cursor: pointer;
+    color: $BasketOrange;
+  }
+  .basket-ball-icon-active path {
+    color: $BasketOrange;
+  }
+}

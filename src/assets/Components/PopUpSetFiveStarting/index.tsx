@@ -10,11 +10,21 @@ interface PopUpProps {
   next: React.Dispatch<React.SetStateAction<boolean>>;
   infoFirstTeam?: any;
   infoSecondTeam?: any;
+  isChangePlayers?: boolean;
+  hideCloseIcon?: boolean;
 }
 
 export default function PopUpSetFiveStarting(props: PopUpProps) {
-  const { display, toggleDisplay, next, back, infoFirstTeam, infoSecondTeam } =
-    props;
+  const {
+    display,
+    toggleDisplay,
+    next,
+    back,
+    infoFirstTeam,
+    infoSecondTeam,
+    isChangePlayers,
+    hideCloseIcon,
+  } = props;
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
 
   if (props.infoFirstTeam != null && props.infoFirstTeam.id !== undefined) {
@@ -38,12 +48,15 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
           </span>
 
           <h2 className="popup-title five-starting-title">Стартовая пятерка</h2>
-          <span
-            className="popup-close-icon five-starting-popup-close"
-            onClick={() => toggleDisplay()}
-          >
-            &#x2715;
-          </span>
+          {hideCloseIcon !== true && (
+            <span
+              className="popup-close-icon five-starting-popup-close"
+              onClick={() => toggleDisplay()}
+            >
+              &#x2715;
+            </span>
+          )}
+
           <p className="description five-starting-description">
             {infoFirstTeam.name}
           </p>
@@ -61,7 +74,7 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
               toggleDisplay();
             }}
           >
-            Далее
+            {isChangePlayers !== true ? "Далее" : "Заменить"}
           </button>
         </div>
       </div>
@@ -113,7 +126,7 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
               toggleDisplay();
             }}
           >
-            Начать игру
+            {isChangePlayers !== true ? "Начать игру" : "Заменить"}
           </button>
         </div>
       </div>

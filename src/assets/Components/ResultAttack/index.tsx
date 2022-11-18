@@ -1,14 +1,16 @@
-import "./attackstart.scss";
+import "./resultattack.scss";
 
 interface Props {
   display: boolean;
   toggle: () => void;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
+  nextFoul: React.Dispatch<React.SetStateAction<boolean>>;
+  nextCompletion: React.Dispatch<React.SetStateAction<boolean>>;
+  nextLoss: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AttackStart(props: Props) {
-  const { display, toggle, next, back } = props;
+export default function ResultAttack(props: Props) {
+  const { display, toggle, nextFoul, nextCompletion, nextLoss, back } = props;
 
   return (
     <div
@@ -19,52 +21,34 @@ export default function AttackStart(props: Props) {
       }
     >
       <div className="popup-content-container popup-game">
-        <p className="category-title">Начало атаки</p>
-        <ul className="type-attacks-ul">
+        <p className="category-title">Результат</p>
+        <ul className="type-results-ul">
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextFoul(true);
             }}
             className="attack-type"
           >
-            подбор в защите
+            Фол
           </li>
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextCompletion(true);
             }}
             className="attack-type"
           >
-            перехват
+            Бросок
           </li>
           <li
             onClick={() => {
               toggle();
-              next(true);
+              nextLoss(true);
             }}
             className="attack-type"
           >
-            после забитого живой мяч
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            ввод мертвого мяча в игру
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            подбор в нападении
+            Потеря
           </li>
         </ul>
         <button

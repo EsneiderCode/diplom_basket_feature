@@ -5,9 +5,24 @@ import "./games.scss";
 import PopUpCreateGame from "../../Components/PopUpCreateGame";
 import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
+//Game windows.
 import ChooseTeam from "../../Components/ChooseTeam";
 import AttackStart from "../../Components/AttackStart";
 import Possession from "../../Components/Possession";
+import TypeAttack from "../../Components/TypeAttack";
+import ResultAttack from "../../Components/ResultAttack";
+import FoulResult from "../../Components/FoulResult";
+import CompletionResult from "../../Components/CompletionResult";
+import LossResult from "../../Components/LossResult";
+import ThrowOne from "../../Components/ThrowOne";
+import ThrowTwo from "../../Components/ThrowTwo";
+import ThrowThree from "../../Components/ThrowThree";
+import TeamFoul from "../../Components/TeamFoul";
+import PlayerPenalty from "../../Components/PlayerPenalty";
+import ThrowResult from "../../Components/ThrowResult";
+import Assist from "../../Components/Assist";
+import ChooseZone from "../../Components/ChooseZone";
+//End game windows.
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
 import { useNavigate } from "react-router";
@@ -30,9 +45,28 @@ export default function Games() {
   const [displayActivePlayersSecondTeam, setDisplayActivePlayersSecondTeam] =
     useState<boolean>(false);
   //Start game popups
-  const [displayChooseTeam, setDisplayChooseTeam] = useState<boolean>(false);
+  const [displayChooseTeam, setDisplayChooseTeam] = useState<boolean>(true);
   const [displayAttackStart, setDisplayAttackStart] = useState<boolean>(false);
   const [displayPossession, setDisplayPossession] = useState<boolean>(false);
+  const [displayTypeAttack, setDisplayTypeAttack] = useState<boolean>(false);
+  const [displayCurrentPlayers, setDisplayCurrentPlayers] =
+    useState<boolean>(false);
+  const [displayResultAttack, setDisplayResultAttack] =
+    useState<boolean>(false);
+  const [displayFoulResult, setDisplayFoulResult] = useState<boolean>(false);
+  const [displayCompletionResult, setDisplayCompletionResult] =
+    useState<boolean>(false);
+  const [displayLossResult, setDisplayLossResult] = useState<boolean>(false);
+  const [displayThrowOne, setDisplayThrowOne] = useState<boolean>(false);
+  const [displayThrowTwo, setDisplayThrowTwo] = useState<boolean>(false);
+  const [displayThrowThree, setDisplayThrowThree] = useState<boolean>(false);
+  const [displayTeamFoul, setDisplayTeamFoul] = useState<boolean>(false);
+  const [displayPlayerPenalty, setDisplayPlayerPenalty] =
+    useState<boolean>(false);
+  const [displayThrowResult, setDisplayThrowResult] = useState<boolean>(false);
+  const [displayAssist, setDisplayAssist] = useState<boolean>(false);
+  const [displayActionSaved, setDisplayActionSaved] = useState<boolean>(false);
+  const [displayChooseZone, setDisplayChooseZone] = useState<boolean>(false);
   // End game popups
   const [games, setGames] = useState<[]>([]);
   const [user, setUser] = useState<User>({} as User);
@@ -249,7 +283,140 @@ export default function Games() {
           togglePopUp(displayPossession, setDisplayPossession);
         }}
         back={setDisplayAttackStart}
+        next={setDisplayTypeAttack}
       />
+
+      <PopUpSetFiveStarting
+        infoSecondTeam={gameTeams.secondTeam}
+        display={displayCurrentPlayers}
+        toggleDisplay={() => {
+          togglePopUp(displayCurrentPlayers, setDisplayCurrentPlayers);
+        }}
+        back={setDisplayPossession}
+        next={setDisplayPossession}
+        isChangePlayers={true}
+        hideCloseIcon={true}
+      />
+
+      <TypeAttack
+        display={displayTypeAttack}
+        toggle={() => {
+          togglePopUp(displayTypeAttack, setDisplayTypeAttack);
+        }}
+        next={setDisplayResultAttack}
+        back={setDisplayPossession}
+      />
+
+      <ResultAttack
+        display={displayResultAttack}
+        toggle={() => {
+          togglePopUp(displayResultAttack, setDisplayResultAttack);
+        }}
+        back={setDisplayTypeAttack}
+        nextFoul={setDisplayFoulResult}
+        nextCompletion={setDisplayCompletionResult}
+        nextLoss={setDisplayLossResult}
+      />
+
+      <FoulResult
+        display={displayFoulResult}
+        toggle={() => {
+          togglePopUp(displayFoulResult, setDisplayFoulResult);
+        }}
+        back={setDisplayResultAttack}
+        nextEnd={setDisplayActionSaved}
+        nextOneThrow={setDisplayThrowOne}
+        nextTwoThrow={setDisplayThrowTwo}
+        nextThreeThrow={setDisplayThrowThree}
+        nextTeamFoul={setDisplayTeamFoul}
+      />
+      <CompletionResult
+        display={displayCompletionResult}
+        toggle={() => {
+          togglePopUp(displayCompletionResult, setDisplayCompletionResult);
+        }}
+        back={setDisplayResultAttack}
+        next={setDisplayChooseZone}
+      />
+      <LossResult
+        display={displayLossResult}
+        toggle={() => {
+          togglePopUp(displayLossResult, setDisplayLossResult);
+        }}
+        back={setDisplayResultAttack}
+        next={setDisplayActionSaved}
+      />
+      <ThrowOne
+        display={displayThrowOne}
+        toggle={() => {
+          togglePopUp(displayThrowOne, setDisplayThrowOne);
+        }}
+        next={setDisplayActionSaved}
+      />
+      <ThrowTwo
+        display={displayThrowTwo}
+        toggle={() => {
+          togglePopUp(displayThrowTwo, setDisplayThrowTwo);
+        }}
+        next={setDisplayActionSaved}
+      />
+      <ThrowThree
+        display={displayThrowThree}
+        toggle={() => {
+          togglePopUp(displayThrowThree, setDisplayThrowThree);
+        }}
+        next={setDisplayActionSaved}
+      />
+      <TeamFoul
+        display={displayTeamFoul}
+        toggle={() => {
+          togglePopUp(displayTeamFoul, setDisplayTeamFoul);
+        }}
+        next={setDisplayPlayerPenalty}
+      />
+      <PlayerPenalty
+        display={displayPlayerPenalty}
+        toggle={() => {
+          togglePopUp(displayPlayerPenalty, setDisplayPlayerPenalty);
+        }}
+        next={setDisplayThrowResult}
+      />
+      <ThrowResult
+        display={displayThrowResult}
+        toggle={() => {
+          togglePopUp(displayThrowResult, setDisplayThrowResult);
+        }}
+        nextThrow={setDisplayAssist}
+        next={setDisplayActionSaved}
+      />
+      <Assist
+        display={displayAssist}
+        toggle={() => {
+          togglePopUp(displayAssist, setDisplayAssist);
+        }}
+        next={setDisplayActionSaved}
+      />
+
+      <ChooseZone
+        display={displayChooseZone}
+        toggle={() => {
+          togglePopUp(displayChooseZone, setDisplayChooseZone);
+        }}
+        next={setDisplayThrowResult}
+      />
+
+      <PopUpConfirmation
+        header="Готово!"
+        description="действие записано"
+        buttonDescription="Ok"
+        display={displayActionSaved}
+        lineHr={true}
+        toggle={() => {
+          togglePopUp(displayActionSaved, setDisplayActionSaved);
+        }}
+        next={setDisplayChooseTeam}
+      />
+
       <BottomNavigationComponent page="games"></BottomNavigationComponent>
     </div>
   );

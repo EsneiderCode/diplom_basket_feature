@@ -5,10 +5,10 @@ import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
 import GroupsIcon from "@mui/icons-material/Groups";
 
 export default function BottomNavigationComponent(props: any) {
-  const [value, setValue] = React.useState("games");
+  // const [value, setValue] = React.useState("games");
 
   const handleChange = (event: any, newValue: React.SetStateAction<string>) => {
-    setValue(newValue);
+    // setValue(newValue);
   };
 
   return (

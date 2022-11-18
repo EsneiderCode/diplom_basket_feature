@@ -1,17 +1,22 @@
 import { useState } from "react";
 import "./possession.scss";
+// @ts-ignore
+import { useLongPress } from "use-long-press";
 
 interface Props {
   display: boolean;
   toggle: () => void;
   back: React.Dispatch<React.SetStateAction<boolean>>;
+  next: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Possession(props: Props) {
   const [rangeValue, setRangeValue] = useState<string>("1");
-  const { display, toggle, back } = props;
+  const { display, toggle, back, next } = props;
   const [typeTime, setTypeTime] = useState<number>(24);
-
+  const bind = useLongPress(() => {
+    console.log("Long pressed!");
+  });
   return (
     <div
       className={
@@ -56,11 +61,21 @@ export default function Possession(props: Props) {
         </div>
         <p className="category-title">Владение мячом</p>
         <div className="possession-players">
-          <p className="player">0</p>
-          <p className="player">25</p>
-          <p className="player player-active">31</p>
-          <p className="player">41</p>
-          <p className="player">43</p>
+          <p className="player" {...bind()}>
+            0
+          </p>
+          <p className="player" {...bind()}>
+            25
+          </p>
+          <p className="player player-active" {...bind()}>
+            31
+          </p>
+          <p className="player" {...bind()}>
+            41
+          </p>
+          <p className="player" {...bind()}>
+            43
+          </p>
         </div>
         <p className="category-title">Секунда на табло</p>
         <div className="input-segs-container">
@@ -77,7 +92,15 @@ export default function Possession(props: Props) {
             }
           />
         </div>
-        <button className="orange-button">Ok</button>
+        <button
+          className="orange-button"
+          onClick={() => {
+            toggle();
+            next(true);
+          }}
+        >
+          Ok
+        </button>
       </div>
     </div>
   );

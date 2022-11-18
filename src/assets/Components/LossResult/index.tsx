@@ -1,4 +1,4 @@
-import "./attackstart.scss";
+import "../ResultAttack/resultattack.scss";
 
 interface Props {
   display: boolean;
@@ -7,7 +7,7 @@ interface Props {
   back: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AttackStart(props: Props) {
+export default function LossResult(props: Props) {
   const { display, toggle, next, back } = props;
 
   return (
@@ -19,8 +19,8 @@ export default function AttackStart(props: Props) {
       }
     >
       <div className="popup-content-container popup-game">
-        <p className="category-title">Начало атаки</p>
-        <ul className="type-attacks-ul">
+        <p className="category-title">Потеря</p>
+        <ul className="type-results-ul">
           <li
             onClick={() => {
               toggle();
@@ -28,7 +28,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в защите
+            Пас-потеря
           </li>
           <li
             onClick={() => {
@@ -37,7 +37,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            перехват
+            Техническая потеря
           </li>
           <li
             onClick={() => {
@@ -46,7 +46,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            после забитого живой мяч
+            Фол в нападении
           </li>
           <li
             onClick={() => {
@@ -55,16 +55,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            ввод мертвого мяча в игру
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            подбор в нападении
+            Тактическая потеря
           </li>
         </ul>
         <button

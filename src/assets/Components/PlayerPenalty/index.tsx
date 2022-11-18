@@ -1,14 +1,13 @@
-import "./attackstart.scss";
+import "./playerpenalty.scss";
 
 interface Props {
   display: boolean;
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
-  back: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AttackStart(props: Props) {
-  const { display, toggle, next, back } = props;
+export default function PlayerPenalty(props: Props) {
+  const { display, toggle, next } = props;
 
   return (
     <div
@@ -19,8 +18,8 @@ export default function AttackStart(props: Props) {
       }
     >
       <div className="popup-content-container popup-game">
-        <p className="category-title">Начало атаки</p>
-        <ul className="type-attacks-ul">
+        <p className="category-title">Игрок на штрафной</p>
+        <ul className="type-player-penalty-ul">
           <li
             onClick={() => {
               toggle();
@@ -28,7 +27,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в защите
+            1
           </li>
           <li
             onClick={() => {
@@ -37,7 +36,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            перехват
+            2
           </li>
           <li
             onClick={() => {
@@ -46,7 +45,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            после забитого живой мяч
+            3
           </li>
           <li
             onClick={() => {
@@ -55,7 +54,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            ввод мертвого мяча в игру
+            4
           </li>
           <li
             onClick={() => {
@@ -64,18 +63,9 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в нападении
+            5
           </li>
         </ul>
-        <button
-          className="back-button"
-          onClick={() => {
-            toggle();
-            back(true);
-          }}
-        >
-          &#8592;
-        </button>
       </div>
     </div>
   );

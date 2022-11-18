@@ -1,4 +1,4 @@
-import "./attackstart.scss";
+import "../AttackStart/attackstart.scss";
 
 interface Props {
   display: boolean;
@@ -7,7 +7,7 @@ interface Props {
   back: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AttackStart(props: Props) {
+export default function TypeAttack(props: Props) {
   const { display, toggle, next, back } = props;
 
   return (
@@ -28,7 +28,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в защите
+            быстрый отрыв
           </li>
           <li
             onClick={() => {
@@ -37,7 +37,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            перехват
+            раннее нападение
           </li>
           <li
             onClick={() => {
@@ -46,7 +46,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            после забитого живой мяч
+            атака 2 шанса
           </li>
           <li
             onClick={() => {
@@ -55,7 +55,7 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            ввод мертвого мяча в игру
+            позиционное нападение
           </li>
           <li
             onClick={() => {
@@ -64,7 +64,16 @@ export default function AttackStart(props: Props) {
             }}
             className="attack-type"
           >
-            подбор в нападении
+            против прессинга
+          </li>
+          <li
+            onClick={() => {
+              toggle();
+              next(true);
+            }}
+            className="attack-type"
+          >
+            против зоны
           </li>
         </ul>
         <button
