@@ -1,3 +1,4 @@
+import { AttackType } from "../../Interfaces";
 import "../AttackStart/attackstart.scss";
 
 interface Props {
@@ -5,10 +6,13 @@ interface Props {
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
+  getattackType: AttackType[];
+  setAttackTypeChoosen: React.Dispatch<React.SetStateAction<AttackType>>;
 }
 
 export default function TypeAttack(props: Props) {
-  const { display, toggle, next, back } = props;
+  const { display, toggle, next, back, getattackType, setAttackTypeChoosen } =
+    props;
 
   return (
     <div
@@ -21,60 +25,21 @@ export default function TypeAttack(props: Props) {
       <div className="popup-content-container popup-game">
         <p className="category-title">Начало атаки</p>
         <ul className="type-attacks-ul">
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            быстрый отрыв
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            раннее нападение
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            атака 2 шанса
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            позиционное нападение
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            против прессинга
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            против зоны
-          </li>
+          {getattackType.map((attacktype: AttackType) => {
+            return (
+              <li
+                onClick={() => {
+                  toggle();
+                  next(true);
+                  setAttackTypeChoosen(attacktype);
+                }}
+                className="attack-type"
+                key={attacktype.id}
+              >
+                {attacktype.description}
+              </li>
+            );
+          })}
         </ul>
         <button
           className="back-button"

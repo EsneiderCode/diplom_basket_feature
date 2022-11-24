@@ -1,16 +1,40 @@
-import { useState } from "react";
 import "./chooseteam.scss";
+import { Player, TeamInfo, Time } from "../../Interfaces";
 
 interface Props {
   display: boolean;
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
+  close: React.Dispatch<React.SetStateAction<boolean>>;
+  setTimeChoosen: React.Dispatch<React.SetStateAction<Time>>;
+  timeChoosen: Time;
+  teamA: { id: number; name: string };
+  teamB: { id: number; name: string };
+  setTeamActive: React.Dispatch<React.SetStateAction<TeamInfo>>;
+  getTime: Time[];
+  firstPlayers: Player[];
+  secondPlayers: Player[];
+  setActivePlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  setPlayerChoosen: React.Dispatch<React.SetStateAction<Player>>;
 }
 
 export default function ChooseTeam(props: Props) {
-  const { display, toggle, next } = props;
-  const [timeChoosen, setTimeChoosen] = useState<number>(1);
-
+  const {
+    display,
+    toggle,
+    next,
+    close,
+    timeChoosen,
+    setTimeChoosen,
+    teamA,
+    teamB,
+    setTeamActive,
+    getTime,
+    firstPlayers,
+    secondPlayers,
+    setActivePlayers,
+    setPlayerChoosen,
+  } = props;
   return (
     <div
       className={
@@ -21,62 +45,60 @@ export default function ChooseTeam(props: Props) {
     >
       <div className="popup-content-container popup-game">
         <section className="time-section">
-          <div className="close-action">
+          <div
+            className="close-action"
+            onClick={() => {
+              toggle();
+              close(true);
+            }}
+          >
             <p className="content-action">X</p>
           </div>
           <p className="category-title">Тайм</p>
           <ul className="alltimes-ul">
-            <li
-              onClick={() => setTimeChoosen(1)}
-              className={timeChoosen === 1 ? "active-time" : "alltimes-ul"}
-            >
-              1
-            </li>
-            <li
-              onClick={() => setTimeChoosen(2)}
-              className={timeChoosen === 2 ? "active-time" : "alltimes-ul"}
-            >
-              2
-            </li>
-            <li
-              onClick={() => setTimeChoosen(3)}
-              className={timeChoosen === 3 ? "active-time" : "alltimes-ul"}
-            >
-              3
-            </li>
-            <li
-              onClick={() => setTimeChoosen(4)}
-              className={timeChoosen === 4 ? "active-time" : "alltimes-ul"}
-            >
-              4
-            </li>
-            <li
-              onClick={() => setTimeChoosen(5)}
-              className={timeChoosen === 5 ? "active-time" : "alltimes-ul"}
-            >
-              от
-            </li>
+            {getTime.map((time: Time) => {
+              return (
+                <li
+                  onClick={() => setTimeChoosen(time)}
+                  className={
+                    timeChoosen.id === time.id ? "active-time" : "alltimes-ul"
+                  }
+                  key={time.id}
+                >
+                  {time.time}
+                </li>
+              );
+            })}
           </ul>
         </section>
         <p className="category-title">Команда</p>
         <section className="teams-section">
-          <div className="team-info-container">
-            <p className="team-name">Химки</p>
-          </div>
-          <div className="team-info-container">
-            <p className="team-name">ЦСКА</p>
-          </div>
-        </section>
-        <section className="actions-section">
           <div
-            className="next-action"
+            className="team-info-container"
             onClick={() => {
+              setTeamActive(teamA);
+              setActivePlayers(firstPlayers);
+              setPlayerChoosen(firstPlayers[0]);
               toggle();
               next(true);
             }}
           >
-            <p className="content-action">Ok</p>
+            <p className="team-name">{teamA.name}</p>
           </div>
+          <div
+            className="team-info-container"
+            onClick={() => {
+              setTeamActive(teamB);
+              setActivePlayers(secondPlayers);
+              setPlayerChoosen(secondPlayers[0]);
+              toggle();
+              next(true);
+            }}
+          >
+            <p className="team-name">{teamB.name}</p>
+          </div>
+        </section>
+        <section className="actions-section">
           <div className="table-action">
             <p className="content-action">Таблица</p>
           </div>

@@ -1,7 +1,7 @@
 import Select from "react-select";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { User, Team } from "../../Interfaces";
+import { useEffect } from "react";
+import { User, Team, TeamInfo } from "../../Interfaces";
 import "./popupcreate.scss";
 
 interface PopUpProps {
@@ -15,14 +15,32 @@ interface PopUpProps {
       secondTeam: {};
     }>
   >;
+  teamA: TeamInfo;
+  teamB: TeamInfo;
+  gameDate: string | undefined;
+  allTeams: [];
+  setTeamA: React.Dispatch<React.SetStateAction<TeamInfo>>;
+  setTeamB: React.Dispatch<React.SetStateAction<TeamInfo>>;
+  setGameDate: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setAllTeams: React.Dispatch<React.SetStateAction<[]>>;
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
-  const { display, toggleDisplay, user, setGameTeams, next } = props;
-  const [teamA, setTeamA] = useState<{}>({});
-  const [teamB, setTeamB] = useState<{}>({});
-  const [gameDate, setGameDate] = useState<string | undefined>(undefined);
-  const [allTeams, setAllTeams] = useState<[]>([]);
+  const {
+    display,
+    toggleDisplay,
+    user,
+    setGameTeams,
+    next,
+    teamA,
+    teamB,
+    gameDate,
+    allTeams,
+    setAllTeams,
+    setGameDate,
+    setTeamA,
+    setTeamB,
+  } = props;
 
   const getTeams = async (user: User) => {
     if (user.id != null) {
@@ -74,13 +92,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
   // };
 
   function checkSubmit() {
-    if (
-      teamA != null &&
-      teamA !== "" &&
-      teamB != null &&
-      teamB !== "" &&
-      gameDate != null
-    ) {
+    if (teamA != null && teamB != null && gameDate != null) {
       setGameTeams({
         firstTeam: teamA,
         secondTeam: teamB,

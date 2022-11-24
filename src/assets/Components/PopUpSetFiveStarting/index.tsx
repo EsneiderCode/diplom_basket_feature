@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { createGame } from "../../Functions/FunctionsDb";
+import { Player, User } from "../../Interfaces";
 import { DragAndDrop } from "../DragAndDrop/DragAndDrop";
 import "./popupsetfivestarting.scss";
 
@@ -12,6 +14,13 @@ interface PopUpProps {
   infoSecondTeam?: any;
   isChangePlayers?: boolean;
   hideCloseIcon?: boolean;
+  firstPlayers: Player[];
+  setFirstPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  secondPlayers: Player[];
+  setSecondPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  user: User;
+  gameDate?: string | undefined;
+  getGames?: (user: User) => Promise<void>;
 }
 
 export default function PopUpSetFiveStarting(props: PopUpProps) {
@@ -24,6 +33,13 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
     infoSecondTeam,
     isChangePlayers,
     hideCloseIcon,
+    firstPlayers,
+    setFirstPlayers,
+    secondPlayers,
+    setSecondPlayers,
+    user,
+    gameDate,
+    getGames,
   } = props;
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
 
@@ -64,6 +80,10 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
           <DragAndDrop
             setButtonDisabled={setButtonDisabled}
             firstTeamId={infoFirstTeam.id}
+            firstPlayers={firstPlayers}
+            setFirstPlayers={setFirstPlayers}
+            secondPlayers={secondPlayers}
+            setSecondPlayers={setSecondPlayers}
           />
 
           <button
@@ -116,6 +136,10 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
           <DragAndDrop
             setButtonDisabled={setButtonDisabled}
             secondTeamId={infoSecondTeam.id}
+            firstPlayers={firstPlayers}
+            setFirstPlayers={setFirstPlayers}
+            secondPlayers={secondPlayers}
+            setSecondPlayers={setSecondPlayers}
           />
 
           <button
@@ -124,6 +148,17 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
             onClick={(e) => {
               next(true);
               toggleDisplay();
+              if (
+                isChangePlayers !== true &&
+                typeof gameDate === "string" &&
+                getGames != null
+              ) {
+                let teamA = firstPlayers[0].team_id;
+                let teamB = secondPlayers[0].team_id;
+                let userId = user.id;
+                createGame(userId, teamA, teamB, gameDate);
+                getGames(user);
+              }
             }}
           >
             {isChangePlayers !== true ? "Начать игру" : "Заменить"}

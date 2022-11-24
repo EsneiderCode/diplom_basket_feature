@@ -8,14 +8,23 @@ interface Props {
   setButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   firstTeamId?: number;
   secondTeamId?: number;
-  //secondTeamId:number,
+  firstPlayers: Player[];
+  setFirstPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  secondPlayers: Player[];
+  setSecondPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
 }
 
 export const DragAndDrop = (props: Props) => {
-  const { setButtonDisabled, firstTeamId, secondTeamId } = props;
+  const {
+    setButtonDisabled,
+    firstTeamId,
+    secondTeamId,
+    firstPlayers,
+    setFirstPlayers,
+    secondPlayers,
+    setSecondPlayers,
+  } = props;
   const [isDragging, setIsDragging] = useState(false);
-  const [firstPlayers, setFirstPlayers] = useState<Player[]>([]);
-  const [secondPlayers, setSecondPlayers] = useState<Player[]>([]);
 
   useEffect(() => {
     const getPlayers = async (teamId: number) => {
@@ -40,7 +49,7 @@ export const DragAndDrop = (props: Props) => {
     };
     if (firstTeamId) getPlayers(firstTeamId);
     if (secondTeamId) getPlayers(secondTeamId);
-  }, [firstTeamId, secondTeamId]);
+  }, [firstTeamId, secondTeamId, setFirstPlayers, setSecondPlayers]);
 
   const handleDragging = (dragging: boolean) => setIsDragging(dragging);
 

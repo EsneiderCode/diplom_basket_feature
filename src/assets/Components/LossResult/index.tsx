@@ -1,3 +1,4 @@
+import { LossOption } from "../../Interfaces";
 import "../ResultAttack/resultattack.scss";
 
 interface Props {
@@ -5,10 +6,13 @@ interface Props {
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
+  getLossOptions: LossOption[];
+  setLossOptionChoosen: React.Dispatch<React.SetStateAction<LossOption>>;
 }
 
 export default function LossResult(props: Props) {
-  const { display, toggle, next, back } = props;
+  const { display, toggle, next, back, getLossOptions, setLossOptionChoosen } =
+    props;
 
   return (
     <div
@@ -21,42 +25,21 @@ export default function LossResult(props: Props) {
       <div className="popup-content-container popup-game">
         <p className="category-title">Потеря</p>
         <ul className="type-results-ul">
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            Пас-потеря
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            Техническая потеря
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            Фол в нападении
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              next(true);
-            }}
-            className="attack-type"
-          >
-            Тактическая потеря
-          </li>
+          {getLossOptions.map((lossoption: LossOption) => {
+            return (
+              <li
+                onClick={() => {
+                  toggle();
+                  next(true);
+                  setLossOptionChoosen(lossoption);
+                }}
+                className="attack-type"
+                key={lossoption.id}
+              >
+                {lossoption.description}
+              </li>
+            );
+          })}
         </ul>
         <button
           className="back-button"

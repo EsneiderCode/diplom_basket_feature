@@ -1,6 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { User, Game } from "../../Interfaces";
+import {
+  User,
+  Game,
+  TeamInfo,
+  StartAttack,
+  Time,
+  TimeType,
+  Player,
+  AttackType,
+  LossOption,
+  PlayType,
+  FoulOption,
+} from "../../Interfaces";
 import "./games.scss";
 import PopUpCreateGame from "../../Components/PopUpCreateGame";
 import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
@@ -22,7 +34,19 @@ import PlayerPenalty from "../../Components/PlayerPenalty";
 import ThrowResult from "../../Components/ThrowResult";
 import Assist from "../../Components/Assist";
 import ChooseZone from "../../Components/ChooseZone";
+import FinishGame from "../../Components/FinishGame";
 //End game windows.
+//Calling functions for db actions.
+import {
+  GetAttackType,
+  GetFoulOptions,
+  GetLossOptions,
+  GetPlayType,
+  GetStartAttack,
+  GetTime,
+  GetTimeType,
+} from "../../Functions/FunctionsDb";
+//End calling functions db
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
 import { useNavigate } from "react-router";
@@ -45,7 +69,7 @@ export default function Games() {
   const [displayActivePlayersSecondTeam, setDisplayActivePlayersSecondTeam] =
     useState<boolean>(false);
   //Start game popups
-  const [displayChooseTeam, setDisplayChooseTeam] = useState<boolean>(true);
+  const [displayChooseTeam, setDisplayChooseTeam] = useState<boolean>(false);
   const [displayAttackStart, setDisplayAttackStart] = useState<boolean>(false);
   const [displayPossession, setDisplayPossession] = useState<boolean>(false);
   const [displayTypeAttack, setDisplayTypeAttack] = useState<boolean>(false);
@@ -67,6 +91,7 @@ export default function Games() {
   const [displayAssist, setDisplayAssist] = useState<boolean>(false);
   const [displayActionSaved, setDisplayActionSaved] = useState<boolean>(false);
   const [displayChooseZone, setDisplayChooseZone] = useState<boolean>(false);
+  const [displayFinishGame, setDisplayFinishGame] = useState<boolean>(false);
   // End game popups
   const [games, setGames] = useState<[]>([]);
   const [user, setUser] = useState<User>({} as User);
@@ -77,6 +102,48 @@ export default function Games() {
     { firstTeam: {}, secondTeam: {} }
   );
 
+  //All actions for db
+
+  const [firstPlayers, setFirstPlayers] = useState<Player[]>([]);
+  const [secondPlayers, setSecondPlayers] = useState<Player[]>([]);
+  const [timeChoosen, setTimeChoosen] = useState<Time>({} as Time);
+  const [teamA, setTeamA] = useState<TeamInfo>({} as TeamInfo);
+  const [teamB, setTeamB] = useState<TeamInfo>({} as TeamInfo);
+  const [gameDate, setGameDate] = useState<string | undefined>(undefined);
+  const [allTeams, setAllTeams] = useState<[]>([]);
+  const [teamActive, setTeamActive] = useState<TeamInfo>({} as TeamInfo);
+  const [attackStart, setAttackStart] = useState<StartAttack>(
+    {} as StartAttack
+  );
+  const [timeTypeChoosen, setTimeTypeChoosen] = useState<TimeType>(
+    {} as TimeType
+  );
+  const [activePlayers, setActivePlayers] = useState<Player[]>([]);
+  const [playerChoosen, setPlayerChoosen] = useState<Player>({} as Player);
+  const [seconds, setSeconds] = useState<string>("1");
+  const [attackTypeChoosen, setAttackTypeChoosen] = useState<AttackType>(
+    {} as AttackType
+  );
+  const [lossOptionChoosen, setLossOptionChoosen] = useState<LossOption>(
+    {} as LossOption
+  );
+  const [playTypeChoosen, setPlayTypeChoosen] = useState<PlayType>(
+    {} as PlayType
+  );
+  const [FoulOptionChoosen, setFoulOptionChoosen] = useState<FoulOption>(
+    {} as FoulOption
+  );
+  //End actions for db
+
+  //Getting info from db
+  const [getTime, setGetTime] = useState<Time[]>([]);
+  const [getStartAttack, setGetStartAttack] = useState<StartAttack[]>([]);
+  const [getTimeType, setGetTimeType] = useState<TimeType[]>([]);
+  const [getattackType, setGetAttackType] = useState<AttackType[]>([]);
+  const [getLossOptions, setGetLossOptions] = useState<LossOption[]>([]);
+  const [getPlayType, setGetPlayType] = useState<PlayType[]>([]);
+  const [getFoulOptions, setGetFoulOptions] = useState<FoulOption[]>([]);
+  //End getting info from db
   const confirmDelete = async (options: {}) => {
     const result = await confirm(
       "Вы уверены, что хотите удалить эту игру?",
@@ -115,7 +182,26 @@ export default function Games() {
     } else {
       //  navigate("/");
     }
+    getAllDicts();
   }, [navigate]);
+
+  async function getAllDicts() {
+    setGetStartAttack(await GetStartAttack());
+    setGetAttackType(await GetAttackType());
+    setGetLossOptions(await GetLossOptions());
+    setGetPlayType(await GetPlayType());
+    setGetFoulOptions(await GetFoulOptions());
+
+    //Getting all times and setting by default the first one.
+    const times = await GetTime();
+    setGetTime(times);
+    setTimeChoosen(times[0]);
+
+    //Getting all time types and setting by default the first one.
+    const timeTypes = await GetTimeType();
+    setGetTimeType(timeTypes);
+    setTimeTypeChoosen(timeTypes[0]);
+  }
 
   return (
     <div className="games-container">
@@ -224,6 +310,14 @@ export default function Games() {
         next={setDisplayActivePlayersFirstTeam}
         user={user}
         setGameTeams={setGameTeams}
+        teamA={teamA}
+        teamB={teamB}
+        gameDate={gameDate}
+        allTeams={allTeams}
+        setTeamA={setTeamA}
+        setTeamB={setTeamB}
+        setGameDate={setGameDate}
+        setAllTeams={setAllTeams}
       />
       <PopUpSetFiveStarting
         infoFirstTeam={gameTeams.firstTeam}
@@ -236,6 +330,11 @@ export default function Games() {
         }}
         back={setDisplayPopUpCreate}
         next={setDisplayActivePlayersSecondTeam}
+        firstPlayers={firstPlayers}
+        setFirstPlayers={setFirstPlayers}
+        secondPlayers={secondPlayers}
+        setSecondPlayers={setSecondPlayers}
+        user={user}
       />
       <PopUpSetFiveStarting
         infoSecondTeam={gameTeams.secondTeam}
@@ -248,6 +347,13 @@ export default function Games() {
         }}
         back={setDisplayActivePlayersFirstTeam}
         next={setDisplayChooseTeam}
+        firstPlayers={firstPlayers}
+        setFirstPlayers={setFirstPlayers}
+        secondPlayers={secondPlayers}
+        setSecondPlayers={setSecondPlayers}
+        user={user}
+        gameDate={gameDate}
+        getGames={getGames}
       />
       <PopUpConfirmation
         header="Игра удалена"
@@ -265,7 +371,18 @@ export default function Games() {
         toggle={() => {
           togglePopUp(displayChooseTeam, setDisplayChooseTeam);
         }}
+        close={setDisplayFinishGame}
         next={setDisplayAttackStart}
+        setTimeChoosen={setTimeChoosen}
+        timeChoosen={timeChoosen}
+        teamA={teamA}
+        teamB={teamB}
+        setTeamActive={setTeamActive}
+        firstPlayers={firstPlayers}
+        secondPlayers={secondPlayers}
+        setActivePlayers={setActivePlayers}
+        setPlayerChoosen={setPlayerChoosen}
+        getTime={getTime}
       />
 
       <AttackStart
@@ -275,6 +392,8 @@ export default function Games() {
         }}
         next={setDisplayPossession}
         back={setDisplayChooseTeam}
+        setAttackBeginning={setAttackStart}
+        startAttack={getStartAttack}
       />
 
       <Possession
@@ -284,6 +403,14 @@ export default function Games() {
         }}
         back={setDisplayAttackStart}
         next={setDisplayTypeAttack}
+        timeType={getTimeType}
+        setTimeTypeChoosen={setTimeTypeChoosen}
+        timeTypeChoosen={timeTypeChoosen}
+        activePlayers={activePlayers}
+        setPlayerChoosen={setPlayerChoosen}
+        playerChoosen={playerChoosen}
+        setSeconds={setSeconds}
+        seconds={seconds}
       />
 
       <PopUpSetFiveStarting
@@ -296,6 +423,11 @@ export default function Games() {
         next={setDisplayPossession}
         isChangePlayers={true}
         hideCloseIcon={true}
+        firstPlayers={firstPlayers}
+        setFirstPlayers={setFirstPlayers}
+        secondPlayers={secondPlayers}
+        setSecondPlayers={setSecondPlayers}
+        user={user}
       />
 
       <TypeAttack
@@ -305,6 +437,8 @@ export default function Games() {
         }}
         next={setDisplayResultAttack}
         back={setDisplayPossession}
+        getattackType={getattackType}
+        setAttackTypeChoosen={setAttackTypeChoosen}
       />
 
       <ResultAttack
@@ -329,6 +463,8 @@ export default function Games() {
         nextTwoThrow={setDisplayThrowTwo}
         nextThreeThrow={setDisplayThrowThree}
         nextTeamFoul={setDisplayTeamFoul}
+        getFoulOptions={getFoulOptions}
+        setFoulOptionChoosen={setFoulOptionChoosen}
       />
       <CompletionResult
         display={displayCompletionResult}
@@ -337,6 +473,8 @@ export default function Games() {
         }}
         back={setDisplayResultAttack}
         next={setDisplayChooseZone}
+        setPlayTypeChoosen={setPlayTypeChoosen}
+        getPlayType={getPlayType}
       />
       <LossResult
         display={displayLossResult}
@@ -345,6 +483,8 @@ export default function Games() {
         }}
         back={setDisplayResultAttack}
         next={setDisplayActionSaved}
+        getLossOptions={getLossOptions}
+        setLossOptionChoosen={setLossOptionChoosen}
       />
       <ThrowOne
         display={displayThrowOne}
@@ -415,6 +555,14 @@ export default function Games() {
           togglePopUp(displayActionSaved, setDisplayActionSaved);
         }}
         next={setDisplayChooseTeam}
+      />
+
+      <FinishGame
+        display={displayFinishGame}
+        toggle={() => {
+          togglePopUp(displayFinishGame, setDisplayFinishGame);
+        }}
+        back={setDisplayChooseTeam}
       />
 
       <BottomNavigationComponent page="games"></BottomNavigationComponent>

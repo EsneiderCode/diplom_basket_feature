@@ -1,3 +1,4 @@
+import { FoulOption } from "../../Interfaces";
 import "../ResultAttack/resultattack.scss";
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
   nextTwoThrow: React.Dispatch<React.SetStateAction<boolean>>;
   nextThreeThrow: React.Dispatch<React.SetStateAction<boolean>>;
   nextTeamFoul: React.Dispatch<React.SetStateAction<boolean>>;
+  getFoulOptions: FoulOption[];
+  setFoulOptionChoosen: React.Dispatch<React.SetStateAction<FoulOption>>;
 }
 
 export default function FoulResult(props: Props) {
@@ -21,6 +24,8 @@ export default function FoulResult(props: Props) {
     nextTwoThrow,
     nextThreeThrow,
     nextTeamFoul,
+    getFoulOptions,
+    setFoulOptionChoosen,
   } = props;
 
   return (
@@ -38,6 +43,10 @@ export default function FoulResult(props: Props) {
             onClick={() => {
               toggle();
               nextOneThrow(true);
+              const fouloption = getFoulOptions.find(
+                ({ abbreviate }) => abbreviate === "f1"
+              );
+              if (fouloption != null) setFoulOptionChoosen(fouloption);
             }}
             className="attack-type"
           >
@@ -47,6 +56,10 @@ export default function FoulResult(props: Props) {
             onClick={() => {
               toggle();
               nextTwoThrow(true);
+              const fouloption = getFoulOptions.find(
+                ({ abbreviate }) => abbreviate === "f2"
+              );
+              if (fouloption != null) setFoulOptionChoosen(fouloption);
             }}
             className="attack-type"
           >
@@ -56,6 +69,10 @@ export default function FoulResult(props: Props) {
             onClick={() => {
               toggle();
               nextThreeThrow(true);
+              const fouloption = getFoulOptions.find(
+                ({ abbreviate }) => abbreviate === "f3"
+              );
+              if (fouloption != null) setFoulOptionChoosen(fouloption);
             }}
             className="attack-type"
           >
@@ -65,12 +82,16 @@ export default function FoulResult(props: Props) {
             onClick={() => {
               toggle();
               nextEnd(true);
+              const fouloption = getFoulOptions.find(
+                ({ abbreviate }) => abbreviate === "f"
+              );
+              if (fouloption != null) setFoulOptionChoosen(fouloption);
             }}
             className="attack-type"
           >
             непробивной
           </li>
-          <li
+          {/* <li
             onClick={() => {
               toggle();
               nextTeamFoul(true);
@@ -87,7 +108,7 @@ export default function FoulResult(props: Props) {
             className="attack-type"
           >
             против зоны
-          </li>
+          </li> */}
         </ul>
         <button
           className="back-button"
