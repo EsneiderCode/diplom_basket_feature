@@ -45,6 +45,9 @@
     }
 
     .list-teams {
+      grid-gap: 20px;
+      display: flex;
+      flex-direction: column;
       .team-container {
         display: flex;
         flex-direction: row;

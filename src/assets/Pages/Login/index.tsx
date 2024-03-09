@@ -4,6 +4,7 @@ import PopUpConfirmation from "../../Components/PopUpConfirmation";
 import { NavLink } from "react-router-dom";
 import "./login.scss";
 import logoBasketFeature from "../../Images/Login/logo-basket-feature.png";
+import { Helmet } from "react-helmet";
 import {
   togglePopUp,
   emailHandler,
@@ -27,6 +28,9 @@ export default function Login() {
 
   return (
     <div className="login-container">
+      <Helmet>
+        <title>Авторизация</title>
+      </Helmet>
       <div
         className={
           displayPopUpEmail === true ||

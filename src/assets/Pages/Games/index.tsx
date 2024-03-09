@@ -5,7 +5,7 @@ import PopUpSetFiveStarting from "../../Components/PopUpSetFiveStarting";
 import PopUpConfirmation from "../../Components/PopUpConfirmation";
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
-
+import { Helmet } from "react-helmet";
 const optionsWithLabelChange = {
   closeOnOverlayClick: false,
   labels: {
@@ -36,6 +36,9 @@ export default function Games() {
 
   return (
     <div className="games-container">
+      <Helmet>
+        <title>Игры</title>
+      </Helmet>
       <div className="games-content">
         <div className="header-games">
           <h2 className="page-title">Игры</h2>

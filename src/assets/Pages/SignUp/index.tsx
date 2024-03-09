@@ -11,6 +11,7 @@ import {
 } from "../../Functions";
 import PopUpResetPassword from "../../Components/PopUpResetPassword";
 import "./signup.scss";
+import { Helmet } from "react-helmet";
 
 export default function SignUp() {
   const [email, setEmail] = useState<string>("");
@@ -37,6 +38,9 @@ export default function SignUp() {
 
   return (
     <div className="signup-container">
+      <Helmet>
+        <title>Регистрация</title>
+      </Helmet>
       <div
         className={
           displayPopUpEmailConfirmation === true
