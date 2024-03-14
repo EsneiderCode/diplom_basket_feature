@@ -7,8 +7,9 @@ interface PopUpProps {
   lineHr?: boolean;
   buttonDescription: string;
   display: boolean;
-  linkTo: string;
+  linkTo?: string;
   toggle: () => void;
+  next?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PopUpConfirmation(props: PopUpProps) {
@@ -20,6 +21,7 @@ export default function PopUpConfirmation(props: PopUpProps) {
     display,
     toggle,
     linkTo,
+    next,
   } = props;
 
   return (
@@ -40,9 +42,26 @@ export default function PopUpConfirmation(props: PopUpProps) {
         <h2 className="popup-title">{header}</h2>
         <p className="popup-description">{description}</p>
         {lineHr === true && <hr className="linehr-basket" />}
-        <NavLink className="link-to-home" to={linkTo} onClick={() => toggle()}>
-          {buttonDescription}
-        </NavLink>
+        {linkTo != null ? (
+          <NavLink
+            className="link-to-home"
+            to={linkTo}
+            onClick={() => toggle()}
+          >
+            {buttonDescription}
+          </NavLink>
+        ) : (
+          <button
+            type="button"
+            className="link-to-home"
+            onClick={() => {
+              toggle();
+              next != null && next(true);
+            }}
+          >
+            {buttonDescription}
+          </button>
+        )}
       </div>
     </div>
   );

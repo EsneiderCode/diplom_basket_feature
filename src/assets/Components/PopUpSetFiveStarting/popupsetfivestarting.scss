@@ -21,3 +21,25 @@
   font-size: $FontXL;
   margin-bottom: 50px;
 }
+
+.button-continue-finish {
+  margin-bottom: 15px;
+  background-color: $BasketOrange;
+  font-size: $FontXXL;
+  font-weight: 510;
+  cursor: pointer;
+  border: 3px solid $BasketOrange;
+  padding: 10px 5px;
+  border-radius: 8px;
+  color: $BlackBasket;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+}
+
+.button-continue-finish:disabled,
+.button-continue-finish[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}

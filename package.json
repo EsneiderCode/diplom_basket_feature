@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^5.10.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,6 +14,7 @@
     "@types/node": "^16.11.57",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
+    "axios": "^1.1.2",
     "react": "^18.2.0",
     "react-confirm-box": "^1.2.0",
     "react-dom": "^18.2.0",
@@ -21,6 +26,7 @@
     "react-select": "^5.4.0",
     "sass": "^1.54.9",
     "typescript": "^4.8.2",
+    "use-long-press": "^2.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

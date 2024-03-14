@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CardItem } from "./CardItem";
 import "./containercards.scss";
 interface Props {
-  items: Player[];
+  players: Player[];
   status: Status;
   isDragging: boolean;
   handleUpdateList: (id: number, status: Status) => void;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const ContainerCards = ({
-  items = [],
+  players = [],
   status,
   isDragging,
   handleDragging,
@@ -32,10 +32,15 @@ export const ContainerCards = ({
   };
 
   const checkListFirstFive = () => {
-    const container = document.querySelectorAll(
-      ".layout-cards-firstFive > div"
-    );
-    container.length === 5 ? setButtonDisabled(false) : setButtonDisabled(true);
+    let firstPlayersLength = 0;
+    players.forEach((player: Player) => {
+      if (player.status === "firstFive") {
+        firstPlayersLength++;
+      }
+    });
+    firstPlayersLength === 5
+      ? setButtonDisabled(false)
+      : setButtonDisabled(true);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) =>
@@ -57,12 +62,12 @@ export const ContainerCards = ({
           Перетащите пальцем игроков вниз
         </p>
       )}
-      {items.map(
-        (item) =>
-          status === item.status && (
+      {players.map(
+        (player: Player) =>
+          status === player.status && (
             <CardItem
-              data={item}
-              key={item.id}
+              data={player}
+              key={player.id}
               handleDragging={handleDragging}
             />
           )
