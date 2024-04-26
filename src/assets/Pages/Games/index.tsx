@@ -12,6 +12,9 @@ import {
   LossOption,
   PlayType,
   FoulOption,
+  ThrowType,
+  ResultAttackI,
+  OptionsI,
 } from "../../Interfaces";
 import "./games.scss";
 import PopUpCreateGame from "../../Components/PopUpCreateGame";
@@ -35,18 +38,6 @@ import ThrowResult from "../../Components/ThrowResult";
 import Assist from "../../Components/Assist";
 import ChooseZone from "../../Components/ChooseZone";
 import FinishGame from "../../Components/FinishGame";
-//End game windows.
-//Calling functions for db actions.
-import {
-  GetAttackType,
-  GetFoulOptions,
-  GetLossOptions,
-  GetPlayType,
-  GetStartAttack,
-  GetTime,
-  GetTimeType,
-} from "../../Functions/FunctionsDb";
-//End calling functions db
 import { togglePopUp } from "../../Functions";
 import { confirm } from "react-confirm-box";
 import { Helmet } from "react-helmet";
@@ -93,6 +84,9 @@ export default function Games() {
   const [displayActionSaved, setDisplayActionSaved] = useState<boolean>(false);
   const [displayChooseZone, setDisplayChooseZone] = useState<boolean>(false);
   const [displayFinishGame, setDisplayFinishGame] = useState<boolean>(false);
+  const [stateFirstBall, setStateFirstBall] = useState<boolean>(false);
+  const [stateSecondBall, setStateSecondBall] = useState<boolean>(false);
+  const [stateThirdBall, setStateThirdBall] = useState<boolean>(false);
   // End game popups
   const [games, setGames] = useState<[]>([]);
   const [user, setUser] = useState<User>({} as User);
@@ -102,20 +96,18 @@ export default function Games() {
   const [gameTeams, setGameTeams] = useState<{ firstTeam: {}; secondTeam: {} }>(
     { firstTeam: {}, secondTeam: {} }
   );
-
-  //All actions for db
-
+  const [gameInProcess, setGameInProcess] = useState<Game>({} as Game);
+  const [actions, setActios] = useState([]);
   const [firstPlayers, setFirstPlayers] = useState<Player[]>([]);
   const [secondPlayers, setSecondPlayers] = useState<Player[]>([]);
   const [timeChoosen, setTimeChoosen] = useState<Time>({} as Time);
+  const [isAssist, setIsAssist] = useState<boolean>(false);
   const [teamA, setTeamA] = useState<TeamInfo>({} as TeamInfo);
   const [teamB, setTeamB] = useState<TeamInfo>({} as TeamInfo);
   const [gameDate, setGameDate] = useState<string | undefined>(undefined);
   const [allTeams, setAllTeams] = useState<[]>([]);
   const [teamActive, setTeamActive] = useState<TeamInfo>({} as TeamInfo);
-  const [attackStart, setAttackStart] = useState<StartAttack>(
-    {} as StartAttack
-  );
+  const [zoneAttempt, setZoneAttempt] = useState(0);
   const [timeTypeChoosen, setTimeTypeChoosen] = useState<TimeType>(
     {} as TimeType
   );
@@ -134,16 +126,145 @@ export default function Games() {
   const [FoulOptionChoosen, setFoulOptionChoosen] = useState<FoulOption>(
     {} as FoulOption
   );
-  //End actions for db
 
-  //Getting info from db
-  const [getTime, setGetTime] = useState<Time[]>([]);
-  const [getStartAttack, setGetStartAttack] = useState<StartAttack[]>([]);
-  const [getTimeType, setGetTimeType] = useState<TimeType[]>([]);
-  const [getattackType, setGetAttackType] = useState<AttackType[]>([]);
-  const [getLossOptions, setGetLossOptions] = useState<LossOption[]>([]);
-  const [getPlayType, setGetPlayType] = useState<PlayType[]>([]);
-  const [getFoulOptions, setGetFoulOptions] = useState<FoulOption[]>([]);
+  const [throwTypeChoosen, setThrowTypeChoosen] = useState<ThrowType>(
+    {} as ThrowType
+  );
+
+  const [resultAttackChoosen, setResultAttackChoosen] = useState<ResultAttackI>(
+    {} as ResultAttackI
+  );
+
+  const [startAttackChoosen, setStartAttackChoosen] = useState<StartAttack>(
+    {} as StartAttack
+  );
+
+  const options: OptionsI = {
+    time: [
+      { id: 0, time: "1" },
+      { id: 1, time: "2" },
+      { id: 2, time: "3" },
+      { id: 3, time: "4" },
+      { id: 4, time: "ОТ" },
+    ],
+    startAttack: [
+      { id: 0, abbreviate: "sel_in_def", description: "подбор в защите" },
+      { id: 1, abbreviate: "interception", description: "перехват" },
+      {
+        id: 2,
+        abbreviate: "after_live_goal",
+        description: "после забитого живой мяч",
+      },
+      {
+        id: 3,
+        abbreviate: "dead_ball",
+        description: "ввод мертвого мяча в игру",
+      },
+      {
+        id: 4,
+        abbreviate: "sel_in_the_att",
+        description: "подбор в нападении",
+      },
+    ],
+    timeType: [
+      { id: 0, time_type: 14 },
+      { id: 1, time_type: 24 },
+    ],
+    attackType: [
+      { id: 0, abbreviate: "fast_break", description: "быстрый отрыв" },
+      { id: 1, abbreviate: "early_attack", description: "раннее нападение" },
+      {
+        id: 2,
+        abbreviate: "second_chance_attack",
+        description: "атака 2 шанса",
+      },
+      {
+        id: 3,
+        abbreviate: "positional_assault",
+        description: "позиционное нападение",
+      },
+      {
+        id: 4,
+        abbreviate: "against_pressing",
+        description: "против прессинга",
+      },
+      { id: 5, abbreviate: "against_zone", description: "против зоны" },
+    ],
+    foul: [
+      { id: 0, abbreviate: "one_shot", description: "1 бросок" },
+      { id: 1, abbreviate: "two_shots", description: "2 броска" },
+      { id: 2, abbreviate: "three_shots", description: "3 броска" },
+      { id: 3, abbreviate: "unblocked", description: "непробивной" },
+    ],
+    loss: [
+      { id: 0, abbreviate: "pass_turnover", description: "Пас-потеря" },
+      {
+        id: 1,
+        abbreviate: "technical_turnover",
+        description: "Техническая потеря",
+      },
+      { id: 2, abbreviate: "offensive_foul", description: "Фол в нападении" },
+      {
+        id: 3,
+        abbreviate: "tactical_turnover",
+        description: "Тактическая потеря",
+      },
+    ],
+    playType: [
+      { id: 0, abbreviate: "drives", description: "Drives" },
+      { id: 1, abbreviate: "isolation", description: "Isolation" },
+      { id: 2, abbreviate: "transition", description: "Transition" },
+      { id: 3, abbreviate: "catch_shoot", description: "Catch&shoot" },
+      { id: 4, abbreviate: "pull_up", description: "Pull up" },
+      { id: 5, abbreviate: "post_up", description: "Post up" },
+      { id: 6, abbreviate: "pnr_handler", description: "PnR Handler" },
+      { id: 7, abbreviate: "pnr_roller", description: "PnR Roller" },
+      { id: 8, abbreviate: "cuts", description: "Cuts" },
+      { id: 9, abbreviate: "off_screen", description: "Off Screen" },
+      { id: 10, abbreviate: "hand_off", description: "Hand Off" },
+    ],
+    throwType: [
+      { id: 0, abbreviate: "entry", description: "Попадание" },
+      { id: 1, abbreviate: "miss", description: "Промах" },
+    ],
+    resultAttack: [
+      { id: 0, abbreviate: "fail", description: "Фол" },
+      { id: 1, abbreviate: "shot", description: "Бросок" },
+      { id: 2, abbreviate: "loss", description: "Потеря" },
+    ],
+  };
+
+  const data = {
+    game_id: gameInProcess.id,
+    team_id: teamActive.id,
+    index: actions.length + 1,
+    created_at: new Date(),
+    quarter: timeChoosen.time,
+    playersOnField: activePlayers,
+    typeOfPossession: startAttackChoosen.description,
+    possessions: [playerChoosen],
+    timeType: timeTypeChoosen.time_type,
+    time: seconds,
+    attackType: attackTypeChoosen.description,
+    result: resultAttackChoosen.description,
+    playType: playTypeChoosen.description,
+    zone: zoneAttempt,
+    shotResult: throwTypeChoosen.description,
+    assist: isAssist,
+    foulType: FoulOptionChoosen.description,
+    techFoulTeam: "",
+    techFoulPlayer: playerChoosen.id,
+    techFoulRes: "",
+    foulResult: stateThirdBall
+      ? 3
+      : stateSecondBall
+      ? 2
+      : stateFirstBall
+      ? 1
+      : 0,
+    lossType: lossOptionChoosen.description,
+  };
+
   //End getting info from db
   const confirmDelete = async (options: {}) => {
     const result = await confirm(
@@ -151,58 +272,53 @@ export default function Games() {
       options
     );
     if (result) {
-      console.log("Да, удалить");
       setDisplayPopUpDeleteGame(true);
       return;
-    }
-    console.log("Нет");
-  };
-
-  const getGames = async (user: User) => {
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_ENDPOINT}/games/user/${user.id}`
-      );
-      if (res.status === 200) {
-        setGames(res.data);
-      } else {
-        console.log(res);
-      }
-    } catch (e: any) {
-      console.log(e);
     }
   };
 
   useEffect(() => {
-    let user: User;
-    const userString = localStorage.getItem("user");
-    if (userString != null) {
-      user = JSON.parse(userString);
-      setUser(user);
-      getGames(user);
-    } else {
-      //  navigate("/");
+    const fetchUserAndTeams = async () => {
+      try {
+        const userString = localStorage.getItem("user");
+        if (!userString) {
+          throw new Error("User not found in local storage");
+        }
+
+        const user = JSON.parse(userString);
+        setUser(user);
+        getGames(user);
+      } catch (error) {
+        console.error("Error fetching user or teams:", error);
+        navigate("/");
+      }
+    };
+
+    fetchUserAndTeams();
+  }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [displayActionSaved]);
+
+  const getGames = async (user: User) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.access_token}`,
+        apikey: `${process.env.REACT_APP_SERVER_API}`,
+      },
+    };
+
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/rest/v1/games?select=*`,
+        config
+      );
+      setGames(res.data);
+    } catch (error) {
+      console.error("Error fetching games:", error);
     }
-    getAllDicts();
-  }, [navigate]);
-
-  async function getAllDicts() {
-    setGetStartAttack(await GetStartAttack());
-    setGetAttackType(await GetAttackType());
-    setGetLossOptions(await GetLossOptions());
-    setGetPlayType(await GetPlayType());
-    setGetFoulOptions(await GetFoulOptions());
-
-    //Getting all times and setting by default the first one.
-    const times = await GetTime();
-    setGetTime(times);
-    setTimeChoosen(times[0]);
-
-    //Getting all time types and setting by default the first one.
-    const timeTypes = await GetTimeType();
-    setGetTimeType(timeTypes);
-    setTimeTypeChoosen(timeTypes[0]);
-  }
+  };
 
   return (
     <div className="games-container">
@@ -235,9 +351,7 @@ export default function Games() {
               <li className="game-container" key={game.id}>
                 <div className="game-info-container">
                   <div className="teams">
-                    <span>{game.team_a.name}</span>
-                    <span> - </span>
-                    <span>{game.team_b.name}</span>
+                    <span>{game.game_name}</span>
                   </div>
                   {game.date != null ? (
                     <span className="date-game">{game.date}</span>
@@ -322,6 +436,7 @@ export default function Games() {
         setTeamB={setTeamB}
         setGameDate={setGameDate}
         setAllTeams={setAllTeams}
+        getGames={getGames}
       />
       <PopUpSetFiveStarting
         infoFirstTeam={gameTeams.firstTeam}
@@ -386,7 +501,7 @@ export default function Games() {
         secondPlayers={secondPlayers}
         setActivePlayers={setActivePlayers}
         setPlayerChoosen={setPlayerChoosen}
-        getTime={getTime}
+        timeOptions={options.time}
       />
 
       <AttackStart
@@ -396,8 +511,8 @@ export default function Games() {
         }}
         next={setDisplayPossession}
         back={setDisplayChooseTeam}
-        setAttackBeginning={setAttackStart}
-        startAttack={getStartAttack}
+        startAttackOptions={options.startAttack}
+        setStartAttackChoosen={setStartAttackChoosen}
       />
 
       <Possession
@@ -407,7 +522,7 @@ export default function Games() {
         }}
         back={setDisplayAttackStart}
         next={setDisplayTypeAttack}
-        timeType={getTimeType}
+        timeType={options.timeType}
         setTimeTypeChoosen={setTimeTypeChoosen}
         timeTypeChoosen={timeTypeChoosen}
         activePlayers={activePlayers}
@@ -441,7 +556,7 @@ export default function Games() {
         }}
         next={setDisplayResultAttack}
         back={setDisplayPossession}
-        getattackType={getattackType}
+        attackTypeOptions={options.attackType}
         setAttackTypeChoosen={setAttackTypeChoosen}
       />
 
@@ -454,6 +569,8 @@ export default function Games() {
         nextFoul={setDisplayFoulResult}
         nextCompletion={setDisplayCompletionResult}
         nextLoss={setDisplayLossResult}
+        resultAttackOptions={options.resultAttack}
+        setResultAttackChoosen={setResultAttackChoosen}
       />
 
       <FoulResult
@@ -467,7 +584,7 @@ export default function Games() {
         nextTwoThrow={setDisplayThrowTwo}
         nextThreeThrow={setDisplayThrowThree}
         nextTeamFoul={setDisplayTeamFoul}
-        getFoulOptions={getFoulOptions}
+        foulOptions={options.foul}
         setFoulOptionChoosen={setFoulOptionChoosen}
       />
       <CompletionResult
@@ -478,7 +595,7 @@ export default function Games() {
         back={setDisplayResultAttack}
         next={setDisplayChooseZone}
         setPlayTypeChoosen={setPlayTypeChoosen}
-        getPlayType={getPlayType}
+        playTypeOptions={options.playType}
       />
       <LossResult
         display={displayLossResult}
@@ -487,7 +604,7 @@ export default function Games() {
         }}
         back={setDisplayResultAttack}
         next={setDisplayActionSaved}
-        getLossOptions={getLossOptions}
+        lossOptions={options.loss}
         setLossOptionChoosen={setLossOptionChoosen}
       />
       <ThrowOne
@@ -496,6 +613,8 @@ export default function Games() {
           togglePopUp(displayThrowOne, setDisplayThrowOne);
         }}
         next={setDisplayActionSaved}
+        stateFirstBall={stateFirstBall}
+        setStateFirstBall={setStateFirstBall}
       />
       <ThrowTwo
         display={displayThrowTwo}
@@ -503,6 +622,10 @@ export default function Games() {
           togglePopUp(displayThrowTwo, setDisplayThrowTwo);
         }}
         next={setDisplayActionSaved}
+        stateFirstBall={stateFirstBall}
+        setStateFirstBall={setStateFirstBall}
+        stateSecondBall={stateSecondBall}
+        setStateSecondBall={setStateSecondBall}
       />
       <ThrowThree
         display={displayThrowThree}
@@ -510,6 +633,12 @@ export default function Games() {
           togglePopUp(displayThrowThree, setDisplayThrowThree);
         }}
         next={setDisplayActionSaved}
+        stateFirstBall={stateFirstBall}
+        setStateFirstBall={setStateFirstBall}
+        stateSecondBall={stateSecondBall}
+        setStateSecondBall={setStateSecondBall}
+        stateThirdBall={stateThirdBall}
+        setStateThirdBall={setStateFirstBall}
       />
       <TeamFoul
         display={displayTeamFoul}
@@ -532,6 +661,8 @@ export default function Games() {
         }}
         nextThrow={setDisplayAssist}
         next={setDisplayActionSaved}
+        throwTypeOptions={options.throwType}
+        setThrowTypeChoosen={setThrowTypeChoosen}
       />
       <Assist
         display={displayAssist}
@@ -539,6 +670,7 @@ export default function Games() {
           togglePopUp(displayAssist, setDisplayAssist);
         }}
         next={setDisplayActionSaved}
+        setIsAssist={setIsAssist}
       />
 
       <ChooseZone
@@ -547,6 +679,7 @@ export default function Games() {
           togglePopUp(displayChooseZone, setDisplayChooseZone);
         }}
         next={setDisplayThrowResult}
+        setZoneAttempt={setZoneAttempt}
       />
 
       <PopUpConfirmation

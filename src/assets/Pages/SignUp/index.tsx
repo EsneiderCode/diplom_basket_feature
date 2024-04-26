@@ -26,6 +26,7 @@ export default function SignUp() {
   const [emailExists, setEmailExists] = useState<boolean>(false);
 
   function checkNextSignUp() {
+    console.log(`apikey ${process.env.REACT_APP_SERVER_API}`);
     if (
       emailError === false &&
       emailExists === false &&
@@ -42,12 +43,18 @@ export default function SignUp() {
 
   const handleSubmit = async () => {
     try {
+      const config = {
+        headers: {
+          apikey: `${process.env.REACT_APP_SERVER_API}`,
+        },
+      };
       const res = await axios.post(
-        `${process.env.REACT_APP_SERVER_ENDPOINT}/users/create`,
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/v1/signup`,
         {
           email,
           password,
-        }
+        },
+        config
       );
       if (res.status === 200) {
         console.log(res);
@@ -57,7 +64,6 @@ export default function SignUp() {
         console.log(res);
       }
     } catch (e: any) {
-      console.log(3);
       if (e?.response.data.detail === "Email already registered") {
         setEmailExists(true);
         setTimeout(() => {

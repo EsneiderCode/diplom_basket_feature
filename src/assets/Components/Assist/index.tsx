@@ -4,10 +4,11 @@ interface Props {
   display: boolean;
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAssist: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Assist(props: Props) {
-  const { display, toggle, next } = props;
+  const { display, toggle, next, setIsAssist } = props;
 
   return (
     <div
@@ -24,6 +25,7 @@ export default function Assist(props: Props) {
             onClick={() => {
               toggle();
               next(true);
+              setIsAssist(true);
             }}
             className="attack-type"
           >

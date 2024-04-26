@@ -10,7 +10,7 @@ interface Props {
   nextTwoThrow: React.Dispatch<React.SetStateAction<boolean>>;
   nextThreeThrow: React.Dispatch<React.SetStateAction<boolean>>;
   nextTeamFoul: React.Dispatch<React.SetStateAction<boolean>>;
-  getFoulOptions: FoulOption[];
+  foulOptions: FoulOption[];
   setFoulOptionChoosen: React.Dispatch<React.SetStateAction<FoulOption>>;
 }
 
@@ -24,7 +24,7 @@ export default function FoulResult(props: Props) {
     nextTwoThrow,
     nextThreeThrow,
     nextTeamFoul,
-    getFoulOptions,
+    foulOptions,
     setFoulOptionChoosen,
   } = props;
 
@@ -39,76 +39,38 @@ export default function FoulResult(props: Props) {
       <div className="popup-content-container popup-game">
         <p className="category-title">Фол</p>
         <ul className="type-results-ul">
-          <li
-            onClick={() => {
+          {foulOptions.map((foulOption) => {
+            const handleFoulOptionClick = () => {
               toggle();
-              nextOneThrow(true);
-              const fouloption = getFoulOptions.find(
-                ({ abbreviate }) => abbreviate === "f1"
-              );
-              if (fouloption != null) setFoulOptionChoosen(fouloption);
-            }}
-            className="attack-type"
-          >
-            1 бросок
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              nextTwoThrow(true);
-              const fouloption = getFoulOptions.find(
-                ({ abbreviate }) => abbreviate === "f2"
-              );
-              if (fouloption != null) setFoulOptionChoosen(fouloption);
-            }}
-            className="attack-type"
-          >
-            2 броска
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              nextThreeThrow(true);
-              const fouloption = getFoulOptions.find(
-                ({ abbreviate }) => abbreviate === "f3"
-              );
-              if (fouloption != null) setFoulOptionChoosen(fouloption);
-            }}
-            className="attack-type"
-          >
-            3 броска
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              nextEnd(true);
-              const fouloption = getFoulOptions.find(
-                ({ abbreviate }) => abbreviate === "f"
-              );
-              if (fouloption != null) setFoulOptionChoosen(fouloption);
-            }}
-            className="attack-type"
-          >
-            непробивной
-          </li>
-          {/* <li
-            onClick={() => {
-              toggle();
-              nextTeamFoul(true);
-            }}
-            className="attack-type"
-          >
-            технический
-          </li>
-          <li
-            onClick={() => {
-              toggle();
-              nextTeamFoul(true);
-            }}
-            className="attack-type"
-          >
-            против зоны
-          </li> */}
+              setFoulOptionChoosen(foulOption);
+              switch (foulOption.abbreviate) {
+                case "one_shot":
+                  nextOneThrow(true);
+                  break;
+                case "two_shots":
+                  nextTwoThrow(true);
+                  break;
+                case "three_shots":
+                  nextThreeThrow(true);
+                  break;
+                case "unblocked":
+                  console.log("Yes");
+                  break;
+                default:
+                  break;
+              }
+            };
+
+            return (
+              <li
+                key={foulOption.id}
+                onClick={handleFoulOptionClick}
+                className="attack-type"
+              >
+                {foulOption.description}
+              </li>
+            );
+          })}
         </ul>
         <button
           className="back-button"

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Team } from "../../Interfaces";
+import { User } from "../../Interfaces";
 import {
   validateNamePlayer,
   validateLastnamePlayer,
@@ -12,53 +13,49 @@ import {
   numberPlayerHandler,
 } from "../../Functions";
 import "./popupcreateplayer.scss";
+import { store } from "../../../app/store";
+import { addPlayerFetch, fetchPlayers } from "../../Pages/Players/playerSlice";
 
 interface PopUpProps {
   display: boolean;
   toggleDisplay: () => void;
-  getPlayers: () => void;
   team: Team;
+  user: User;
 }
 
 export default function PopUpCreatePlayer(props: PopUpProps) {
-  const { display, toggleDisplay, team, getPlayers } = props;
-  const [name, setName] = useState<string>("");
+  const { display, toggleDisplay, team, user } = props;
+  const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [pseudonim, setPseudonim] = useState<string>("");
+  const [fatherName, setFatherName] = useState<string>("");
   const [number, setNumber] = useState<number>(0);
   const [nameError, setNameError] = useState<boolean>(false);
   const [lastNameError, setLastNameError] = useState<boolean>(false);
   const [pseudonimError, setPseudonimError] = useState<boolean>(false);
   const [numberError, setNumberError] = useState<boolean>(false);
 
-  function checkSubmit() {
-    if ((name !== "" || lastName !== "") && numberError === false) {
-      createPlayer(team);
-    }
-  }
+  const handleSubmit = async () => {
+    if ((firstName !== "" || lastName !== "") && numberError === false) {
+      const data = {
+        user_id: user.user.id,
+        team_id: team.id,
+        number: number,
+        first_name: firstName,
+        name: lastName,
+        father_name: fatherName,
+      };
 
-  const createPlayer = async (team: Team) => {
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_SERVER_ENDPOINT}/players/create/${team.id}`,
-        {
-          number: number,
-          first_name: name,
-          last_name: lastName,
-          middle_name: pseudonim,
-        }
-      );
-      if (res.status === 200) {
-        getPlayers();
+      try {
+        await store.dispatch(addPlayerFetch({ user, data }));
+        await store.dispatch(fetchPlayers({ user, team }));
         setLastName("");
-        setName("");
-        setPseudonim("");
+        setFirstName("");
+        setFatherName("");
+        setNumber(0);
         toggleDisplay();
-      } else {
-        console.log(res);
+      } catch (error) {
+        console.error("Error adding new team:", error);
       }
-    } catch (e: any) {
-      console.log(e);
     }
   };
 
@@ -108,9 +105,9 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
           <div className="input-container">
             <input
               type="text"
-              name="name"
+              name="firstName"
               className={
-                nameError === false && name.length >= 1
+                nameError === false && firstName.length >= 1
                   ? "input-basic input-active"
                   : nameError === true
                   ? "input-basic input-error"
@@ -118,10 +115,10 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
               }
               placeholder="Имя"
               onChange={(e) => {
-                namePlayerHandler(e, setName, setNameError);
+                namePlayerHandler(e, setFirstName, setNameError);
               }}
               onBlur={(e) => validateNamePlayer(e, setNameError)}
-              value={name}
+              value={firstName}
               required
             />
             <span
@@ -139,7 +136,7 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
               type="text"
               name="psudonim"
               className={
-                pseudonimError === false && pseudonim.length >= 1
+                pseudonimError === false && fatherName.length >= 1
                   ? "input-basic input-active"
                   : pseudonimError === true
                   ? "input-basic input-error"
@@ -147,10 +144,10 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
               }
               placeholder="Отчество"
               onChange={(e) => {
-                psudonimPlayerHandler(e, setPseudonim, setPseudonimError);
+                psudonimPlayerHandler(e, setFatherName, setPseudonimError);
               }}
               onBlur={(e) => validatePsudonimPlayer(e, setPseudonimError)}
-              value={pseudonim}
+              value={fatherName}
               required
             />
             <span
@@ -197,7 +194,7 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
             type="button"
             className="button-continue"
             onClick={() => {
-              checkSubmit();
+              handleSubmit();
             }}
           >
             Создать

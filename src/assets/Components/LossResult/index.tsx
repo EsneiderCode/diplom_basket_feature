@@ -6,12 +6,12 @@ interface Props {
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
-  getLossOptions: LossOption[];
+  lossOptions: LossOption[];
   setLossOptionChoosen: React.Dispatch<React.SetStateAction<LossOption>>;
 }
 
 export default function LossResult(props: Props) {
-  const { display, toggle, next, back, getLossOptions, setLossOptionChoosen } =
+  const { display, toggle, next, back, lossOptions, setLossOptionChoosen } =
     props;
 
   return (
@@ -25,7 +25,7 @@ export default function LossResult(props: Props) {
       <div className="popup-content-container popup-game">
         <p className="category-title">Потеря</p>
         <ul className="type-results-ul">
-          {getLossOptions.map((lossoption: LossOption) => {
+          {lossOptions.map((lossoption: LossOption) => {
             return (
               <li
                 onClick={() => {

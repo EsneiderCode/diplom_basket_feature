@@ -35,19 +35,19 @@ export default function BottomNavigationComponent(props: any) {
           label="Настройки"
           icon={<SettingsIcon />}
           value="settings"
-          href="settings"
+          href="/settings"
         />
         <BottomNavigationAction
           label="Игры"
           icon={<SportsBasketballIcon />}
           value="games"
-          href="games"
+          href="/games"
         />
         <BottomNavigationAction
           label="Команды"
           icon={<GroupsIcon />}
           value="teams"
-          href="teams"
+          href="/teams"
         />
       </BottomNavigation>
     </Box>

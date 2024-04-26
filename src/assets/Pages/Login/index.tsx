@@ -43,9 +43,20 @@ export default function Login() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_ENDPOINT}/users/auth/${email}/${password}`
+      const config = {
+        headers: {
+          apikey: `${process.env.REACT_APP_SERVER_API}`,
+        },
+      };
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/auth/v1/token?grant_type=password`,
+        {
+          email,
+          password,
+        },
+        config
       );
+
       if (res.status === 200) {
         localStorage.setItem("user", JSON.stringify(res.data));
         setTimeout(() => {

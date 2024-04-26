@@ -7,11 +7,13 @@ interface Props {
   display: boolean;
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
+  stateFirstBall: boolean;
+  setStateFirstBall: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ThrowOne(props: Props) {
   const { display, toggle, next } = props;
-  const [stateBall, setStateBall] = useState<boolean>(false);
+  const [stateFirstBall, setStateFirstBall] = useState<boolean>(false);
   return (
     <div
       className={
@@ -25,9 +27,9 @@ export default function ThrowOne(props: Props) {
         <div className="ball-list">
           <SportsBasketballIcon
             sx={{ fontSize: 60 }}
-            onClick={() => setStateBall(!stateBall)}
+            onClick={() => setStateFirstBall(!stateFirstBall)}
             className={
-              stateBall === true
+              stateFirstBall === true
                 ? "basket-ball-icon basket-ball-icon-active"
                 : "basket-ball-icon"
             }

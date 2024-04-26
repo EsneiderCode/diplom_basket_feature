@@ -7,13 +7,27 @@ interface Props {
   display: boolean;
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
+  stateFirstBall: boolean;
+  stateSecondBall: boolean;
+  stateThirdBall: boolean;
+  setStateFirstBall: React.Dispatch<React.SetStateAction<boolean>>;
+  setStateSecondBall: React.Dispatch<React.SetStateAction<boolean>>;
+  setStateThirdBall: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ThrowTwo(props: Props) {
-  const { display, toggle, next } = props;
-  const [stateFirstBall, setStateFirstBall] = useState<boolean>(false);
-  const [stateSecondBall, setStateSecondBall] = useState<boolean>(false);
-  const [stateThirdBall, setStateThirdBall] = useState<boolean>(false);
+  const {
+    display,
+    toggle,
+    next,
+    stateFirstBall,
+    stateSecondBall,
+    stateThirdBall,
+    setStateFirstBall,
+    setStateSecondBall,
+    setStateThirdBall,
+  } = props;
+
   function toggleOneBall() {
     if (stateSecondBall === true && stateFirstBall === true) {
       setStateSecondBall(false);
@@ -23,6 +37,7 @@ export default function ThrowTwo(props: Props) {
       setStateFirstBall(true);
     }
   }
+
   function toggleTwoBalls() {
     setStateSecondBall(!stateSecondBall);
     setStateFirstBall(!stateSecondBall);

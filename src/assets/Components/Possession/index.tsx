@@ -2,6 +2,7 @@ import "./possession.scss";
 import { Player, TimeType } from "../../Interfaces";
 // @ts-ignore
 import { useLongPress } from "use-long-press";
+import { useEffect } from "react";
 interface Props {
   display: boolean;
   toggle: () => void;
@@ -38,6 +39,11 @@ export default function Possession(props: Props) {
   const bind = useLongPress(() => {
     console.log("Long pressed!");
   });
+
+  useEffect(() => {
+    setTimeTypeChoosen(timeType[0]);
+  }, []);
+
   return (
     <div
       className={

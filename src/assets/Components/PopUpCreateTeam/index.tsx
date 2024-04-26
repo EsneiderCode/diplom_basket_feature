@@ -3,39 +3,29 @@ import { User } from "../../Interfaces";
 import { validateTeamName, validateTeamNameHandler } from "../../Functions";
 import axios from "axios";
 import "./popupcreateteam.scss";
+import { store } from "../../../app/store";
+import { addTeamFetch, fetchTeams } from "../../Pages/Teams/teamSlice";
 
 interface PopUpProps {
   display: boolean;
   toggleDisplay: () => void;
   next?: React.Dispatch<React.SetStateAction<boolean>>;
   user: User;
-  getTeams: () => void;
 }
 
 export default function PopUpCreateTeam(props: PopUpProps) {
-  const { display, toggleDisplay, user, getTeams } = props;
+  const { display, toggleDisplay, user } = props;
   const [teamName, setTeamName] = useState<string>("");
   const [teamNameError, setTeamNameError] = useState<boolean>(false);
 
-  const createTeam = async (user: User) => {
-    if (teamNameError === false && teamName !== "") {
-      try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_SERVER_ENDPOINT}/teams/create/${user.id}`,
-          {
-            name: teamName,
-          }
-        );
-        if (res.status === 200) {
-          getTeams();
-          setTeamName("");
-          toggleDisplay();
-        } else {
-          console.log(res);
-        }
-      } catch (e: any) {
-        console.log(e);
-      }
+  const handleCreateTeam = async () => {
+    try {
+      await store.dispatch(addTeamFetch({ user, teamName }));
+      await store.dispatch(fetchTeams(user));
+      toggleDisplay();
+      setTeamName("");
+    } catch (error) {
+      console.error("Error adding new team:", error);
     }
   };
 
@@ -86,7 +76,7 @@ export default function PopUpCreateTeam(props: PopUpProps) {
           <button
             type="button"
             className="button-continue"
-            onClick={() => createTeam(user)}
+            onClick={() => handleCreateTeam()}
           >
             Создать
           </button>

@@ -23,6 +23,7 @@ interface PopUpProps {
   setTeamB: React.Dispatch<React.SetStateAction<TeamInfo>>;
   setGameDate: React.Dispatch<React.SetStateAction<string | undefined>>;
   setAllTeams: React.Dispatch<React.SetStateAction<[]>>;
+  getGames: (user: User) => Promise<void>;
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
@@ -40,25 +41,61 @@ export default function PopUpCreateGame(props: PopUpProps) {
     setGameDate,
     setTeamA,
     setTeamB,
+    getGames,
   } = props;
 
   const getTeams = async (user: User) => {
-    if (user.id != null) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.access_token}`,
+        apikey: `${process.env.REACT_APP_SERVER_API}`,
+      },
+    };
+
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_ENDPOINT}/rest/v1/teams?select=*`,
+        config
+      );
+      setAllTeams(
+        res.data.map((team: Team) => {
+          return {
+            label: team.name,
+            value: team.id,
+          };
+        })
+      );
+    } catch (error) {
+      console.error("Error fetching games:", error);
+    }
+  };
+
+  const createGame = async (user: User) => {
+    if (teamA != null && teamB != null && user != null) {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_SERVER_ENDPOINT}/users/${user.id}`
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+            apikey: `${process.env.REACT_APP_SERVER_API}`,
+          },
+        };
+
+        const data = {
+          user_id: user.user.id,
+          date: gameDate,
+          team_a: teamA.id,
+          team_b: teamB.id,
+          game_name: `${teamA.name} + 2${teamB.name}`,
+        };
+
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVER_ENDPOINT}/rest/v1/games`,
+          data,
+          config
         );
-        if (res.status === 200) {
-          if (res.data.teams != null) {
-            setAllTeams(
-              res.data.teams.map((team: Team) => {
-                return {
-                  label: team.name,
-                  value: team.id,
-                };
-              })
-            );
-          }
+        if (res.status === 201) {
+          getGames(user);
+          toggleDisplay();
         } else {
           console.log(res);
         }
@@ -68,31 +105,9 @@ export default function PopUpCreateGame(props: PopUpProps) {
     }
   };
 
-  //  const createGame = async (user: User) => {
-  //   if (teamA != null && teamB != null) {
-  //     try {
-  //       const res = await axios.post(
-  //         `${process.env.REACT_APP_SERVER_ENDPOINT}/games/create/${user.id}`,
-  //         {
-  //           team_a_id: teamA,
-  //           team_b_id: teamB,
-  //           date: gameDate,
-  //         }
-  //       );
-  //       if (res.status === 200) {
-  //         getGames();
-  //         toggleDisplay();
-  //       } else {
-  //         console.log(res);
-  //       }
-  //     } catch (e: any) {
-  //       console.log(e);
-  //     }
-  //   }
-  // };
-
   function checkSubmit() {
     if (teamA != null && teamB != null && gameDate != null) {
+      createGame(user);
       setGameTeams({
         firstTeam: teamA,
         secondTeam: teamB,
@@ -127,7 +142,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
             options={allTeams}
             onChange={(e) => {
               if (e?.value != null) {
-                setTeamA({ id: parseInt(e?.value), name: e?.label });
+                setTeamA({ id: e?.value, name: e?.label });
               }
             }}
           />
@@ -137,7 +152,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
             options={allTeams}
             onChange={(e) => {
               if (e?.value != null) {
-                setTeamB({ id: parseInt(e?.value), name: e?.label });
+                setTeamB({ id: e?.value, name: e?.label });
               }
             }}
           />
@@ -151,16 +166,6 @@ export default function PopUpCreateGame(props: PopUpProps) {
               setGameDate(timestamp);
             }}
           />
-          {/* 
-          <button
-            type="button"
-            className="button-continue"
-            onClick={() => {
-              checkSubmit();
-            }}
-          >
-            Создать
-          </button> */}
 
           <button
             className="button-continue"

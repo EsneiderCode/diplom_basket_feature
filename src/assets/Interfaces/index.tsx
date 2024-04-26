@@ -1,7 +1,7 @@
 export type Status = "firstFive" | "bench";
 
 export interface Player {
-  id: number;
+  id: string;
   content: string;
   status: Status;
   first_name?: string;
@@ -13,42 +13,36 @@ export interface Player {
 
 export interface User {
   email: string;
+  access_token: string;
   first_name: string;
   last_name: string;
   middle_name: string;
   id: number;
   teams: [];
+  user: {
+    id: number;
+  };
 }
 
 export interface Team {
   name: string;
-  id: number;
+  id: string;
   user_id: number;
   players: [];
 }
 
 export interface Game {
+  id: string;
   date: string;
-  id: number;
-  team_a: {
-    name: string;
-    id: number;
-    user_id: number;
-    players: [];
-  };
-  team_a_id: number;
-  team_b: {
-    name: string;
-    id: number;
-    user_id: number;
-    players: [];
-  };
-  team_b_id: number;
-  user_id: number;
+  team_a: Team;
+  team_b: Team;
+  user_id: string;
+  game_name: string;
 }
 
 export interface PlayerTeam {
   number: number;
+  name: string;
   first_name?: string;
   last_name?: string;
   middle_name?: string;
@@ -57,7 +51,7 @@ export interface PlayerTeam {
 }
 
 export interface TeamInfo {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -99,4 +93,28 @@ export interface FoulOption {
   id: number;
   abbreviate: string;
   description: string;
+}
+
+export interface ThrowType {
+  id: number;
+  abbreviate: string;
+  description: string;
+}
+
+export interface ResultAttackI {
+  id: number;
+  abbreviate: string;
+  description: string;
+}
+
+export interface OptionsI {
+  time: Time[];
+  startAttack: StartAttack[];
+  timeType: TimeType[];
+  attackType: AttackType[];
+  foul: FoulOption[];
+  loss: LossOption[];
+  playType: PlayType[];
+  throwType: ThrowType[];
+  resultAttack: ResultAttackI[];
 }

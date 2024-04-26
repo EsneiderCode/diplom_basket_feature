@@ -6,12 +6,12 @@ interface Props {
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
-  getPlayType: PlayType[];
+  playTypeOptions: PlayType[];
   setPlayTypeChoosen: React.Dispatch<React.SetStateAction<PlayType>>;
 }
 
 export default function CompletionResult(props: Props) {
-  const { display, toggle, next, back, getPlayType, setPlayTypeChoosen } =
+  const { display, toggle, next, back, playTypeOptions, setPlayTypeChoosen } =
     props;
 
   return (
@@ -25,7 +25,7 @@ export default function CompletionResult(props: Props) {
       <div className="popup-content-container popup-game">
         <p className="category-title">Способ завершения</p>
         <ul className="type-results-completion-ul">
-          {getPlayType.map((playtype: PlayType) => {
+          {playTypeOptions.map((playtype: PlayType) => {
             return (
               <li
                 onClick={() => {

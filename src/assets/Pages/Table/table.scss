@@ -1,0 +1,42 @@
+.global__container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+thead th {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
+tbody td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+tbody td:first-child {
+  font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

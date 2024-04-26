@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { createGame } from "../../Functions/FunctionsDb";
 import { Player, User } from "../../Interfaces";
 import { DragAndDrop } from "../DragAndDrop/DragAndDrop";
 import "./popupsetfivestarting.scss";
@@ -156,8 +155,7 @@ export default function PopUpSetFiveStarting(props: PopUpProps) {
                 let teamA = firstPlayers[0].team_id;
                 let teamB = secondPlayers[0].team_id;
                 let userId = user.id;
-                createGame(userId, teamA, teamB, gameDate);
-                getGames(user);
+                //getGames(user);
               }
             }}
           >

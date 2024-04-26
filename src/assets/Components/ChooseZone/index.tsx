@@ -1,5 +1,5 @@
 import "./choosezone.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -22,43 +22,12 @@ interface Props {
   display: boolean;
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
+  setZoneAttempt: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function ChooseZone(props: Props) {
-  const { display, toggle, next } = props;
+  const { display, toggle, next, setZoneAttempt } = props;
   const classes = useStyles();
-  const [zoneAttempt, setZoneAttempt] = useState(0);
-
-  // const createAction = async (value) => {
-  //   let config = {
-  //     headers: {
-  //       Authorization: `bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   };
-  //   const data = {
-  //     gameId: "61fc58f611ae2f7d4a976009",
-  //     number: 0,
-  //     playerId: playerAttempt._id,
-  //     zone_number: zoneAttempt,
-  //     result: value,
-  //   };
-  //   console.log(data);
-  //   await Axios.post(
-  //     `${process.env.NEXT_PUBLIC_API_URL}/action/create`,
-  //     data,
-  //     config
-  //   )
-  //     .then((res) => {
-  //       setAlert("success");
-  //       setErrorText("Successful action!");
-  //       setError(true);
-  //     })
-  //     .catch((error) => {
-  //       setAlert("error");
-  //       setErrorText("Error!");
-  //       setError(true);
-  //     });
-  // };
 
   return (
     <div

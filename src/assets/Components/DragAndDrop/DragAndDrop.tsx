@@ -29,22 +29,34 @@ export const DragAndDrop = (props: Props) => {
   useEffect(() => {
     const getPlayers = async (teamId: number) => {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_SERVER_ENDPOINT}/teams/${teamId}`
-        );
-        if (res.status === 200) {
-          const playersWithStatus = res.data.map((player: Player) => {
-            player.status = "bench";
-            return player;
-          });
-          firstTeamId
-            ? setFirstPlayers(playersWithStatus)
-            : setSecondPlayers(playersWithStatus);
-        } else {
-          console.log(res);
+        //Getting user token
+        const userString = localStorage.getItem("user");
+        if (!userString) {
+          throw new Error("User not found in local storage");
         }
-      } catch (e: any) {
-        console.log(e);
+        const user = JSON.parse(userString);
+
+        //Headers
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+            apikey: `${process.env.REACT_APP_SERVER_API}`,
+          },
+        };
+
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_ENDPOINT}/rest/v1/players?select=*&team_id=eq.${teamId}`,
+          config
+        );
+        const playersWithStatus = res.data.map((player: Player) => {
+          player.status = "bench";
+          return player;
+        });
+        firstTeamId
+          ? setFirstPlayers(playersWithStatus)
+          : setSecondPlayers(playersWithStatus);
+      } catch (error) {
+        console.error("Error fetching players:", error);
       }
     };
     if (firstTeamId) getPlayers(firstTeamId);
@@ -53,7 +65,7 @@ export const DragAndDrop = (props: Props) => {
 
   const handleDragging = (dragging: boolean) => setIsDragging(dragging);
 
-  const handleUpdateList = (id: number, status: Status) => {
+  const handleUpdateList = (id: string, status: Status) => {
     let card: any = [];
     if (firstTeamId != null) {
       card = firstPlayers.find((player) => player.id === id);

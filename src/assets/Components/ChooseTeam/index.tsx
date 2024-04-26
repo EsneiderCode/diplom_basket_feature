@@ -8,10 +8,10 @@ interface Props {
   close: React.Dispatch<React.SetStateAction<boolean>>;
   setTimeChoosen: React.Dispatch<React.SetStateAction<Time>>;
   timeChoosen: Time;
-  teamA: { id: number; name: string };
-  teamB: { id: number; name: string };
+  teamA: { id: string; name: string };
+  teamB: { id: string; name: string };
   setTeamActive: React.Dispatch<React.SetStateAction<TeamInfo>>;
-  getTime: Time[];
+  timeOptions: Time[];
   firstPlayers: Player[];
   secondPlayers: Player[];
   setActivePlayers: React.Dispatch<React.SetStateAction<Player[]>>;
@@ -29,7 +29,7 @@ export default function ChooseTeam(props: Props) {
     teamA,
     teamB,
     setTeamActive,
-    getTime,
+    timeOptions,
     firstPlayers,
     secondPlayers,
     setActivePlayers,
@@ -56,7 +56,7 @@ export default function ChooseTeam(props: Props) {
           </div>
           <p className="category-title">Тайм</p>
           <ul className="alltimes-ul">
-            {getTime.map((time: Time) => {
+            {timeOptions.map((time: Time) => {
               return (
                 <li
                   onClick={() => setTimeChoosen(time)}

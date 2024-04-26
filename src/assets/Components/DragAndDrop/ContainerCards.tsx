@@ -6,7 +6,7 @@ interface Props {
   players: Player[];
   status: Status;
   isDragging: boolean;
-  handleUpdateList: (id: number, status: Status) => void;
+  handleUpdateList: (id: string, status: Status) => void;
   handleDragging: (dragging: boolean) => void;
   type: string;
   setButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,7 +23,7 @@ export const ContainerCards = ({
 }: Props) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    handleUpdateList(+e.dataTransfer.getData("text"), status);
+    handleUpdateList(e.dataTransfer.getData("text"), status);
     handleDragging(false);
     setMessageSetFivePlayers(false);
     setTimeout(() => {

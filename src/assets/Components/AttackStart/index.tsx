@@ -6,13 +6,19 @@ interface Props {
   toggle: () => void;
   next: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
-  setAttackBeginning: React.Dispatch<React.SetStateAction<StartAttack>>;
-  startAttack: StartAttack[];
+  startAttackOptions: StartAttack[];
+  setStartAttackChoosen: React.Dispatch<React.SetStateAction<StartAttack>>;
 }
 
 export default function AttackStart(props: Props) {
-  const { display, toggle, next, back, setAttackBeginning, startAttack } =
-    props;
+  const {
+    display,
+    toggle,
+    next,
+    back,
+    setStartAttackChoosen,
+    startAttackOptions,
+  } = props;
 
   return (
     <div
@@ -25,13 +31,13 @@ export default function AttackStart(props: Props) {
       <div className="popup-content-container popup-game">
         <p className="category-title">Начало атаки</p>
         <ul className="type-attacks-ul">
-          {startAttack.map((el: StartAttack) => {
+          {startAttackOptions.map((el: StartAttack) => {
             return (
               <li
                 onClick={() => {
                   toggle();
                   next(true);
-                  setAttackBeginning(el);
+                  setStartAttackChoosen(el);
                 }}
                 className="attack-type"
                 key={el.id}
