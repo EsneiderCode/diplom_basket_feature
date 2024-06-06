@@ -15,6 +15,9 @@ import {
 import "./popupcreateplayer.scss";
 import { store } from "../../../app/store";
 import { addPlayerFetch, fetchPlayers } from "../../Pages/Players/playerSlice";
+import { errorMessages } from "../../utils/errorMessages";
+import { ToastContainer, toast } from "react-toastify";
+import { successMessages } from "../../utils/successMessages";
 
 interface PopUpProps {
   display: boolean;
@@ -53,9 +56,12 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
         setFatherName("");
         setNumber(0);
         toggleDisplay();
+        toast.success(successMessages.sucessAddedPlayer);
       } catch (error) {
         console.error("Error adding new team:", error);
       }
+    } else {
+      toast.error(errorMessages.errorPlayerNameFormat);
     }
   };
 
@@ -201,6 +207,7 @@ export default function PopUpCreatePlayer(props: PopUpProps) {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }

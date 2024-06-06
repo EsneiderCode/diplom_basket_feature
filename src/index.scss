@@ -135,3 +135,13 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+body {
+  background-image: url("./assets/Images//background_basket.jpg");
+  margin: 0;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

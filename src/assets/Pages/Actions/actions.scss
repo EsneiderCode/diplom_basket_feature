@@ -1,0 +1,102 @@
+@import "../../Variables/variables.scss";
+
+.actions-container {
+  min-height: 100vh;
+  font-family: $Sfpro;
+  display: flex;
+  flex-direction: row;
+  @include centerElements();
+
+  .actions-content,
+  .list-games {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .actions-content {
+    width: 700px;
+    min-height: 900px;
+    padding: 20px;
+    background: white;
+    opacity: 0.94;
+    margin: 20px 0;
+    border-radius: 30px;
+
+    .header-actions {
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: row;
+
+      .page-title {
+        font-size: $FontXXL;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .diagram__container {
+    max-width: 600px;
+    max-height: 600px;
+  }
+
+  .actions__teams-section {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 50px;
+  }
+  .actions__team-container {
+    .team__header-container {
+      display: flex;
+      justify-content: space-between;
+      .team__name {
+        font-size: 30px;
+        font-weight: 500;
+      }
+      .svg__bottom-arrow .icon {
+        width: 40px;
+        height: 25px;
+      }
+    }
+  }
+  .team-display-open {
+    display: flex;
+  }
+
+  .team-display-closed {
+    display: none;
+  }
+
+  .arrow-display-closed {
+    rotate: 90deg;
+  }
+}
+
+.diagram__table-container {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  grid-gap: 20px;
+  background-color: #f0f0f0;
+  border-radius: 25px;
+}
+
+.diagram__radar-container {
+  background-color: rgb(240 102 0 / 6%);
+  border-radius: 25px;
+}
+
+.diagram__square-container {
+  background-color: #f0f0f0;
+  border-radius: 25px;
+}
+
+.diagrams__container {
+  flex-direction: column;
+}
+
+.title {
+  margin-top: 20px;
+}

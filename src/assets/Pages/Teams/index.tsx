@@ -18,6 +18,8 @@ import { RootState, store } from "../../../app/store";
 import Spinner from "../../Components/Spinner/Spinner";
 import { useNavigate } from "react-router";
 import { updateTeamFetch } from "./teamSlice";
+import { errorMessages } from "../../utils/errorMessages";
+import { successMessages } from "../../utils/successMessages";
 
 export default function Teams() {
   //Modal window for updating team
@@ -47,6 +49,7 @@ export default function Teams() {
       optionsWithLabelChange
     );
     if (result) {
+      console.log(team);
       store.dispatch(deleteTeamFetch({ user, team }));
       setDisplayPopUpDeleteTeam(true);
       return;

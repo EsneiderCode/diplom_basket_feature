@@ -73,6 +73,7 @@ const teamSlice = createSlice({
       })
       .addCase(deleteTeamFetch.rejected, (state, action) => {
         state.status = "failed";
+        console.log(state.error, action.error.message);
         state.error = action.error.message;
       })
       .addCase(addTeamFetch.pending, (state, action) => {
@@ -94,7 +95,7 @@ export const addTeamFetch = createAsyncThunk(
     const config = {
       headers: {
         Authorization: `Bearer ${user.access_token}`,
-        apikey: process.env.REACT_APP_SERVER_API!,
+        apikey: process.env.REACT_APP_SERVER_API,
       },
     };
 

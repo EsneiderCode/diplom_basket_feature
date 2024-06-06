@@ -5,9 +5,9 @@ interface Props {
   display: boolean;
   toggle: () => void;
   nextThrow: React.Dispatch<React.SetStateAction<boolean>>;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
   throwTypeOptions: ThrowType[];
   setThrowTypeChoosen: React.Dispatch<React.SetStateAction<ThrowType>>;
+  handleSubmitAction: () => void;
 }
 
 export default function ThrowResult(props: Props) {
@@ -15,9 +15,9 @@ export default function ThrowResult(props: Props) {
     display,
     toggle,
     nextThrow,
-    next,
     throwTypeOptions,
     setThrowTypeChoosen,
+    handleSubmitAction,
   } = props;
 
   return (
@@ -37,8 +37,12 @@ export default function ThrowResult(props: Props) {
                 <li
                   onClick={() => {
                     toggle();
-                    nextThrow(true);
-                    setThrowTypeChoosen(throwType);
+                    if (throwType.abbreviate === "miss") {
+                      handleSubmitAction();
+                    } else {
+                      nextThrow(true);
+                      setThrowTypeChoosen(throwType);
+                    }
                   }}
                   className="attack-type"
                   key={throwType.id}

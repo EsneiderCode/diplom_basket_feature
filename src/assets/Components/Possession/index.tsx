@@ -16,6 +16,8 @@ interface Props {
   playerChoosen: Player;
   setSeconds: React.Dispatch<React.SetStateAction<string>>;
   seconds: string;
+  possessions: Player[];
+  setPossessions: React.Dispatch<React.SetStateAction<Player[]>>;
 }
 
 export default function Possession(props: Props) {
@@ -32,6 +34,8 @@ export default function Possession(props: Props) {
     playerChoosen,
     setSeconds,
     seconds,
+    possessions,
+    setPossessions,
   } = props;
   const onlyPlayersActive: Player[] = activePlayers.filter((player) => {
     return player.status === "firstFive";
@@ -94,6 +98,7 @@ export default function Possession(props: Props) {
                 }
                 onClick={() => {
                   setPlayerChoosen(player);
+                  setPossessions([...possessions, player]);
                 }}
                 {...bind()}
               >

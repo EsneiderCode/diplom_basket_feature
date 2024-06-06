@@ -1,29 +1,26 @@
 import Select from "react-select";
 import axios from "axios";
-import { useEffect } from "react";
-import { User, Team, TeamInfo } from "../../Interfaces";
+import { useEffect, useState } from "react";
+import { User, Team, TeamInfo, Game } from "../../Interfaces";
 import "./popupcreate.scss";
+import { RootState, store } from "../../../app/store";
+import { fetchTeams, selectTeamsStatus } from "../../Pages/Teams/teamSlice";
+import { useSelector } from "react-redux";
 
 interface PopUpProps {
   display: boolean;
   toggleDisplay: () => void;
   user: User;
   next: React.Dispatch<React.SetStateAction<boolean>>;
-  setGameTeams: React.Dispatch<
-    React.SetStateAction<{
-      firstTeam: {};
-      secondTeam: {};
-    }>
-  >;
   teamA: TeamInfo;
   teamB: TeamInfo;
   gameDate: string | undefined;
-  allTeams: [];
   setTeamA: React.Dispatch<React.SetStateAction<TeamInfo>>;
   setTeamB: React.Dispatch<React.SetStateAction<TeamInfo>>;
   setGameDate: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setAllTeams: React.Dispatch<React.SetStateAction<[]>>;
+  setGameInProcess: React.Dispatch<React.SetStateAction<Game>>;
   getGames: (user: User) => Promise<void>;
+  games: Game[];
 }
 
 export default function PopUpCreateGame(props: PopUpProps) {
@@ -31,44 +28,40 @@ export default function PopUpCreateGame(props: PopUpProps) {
     display,
     toggleDisplay,
     user,
-    setGameTeams,
     next,
     teamA,
     teamB,
     gameDate,
-    allTeams,
-    setAllTeams,
     setGameDate,
     setTeamA,
     setTeamB,
     getGames,
+    setGameInProcess,
+    games,
   } = props;
 
-  const getTeams = async (user: User) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.access_token}`,
-        apikey: `${process.env.REACT_APP_SERVER_API}`,
-      },
-    };
+  const teams = useSelector((state: RootState) => state.team.teams);
+  const teamStatus = useSelector(selectTeamsStatus);
+  const [selectOptions, setSelectOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
 
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_ENDPOINT}/rest/v1/teams?select=*`,
-        config
-      );
-      setAllTeams(
-        res.data.map((team: Team) => {
+  useEffect(() => {
+    if (user && user.access_token && teamStatus === "idle") {
+      store.dispatch(fetchTeams(user));
+    }
+
+    if (teams.length > 1) {
+      setSelectOptions(
+        teams.map((team: Team) => {
           return {
             label: team.name,
             value: team.id,
           };
         })
       );
-    } catch (error) {
-      console.error("Error fetching games:", error);
     }
-  };
+  }, [teams, user]);
 
   const createGame = async (user: User) => {
     if (teamA != null && teamB != null && user != null) {
@@ -94,6 +87,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
           config
         );
         if (res.status === 201) {
+          setGameInProcess(JSON.parse(res.config.data));
           getGames(user);
           toggleDisplay();
         } else {
@@ -108,19 +102,10 @@ export default function PopUpCreateGame(props: PopUpProps) {
   function checkSubmit() {
     if (teamA != null && teamB != null && gameDate != null) {
       createGame(user);
-      setGameTeams({
-        firstTeam: teamA,
-        secondTeam: teamB,
-      });
       next(true);
       toggleDisplay();
     }
   }
-
-  useEffect(() => {
-    getTeams(user);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   return (
     <div
@@ -139,7 +124,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
           <Select
             className="select-basic"
             defaultValue={{ label: "Выберите команду А", value: "none" }}
-            options={allTeams}
+            options={selectOptions}
             onChange={(e) => {
               if (e?.value != null) {
                 setTeamA({ id: e?.value, name: e?.label });
@@ -149,7 +134,7 @@ export default function PopUpCreateGame(props: PopUpProps) {
           <Select
             className="select-basic"
             defaultValue={{ label: "Выберите команду Б", value: "none" }}
-            options={allTeams}
+            options={selectOptions}
             onChange={(e) => {
               if (e?.value != null) {
                 setTeamB({ id: e?.value, name: e?.label });

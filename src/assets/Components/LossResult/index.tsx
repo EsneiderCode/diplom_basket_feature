@@ -4,15 +4,21 @@ import "../ResultAttack/resultattack.scss";
 interface Props {
   display: boolean;
   toggle: () => void;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmitAction: () => void;
   back: React.Dispatch<React.SetStateAction<boolean>>;
   lossOptions: LossOption[];
   setLossOptionChoosen: React.Dispatch<React.SetStateAction<LossOption>>;
 }
 
 export default function LossResult(props: Props) {
-  const { display, toggle, next, back, lossOptions, setLossOptionChoosen } =
-    props;
+  const {
+    display,
+    toggle,
+    handleSubmitAction,
+    back,
+    lossOptions,
+    setLossOptionChoosen,
+  } = props;
 
   return (
     <div
@@ -30,7 +36,7 @@ export default function LossResult(props: Props) {
               <li
                 onClick={() => {
                   toggle();
-                  next(true);
+                  handleSubmitAction();
                   setLossOptionChoosen(lossoption);
                 }}
                 className="attack-type"

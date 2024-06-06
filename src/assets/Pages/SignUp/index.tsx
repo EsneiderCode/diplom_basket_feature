@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   emailHandler,
   passwordHandler,
@@ -13,7 +15,8 @@ import {
 import PopUpResetPassword from "../../Components/PopUpResetPassword";
 import "./signup.scss";
 import { Helmet } from "react-helmet";
-
+import { errorMessages } from "../../utils/errorMessages";
+import { successMessages } from "../../utils/successMessages";
 export default function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -26,19 +29,37 @@ export default function SignUp() {
   const [emailExists, setEmailExists] = useState<boolean>(false);
 
   function checkNextSignUp() {
-    console.log(`apikey ${process.env.REACT_APP_SERVER_API}`);
-    if (
-      emailError === false &&
-      emailExists === false &&
-      passwordError === false &&
-      rePasswordError === false &&
-      email !== "" &&
-      password !== "" &&
-      rePassword !== "" &&
-      password === rePassword
-    ) {
-      handleSubmit();
+    if (email === "" && password === "" && rePassword === "") {
+      toast.error(errorMessages.registrationIsEmpty);
+      return;
     }
+    if (email === "" || emailError) {
+      toast.error(errorMessages.emailFormatError);
+      return;
+    }
+
+    if (passwordError) {
+      toast.error(errorMessages.passwordInvalidError);
+      return;
+    }
+
+    if (rePasswordError) {
+      toast.error(errorMessages.passwordsDoNotMatchError);
+      return;
+    }
+    if (password.length < 6) {
+      toast.error(errorMessages.passwordLengthError);
+      return;
+    }
+
+    if (password !== rePassword) {
+      toast.error(errorMessages.passwordsDoNotMatchError);
+      return;
+    }
+
+    setTimeout(() => {
+      handleSubmit();
+    }, 2000);
   }
 
   const handleSubmit = async () => {
@@ -57,13 +78,16 @@ export default function SignUp() {
         config
       );
       if (res.status === 200) {
-        console.log(res);
+        toast.success(successMessages.successSignUp);
         setEmailExists(false);
         setDisplayPopUpEmailConfirmation(true);
       } else {
+        toast.error(errorMessages.emailAlreadyRegisteredError);
+        setEmailExists(true);
         console.log(res);
       }
     } catch (e: any) {
+      toast.error(errorMessages.emailAlreadyRegisteredError);
       if (e?.response.data.detail === "Email already registered") {
         setEmailExists(true);
         setTimeout(() => {
@@ -212,6 +236,7 @@ export default function SignUp() {
         }
         buttonToHome="Подтвердить"
       />
+      <ToastContainer />
     </div>
   );
 }

@@ -66,7 +66,7 @@ export function validatePassword(
   e: React.ChangeEvent<HTMLInputElement>,
   setPasswordError: React.Dispatch<React.SetStateAction<boolean>>
 ) {
-  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Minimum eight characters, at least one letter and one number.
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   const isValid = regex.test(e.target.value);
 
   if (

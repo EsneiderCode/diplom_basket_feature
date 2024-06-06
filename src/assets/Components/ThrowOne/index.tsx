@@ -6,13 +6,13 @@ import { useState } from "react";
 interface Props {
   display: boolean;
   toggle: () => void;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmitAction: () => void;
   stateFirstBall: boolean;
   setStateFirstBall: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ThrowOne(props: Props) {
-  const { display, toggle, next } = props;
+  const { display, toggle, handleSubmitAction } = props;
   const [stateFirstBall, setStateFirstBall] = useState<boolean>(false);
   return (
     <div
@@ -39,7 +39,7 @@ export default function ThrowOne(props: Props) {
           className="orange-button"
           onClick={() => {
             toggle();
-            next(true);
+            handleSubmitAction();
           }}
         >
           Засчитать

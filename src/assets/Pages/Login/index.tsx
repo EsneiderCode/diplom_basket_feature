@@ -6,6 +6,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./login.scss";
 import logoBasketFeature from "../../Images/Login/logo-basket-feature.png";
 import { Helmet } from "react-helmet";
+import { ToastContainer, toast } from "react-toastify";
+import { errorMessages } from "../../utils/errorMessages";
+import { successMessages } from "../../utils/successMessages";
+import "react-toastify/dist/ReactToastify.css";
 import {
   togglePopUp,
   emailHandler,
@@ -31,6 +35,23 @@ export default function Login() {
   const navigate = useNavigate();
 
   function checkNextLogin() {
+    if (email === "" && password === "") {
+      toast.error(errorMessages.loginIsEmpty);
+      return;
+    }
+    if (email === "" || emailError) {
+      toast.error(errorMessages.emailFormatError);
+      return;
+    }
+
+    if (passwordError) {
+      toast.error(errorMessages.passwordInvalidError);
+      return;
+    }
+    if (password.length < 6) {
+      toast.error(errorMessages.passwordLengthError);
+      return;
+    }
     if (
       emailError === false &&
       passwordError === false &&
@@ -58,15 +79,18 @@ export default function Login() {
       );
 
       if (res.status === 200) {
+        toast.success(successMessages.successLogin);
         localStorage.setItem("user", JSON.stringify(res.data));
         setTimeout(() => {
           navigate("/teams");
-        }, 500);
+        }, 2000);
       } else {
         console.log(res);
+        toast.error(errorMessages.userDoesNotExist);
       }
     } catch (e: any) {
       if (e?.response.data.detail === "Wrong password") {
+        toast.error(errorMessages.userDoesNotExist);
         setIncorrectCredentials(true);
         setTimeout(() => {
           setIncorrectCredentials(false);
@@ -229,6 +253,7 @@ export default function Login() {
           togglePopUp(displayPopUpConfirmation, setDisplayPopUpConfirmation)
         }
       />
+      <ToastContainer />
     </div>
   );
 }

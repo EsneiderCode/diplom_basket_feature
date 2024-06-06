@@ -6,7 +6,7 @@ import { useState } from "react";
 interface Props {
   display: boolean;
   toggle: () => void;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmitAction: () => void;
   stateFirstBall: boolean;
   stateSecondBall: boolean;
   setStateFirstBall: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +17,7 @@ export default function ThrowTwo(props: Props) {
   const {
     display,
     toggle,
-    next,
+    handleSubmitAction,
     stateFirstBall,
     stateSecondBall,
     setStateFirstBall,
@@ -74,7 +74,7 @@ export default function ThrowTwo(props: Props) {
           className="orange-button"
           onClick={() => {
             toggle();
-            next(true);
+            handleSubmitAction();
           }}
         >
           Засчитать

@@ -15,9 +15,12 @@
 
   .players-content {
     width: 700px;
-    min-height: 900px;
+    min-height: 600px;
     padding: 20px;
-    margin-bottom: 60px;
+    background-color: white;
+    border-radius: 30px;
+    opacity: 0.94;
+    margin: 20px 0;
 
     .header-players {
       width: 100%;

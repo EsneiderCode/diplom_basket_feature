@@ -6,14 +6,12 @@ import { togglePopUp } from "../../Functions";
 import { useNavigate } from "react-router";
 import PopUpCreatePlayer from "../../Components/PopUpCreatePlayer";
 import BottomNavigationComponent from "../../Components/Navigation";
-import DeletePlayer from "../../Components/DeletePlayer";
 import { OptionsForLabel } from "../../Types/types";
 import { confirm } from "react-confirm-box";
-import UpdatePlayer from "../../Components/UpdatePlayer";
 import EditPlayer from "./EditPlayer";
 import { RootState, store } from "../../../app/store";
 import { useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   deletePlayerFetch,
   fetchPlayers,

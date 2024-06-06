@@ -1,0 +1,123 @@
+@import "../../Variables/variables.scss";
+
+.popup-content-container-zone {
+  height: 80% !important;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+}
+.type-results-ul {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+  li {
+    width: 100%;
+    border: 2px solid $BlackBasket;
+    border-radius: 10px;
+    height: 60px;
+    display: grid;
+    place-content: center;
+    font-size: $FontXL;
+    cursor: pointer;
+  }
+}
+
+.back-button {
+  width: 100%;
+  background: $White;
+  border: 2px solid $BasketOrange;
+  color: $BasketOrange;
+  font-size: $ArrowButtonBack;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+svg,
+path {
+  cursor: pointer;
+}
+
+.path:hover {
+  color: black;
+  color: black;
+}
+
+.porcentages__container {
+  width: 700px;
+  height: 395px;
+  position: absolute;
+  .porcentage {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    flex-direction: column;
+    .total {
+      color: red;
+    }
+  }
+  .area_1 {
+    top: 60px;
+    left: 28px;
+  }
+  .area_2 {
+    top: 264px;
+    left: 82px;
+  }
+  .area_3 {
+    top: 318px;
+    left: 332px;
+  }
+  .area_4 {
+    top: 264px;
+    left: 593px;
+  }
+  .area_5 {
+    top: 60px;
+    right: 28px;
+  }
+  .area_6 {
+    top: 97px;
+    right: 128px;
+  }
+  .area_7 {
+    top: 205px;
+    right: 220px;
+  }
+  .area_8 {
+    top: 234px;
+    right: 328px;
+  }
+  .area_9 {
+    top: 207px;
+    left: 221px;
+  }
+  .area_10 {
+    top: 99px;
+    left: 126px;
+  }
+
+  .area_11 {
+    top: 77px;
+    left: 222px;
+  }
+
+  .area_12 {
+    top: 140px;
+    left: 330px;
+  }
+
+  .area_13 {
+    top: 77px;
+    right: 222px;
+  }
+
+  .area_14 {
+    top: 50px;
+    right: 332px;
+  }
+}

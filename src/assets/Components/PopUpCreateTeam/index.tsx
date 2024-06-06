@@ -5,6 +5,9 @@ import axios from "axios";
 import "./popupcreateteam.scss";
 import { store } from "../../../app/store";
 import { addTeamFetch, fetchTeams } from "../../Pages/Teams/teamSlice";
+import { ToastContainer, toast } from "react-toastify";
+import { successMessages } from "../../utils/successMessages";
+import { errorMessages } from "../../utils/errorMessages";
 
 interface PopUpProps {
   display: boolean;
@@ -19,10 +22,15 @@ export default function PopUpCreateTeam(props: PopUpProps) {
   const [teamNameError, setTeamNameError] = useState<boolean>(false);
 
   const handleCreateTeam = async () => {
+    if (teamName === "" || teamName.includes("@")) {
+      toast.error(errorMessages.errorTeamNameFormat);
+      return;
+    }
     try {
       await store.dispatch(addTeamFetch({ user, teamName }));
       await store.dispatch(fetchTeams(user));
       toggleDisplay();
+      toast.success(successMessages.successAddedTeam);
       setTeamName("");
     } catch (error) {
       console.error("Error adding new team:", error);
@@ -82,6 +90,7 @@ export default function PopUpCreateTeam(props: PopUpProps) {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -7,8 +7,9 @@ import Games from "./assets/Pages/Games";
 import Teams from "./assets/Pages/Teams";
 import Players from "./assets/Pages/Players";
 import PageNotFound from "./assets/Pages/404";
-import Diagram from "./assets/Pages/Diagram";
-import Table from "./assets/Pages/Table";
+import Diagram from "./assets/Diagrams/RadarDiagram";
+import Table from "./assets/Diagrams/TableDiagram";
+import Actions from "./assets/Pages/Actions";
 
 function App() {
   return (
@@ -19,8 +20,7 @@ function App() {
         <Route path="/games" element={<Games />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/players/:teamId" element={<Players />} />
-        <Route path="/diagram" element={<Diagram />} />
-        <Route path="/table" element={<Table />} />
+        <Route path="/actions/:gameId" element={<Actions />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

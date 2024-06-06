@@ -29,7 +29,7 @@ export default function TypeAttack(props: Props) {
       }
     >
       <div className="popup-content-container popup-game">
-        <p className="category-title">Начало атаки</p>
+        <p className="category-title">Тип атаки</p>
         <ul className="type-attacks-ul">
           {attackTypeOptions.map((attacktype: AttackType) => {
             return (

@@ -4,28 +4,26 @@ import "../ResultAttack/resultattack.scss";
 interface Props {
   display: boolean;
   toggle: () => void;
-  nextEnd: React.Dispatch<React.SetStateAction<boolean>>;
   back: React.Dispatch<React.SetStateAction<boolean>>;
   nextOneThrow: React.Dispatch<React.SetStateAction<boolean>>;
   nextTwoThrow: React.Dispatch<React.SetStateAction<boolean>>;
   nextThreeThrow: React.Dispatch<React.SetStateAction<boolean>>;
-  nextTeamFoul: React.Dispatch<React.SetStateAction<boolean>>;
   foulOptions: FoulOption[];
   setFoulOptionChoosen: React.Dispatch<React.SetStateAction<FoulOption>>;
+  handleSubmitAction: () => void;
 }
 
 export default function FoulResult(props: Props) {
   const {
     display,
     toggle,
-    nextEnd,
     back,
     nextOneThrow,
     nextTwoThrow,
     nextThreeThrow,
-    nextTeamFoul,
     foulOptions,
     setFoulOptionChoosen,
+    handleSubmitAction,
   } = props;
 
   return (
@@ -44,17 +42,17 @@ export default function FoulResult(props: Props) {
               toggle();
               setFoulOptionChoosen(foulOption);
               switch (foulOption.abbreviate) {
-                case "one_shot":
+                case "SHOT_1":
                   nextOneThrow(true);
                   break;
-                case "two_shots":
+                case "SHOT_2":
                   nextTwoThrow(true);
                   break;
-                case "three_shots":
+                case "SHOT_3":
                   nextThreeThrow(true);
                   break;
-                case "unblocked":
-                  console.log("Yes");
+                case "NOT_PUNCHY":
+                  handleSubmitAction();
                   break;
                 default:
                   break;

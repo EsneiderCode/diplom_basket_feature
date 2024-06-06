@@ -3,12 +3,12 @@ import "./assist.scss";
 interface Props {
   display: boolean;
   toggle: () => void;
-  next: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmitAction: () => void;
   setIsAssist: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Assist(props: Props) {
-  const { display, toggle, next, setIsAssist } = props;
+  const { display, toggle, handleSubmitAction, setIsAssist } = props;
 
   return (
     <div
@@ -24,7 +24,7 @@ export default function Assist(props: Props) {
           <li
             onClick={() => {
               toggle();
-              next(true);
+              handleSubmitAction();
               setIsAssist(true);
             }}
             className="attack-type"
@@ -34,7 +34,7 @@ export default function Assist(props: Props) {
           <li
             onClick={() => {
               toggle();
-              next(true);
+              handleSubmitAction();
             }}
             className="attack-type"
           >
