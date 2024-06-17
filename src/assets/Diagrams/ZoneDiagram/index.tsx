@@ -1,7 +1,7 @@
 import "./zonediagram.scss";
 import { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core";
 import { Action } from "../../Interfaces";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
   container: {

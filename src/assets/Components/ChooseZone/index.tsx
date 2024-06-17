@@ -1,7 +1,6 @@
 import "./choosezone.scss";
 import { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core";
-
+import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles({
   container: {
     maxWidth: "900px",
