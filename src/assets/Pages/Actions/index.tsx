@@ -11,6 +11,7 @@ import ZoneDiagram from "../../Diagrams/ZoneDiagram";
 import TableDiagram from "../../Diagrams/TableDiagram";
 import { fetchActions, selectActionsStatus } from "./actionSlice";
 import { fetchTeams } from "../Teams/teamSlice";
+import BottomNavigationComponent from "../../Components/Navigation";
 
 export default function Actions() {
   const [displayTeam_1, setDisplayTeam_1] = useState<boolean>(true);
@@ -207,6 +208,7 @@ export default function Actions() {
           </div>
         </section>
       </div>
+      <BottomNavigationComponent page="profile"></BottomNavigationComponent>
     </div>
   );
 }
